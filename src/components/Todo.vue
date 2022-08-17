@@ -1,7 +1,6 @@
 <template>
   <div class="todo">
     <template class="todo-intarface">
-      <!--<h1 @click="checkCountOfDoneTask()">TODO LIST</h1>-->
       <h1
         :class="{
           red: checkCountOfDoneTask() < 0.5,
@@ -26,18 +25,15 @@
         class="todo-item"
         @click.self="removeTodo(idx)"
       >
-        <label>
-          <input
-            class="todo-checkbox"
-            @change.stop="changeStatus(t)"
-            type="checkbox"
-            name="is-done"
-          />
-          <span :class="{ done: t.status }"
-            >{{ `${idx + 1}.` }} {{ t.title }}</span
-          ></label
+        <input
+          class="todo-checkbox"
+          @change.self="changeStatus(t)"
+          type="checkbox"
+          name="is-done"
+        />
+        <span :class="{ done: t.status }" @click="removeTodo(idx)"
+          >{{ `${idx + 1}.` }} {{ t.title }}</span
         >
-        <!--<button @click.stop="removeTodo(idx)" class="close">&times;</button>-->
       </li>
     </ul>
   </div>
@@ -106,16 +102,12 @@ a {
 }
 
 .todo-list {
-  /*display: flex;
-  justify-content: center;
-  flex-direction: column;*/
   text-align: center;
   margin-top: 2rem;
 }
 
 .todo-item {
-  display: flex;
-  justify-content: space-between;
+  text-align: left;
   padding: 0.5rem 2rem;
   border-color: black;
   border-width: 1px;
