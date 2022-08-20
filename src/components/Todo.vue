@@ -2,9 +2,9 @@
   <div class="todo">
     <h1
       :class="{
-        red: checkCountOfDoneTask() < 0.5,
-        yellow: checkCountOfDoneTask() >= 0.5 && checkCountOfDoneTask() < 1,
-        green: checkCountOfDoneTask() === 1,
+        red: checkCountOfDoneTask < 0.5,
+        yellow: checkCountOfDoneTask >= 0.5 && checkCountOfDoneTask < 1,
+        green: checkCountOfDoneTask === 1,
       }"
     >
       TODO LIST
@@ -21,7 +21,7 @@
         v-for="(task, index) of todos"
         :key="task.title"
         class="todo-item"
-        @click.self="removeTask = index"
+        @click.self="removeTask(index)"
       >
         <input
           class="todo-checkbox"
@@ -29,7 +29,7 @@
           type="checkbox"
           name="is-done"
         />
-        <span :class="{ done: task.status }" @click="removeTask = index"
+        <span :class="{ done: task.status }" @click="removeTask(index)"
           >{{ `${index + 1}.` }} {{ task.title }}</span
         >
       </li>
@@ -56,23 +56,16 @@ export default {
       }
       this.todo = "";
     },
+    removeTask(index) {
+      this.todos = this.todos.filter((task, id) => id !== index);
+    },
+  },
 
+  computed: {
     checkCountOfDoneTask() {
       return (
         this.todos.filter((task) => task.status).length / this.todos.length
       );
-    },
-  },
-  computed: {
-    removeTask: {
-      // getter
-      get() {
-        return this.todos.title;
-      },
-      // setter
-      set(index) {
-        this.todos = this.todos.filter((task, id) => id !== index);
-      },
     },
   },
 };
