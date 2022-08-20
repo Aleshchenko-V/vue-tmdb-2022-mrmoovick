@@ -1,38 +1,36 @@
 <template>
   <div class="todo">
-    <template class="todo-intarface">
-      <h1
-        :class="{
-          red: checkCountOfDoneTask() < 0.5,
-          yellow: checkCountOfDoneTask() >= 0.5 && checkCountOfDoneTask() < 1,
-          green: checkCountOfDoneTask() === 1,
-        }"
-      >
-        TODO LIST
-      </h1>
-      <input
-        class="todo-input"
-        v-on:keydown.enter="addTodo"
-        type="text"
-        v-model="todo"
-      />
-      <button class="todo-btn" @click="addTodo">add new task</button>
-    </template>
+    <h1
+      :class="{
+        red: checkCountOfDoneTask() < 0.5,
+        yellow: checkCountOfDoneTask() >= 0.5 && checkCountOfDoneTask() < 1,
+        green: checkCountOfDoneTask() === 1,
+      }"
+    >
+      TODO LIST
+    </h1>
+    <input
+      class="todo-input"
+      v-on:keydown.enter="addTodo"
+      type="text"
+      v-model="todo"
+    />
+    <button class="todo-btn" @click="addTodo">add new task</button>
     <ul class="todo-list">
       <li
-        v-for="(t, idx) of todos"
-        :key="idx"
+        v-for="(task, index) of todos"
+        :key="task.title"
         class="todo-item"
-        @click.self="removeTodo(idx)"
+        @click.self="removeTask = index"
       >
         <input
           class="todo-checkbox"
-          @change.self="changeStatus(t)"
+          @change.self="task.status = !task.status"
           type="checkbox"
           name="is-done"
         />
-        <span :class="{ done: t.status }" @click="removeTodo(idx)"
-          >{{ `${idx + 1}.` }} {{ t.title }}</span
+        <span :class="{ done: task.status }" @click="removeTask = index"
+          >{{ `${index + 1}.` }} {{ task.title }}</span
         >
       </li>
     </ul>
@@ -58,16 +56,23 @@ export default {
       }
       this.todo = "";
     },
-    changeStatus(task) {
-      task.status = !task.status;
-    },
-    removeTodo(idx) {
-      this.todos = this.todos.filter((el, id) => id !== idx);
-    },
+
     checkCountOfDoneTask() {
       const res =
-        this.todos.filter((el) => el.status).length / this.todos.length;
+        this.todos.filter((task) => task.status).length / this.todos.length;
       return res;
+    },
+  },
+  computed: {
+    removeTask: {
+      // getter
+      get() {
+        return this.todos.title;
+      },
+      // setter
+      set(index) {
+        this.todos = this.todos.filter((task, id) => id !== index);
+      },
     },
   },
 };
@@ -97,7 +102,8 @@ a {
   text-decoration: line-through;
 }
 
-.todo-intarface {
+.todo {
+  margin: auto;
   width: 600px;
 }
 
@@ -114,7 +120,7 @@ a {
   border-style: solid;
   border-radius: 5px;
   margin-bottom: 1rem;
-  width: 50%;
+  width: 60%;
   margin-left: auto;
   margin-right: auto;
 }
