@@ -1,16 +1,31 @@
 <template>
   <div id="app">
-    <todo-tasks />
+    <navigation/>
+    <router-view/>
   </div>
 </template>
 
 <script>
-import TodoTasks from "@/components/TodoTasks";
+import Navigation from "@/components/Navigation";
 export default {
   name: 'App',
-  components: {TodoTasks},
+  components: {Navigation},
 }
 </script>
 
 <style lang="scss">
+
+nav {
+  padding: 30px;
+}
+
+nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+nav a.router-link-exact-active {
+  color: #42b983;
+}
+
 </style>

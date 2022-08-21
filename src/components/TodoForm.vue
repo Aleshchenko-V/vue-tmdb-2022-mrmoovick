@@ -20,7 +20,6 @@ export default {
 name: 'TodoForm',
   data() {
     return {
-      todoId: 1,
       newTodoTask: '',
       description: '',
       expiresTaskDate: '',
@@ -29,7 +28,7 @@ name: 'TodoForm',
   methods: {
     addNewTask() {
         let task = {
-          id: this.todoId++,
+          id: this.$store.state.todoId,
           title: this.newTodoTask,
           description: this.description,
           expiresTaskDate: this.expiresTaskDate,
@@ -37,7 +36,7 @@ name: 'TodoForm',
         this.newTodoTask = '';
         this.description = '';
         this.expiresTaskDate = '';
-        this.$emit('addNewTask', task);
+      this.$store.dispatch("addNewTask", task);
       }
     },
 }
