@@ -25,7 +25,6 @@ export default {
       try {
         const response = await axios.get(`https://api.themoviedb.org/3/list/1?api_key=${process.env.VUE_APP_API_KEY}&language=ru`);
         this.data = response.data;
-        console.log(this.data)
       }catch (e) {
         alert(e);
       }
