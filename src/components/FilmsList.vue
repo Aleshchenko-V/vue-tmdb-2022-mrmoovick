@@ -1,38 +1,44 @@
 <template>
-  <div class="list-group list-group-horizontal d-flex flex-wrap justify-content-center align-items-center">
-    <div class="card list-group-item m-1" style="width: 450px;" v-for="film in data.items" :key="film.id">
-      <img :src="'https://image.tmdb.org/t/p/original' + film.backdrop_path" class="card-img-top" alt="...">
-      <div class="card-body" style="height: 400px;">
-        <h5 class="card-title"> {{film.title}} </h5>
-        <p style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 10; -webkit-box-orient: vertical;">{{ film.overview }}</p>
-      </div>
-    </div>
+  <b-list-group horizontal class="flex-sm-wrap align-items-start justify-content-center" v-if="!loading">
+    <b-list-group-item class="w-auto m-1 d-flex justify-content-center align-items-start" v-for="film in $store.getters.data.items" :key="film.id">
+      <film-card
+          :title="film.title"
+          :backdropPath="film.backdrop_path"
+          :overview="film.overview"
+          :originalLanguage="film.original_language"
+          :originalTitle="film.original_title"
+          :releaseDate="film.release_date"
+          :overallRating="film.vote_average"
+      >
+      </film-card>
+    </b-list-group-item>
+  </b-list-group>
+  <div style="height: 888px; display: flex; justify-content: center; align-items: center" v-else>
+    <b-spinner label="Loading..."></b-spinner>
   </div>
 </template>
 
 <script>
-import axios from "axios";
+import FilmCard from "@/components/FilmCard";
 
 export default {
   name: "FilmsList",
+  components: {FilmCard},
   data() {
     return {
-      data: [],
+      loading: true,
     }
   },
   methods: {
     async fetchFilms() {
-      try {
-        const response = await axios.get(`https://api.themoviedb.org/3/list/1?api_key=${process.env.VUE_APP_API_KEY}&language=ru`);
-        this.data = response.data;
-      }catch (e) {
-        alert(e);
-      }
+      await this.$store.dispatch('getMovies');
+
+      this.loading = false;
     }
   },
-  created() {
-    this.fetchFilms();
-  }
+  mounted() {
+    this.fetchFilms()
+  },
 
 }
 </script>
