@@ -96,5 +96,12 @@ export default {
     border: 0;
     background-color: #1e1b26;
     color: #fff;
+    transition:all 0.5s ease;
+  }
+  .b-card:hover {
+    -webkit-transform: scale(1.05);
+    -ms-transform: scale(1.05);
+    transform: scale(1.05);
+    z-index: 1;
   }
 </style>
