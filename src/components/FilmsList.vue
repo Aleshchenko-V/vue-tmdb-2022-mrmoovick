@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex justify-content-center align-items-end container" v-if="!loading">
       <b-list-group horizontal class="flex-sm-wrap">
-        <b-list-group-item class="w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card" v-for="movie in movies.items" :key="movie.id">
+        <b-list-group-item class="w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card" v-for="movie in movies.results" :key="movie.id">
           <film-card
               :title="movie.title"
               :backdropPath="movie.backdrop_path"
