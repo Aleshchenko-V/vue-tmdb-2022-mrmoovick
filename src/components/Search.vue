@@ -27,8 +27,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-
 export default {
   data() {
     return {
@@ -39,13 +37,9 @@ export default {
   methods: {
     async getFilms() {
       this.isLoading = true;
-      this.$store.dispatch("setSearchQueryIntoState", this.searchQuery);
-      await this.$store.dispatch("searchMovies", this.getSearchQuery);
+      await this.$store.dispatch("searchMovies", this.searchQuery);
       this.isLoading = false;
     },
-  },
-  computed: {
-    ...mapGetters(["getSearchQuery"]),
   },
 };
 </script>

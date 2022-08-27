@@ -11,14 +11,10 @@ export default new Vuex.Store({
   },
   getters: {
     getMovies: (state) => state.movies,
-    getSearchQuery: (state) => state.searchQuery,
   },
   mutations: {
     SET_MOVIES(state, movies) {
       state.movies = movies;
-    },
-    SET_SEARCH_VALUE(state, query) {
-      state.searchQuery = query;
     },
   },
   actions: {
@@ -39,9 +35,6 @@ export default new Vuex.Store({
       } catch (e) {
         alert(e);
       }
-    },
-    setSearchQueryIntoState({ commit }, searchQuery) {
-      commit("SET_SEARCH_VALUE", searchQuery);
     },
   },
 
