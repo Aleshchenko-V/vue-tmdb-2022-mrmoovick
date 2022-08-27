@@ -9,9 +9,12 @@ export default new Vuex.Store({
     movies: [],
   },
   getters: {
-    getMovies: (state) => state.movies,
+    movies: (state) => state.movies,
   },
   mutations: {
+    GET_MOVIES(state, movies) {
+      state.movies = {...movies};
+    },
     SET_MOVIES(state, movies) {
       state.movies = movies;
     },
@@ -31,6 +34,17 @@ export default new Vuex.Store({
           options
         );
         commit("SET_MOVIES", response.data);
+      } catch (e) {
+        alert(e);
+      }
+    },
+    async getMovies({commit}){
+      const options = {
+        params: {api_key: process.env.VUE_APP_API_KEY, language: "ru"}
+      };
+      try {
+        const response = await axios.get("https://api.themoviedb.org/3/movie/popular", options);
+        commit("GET_MOVIES", response.data)
       } catch (e) {
         alert(e);
       }
