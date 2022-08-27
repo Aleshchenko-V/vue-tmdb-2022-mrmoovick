@@ -8,7 +8,7 @@
             type="text"
             class="form-control"
             @keydown.enter="getFilms"
-            :disabled="isloading"
+            :disabled="isLoading"
         /></b-col>
         <b-col
           ><b-button
@@ -19,15 +19,7 @@
           ></b-col
         >
       </b-row>
-      <div
-        style="
-          height: 888px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        "
-        v-if="isLoading"
-      >
+      <div class="loader" v-if="isLoading">
         <b-spinner label="Loading..."></b-spinner>
       </div>
     </div>
@@ -35,6 +27,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   data() {
     return {
@@ -45,10 +39,22 @@ export default {
   methods: {
     async getFilms() {
       this.isLoading = true;
-      await this.$store.dispatch("searchMovies", this.searchQuery);
+      this.$store.dispatch("setSearchQueryIntoState", this.searchQuery);
+      await this.$store.dispatch("searchMovies", this.getSearchQuery);
       this.isLoading = false;
     },
   },
-  computed: {},
+  computed: {
+    ...mapGetters(["getSearchQuery"]),
+  },
 };
 </script>
+
+<style scoped>
+.loader {
+  height: 888px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>

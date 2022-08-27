@@ -11,6 +11,7 @@ export default new Vuex.Store({
   },
   getters: {
     getMovies: (state) => state.movies,
+    getSearchQuery: (state) => state.searchQuery,
   },
   mutations: {
     SET_MOVIES(state, movies) {
@@ -23,7 +24,11 @@ export default new Vuex.Store({
   actions: {
     async searchMovies({ commit }, query) {
       const options = {
-        params: { api_key: process.env.VUE_APP_API_KEY, query, language: "ru" },
+        params: {
+          api_key: process.env.VUE_APP_API_KEY,
+          query,
+          language: "ru",
+        },
       };
       try {
         const response = await axios.get(
@@ -35,9 +40,10 @@ export default new Vuex.Store({
         alert(e);
       }
     },
+    setSearchQueryIntoState({ commit }, searchQuery) {
+      commit("SET_SEARCH_VALUE", searchQuery);
+    },
   },
-  getSearchQuery({ commit }, searchQuery) {
-    return commit("SET_SEARCH_VALUE", searchQuery);
-  },
+
   modules: {},
 });
