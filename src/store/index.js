@@ -1,32 +1,41 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
 import axios from "axios";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    movies: []
+    movies: [],
   },
   getters: {
-    movies: state => state.data,
+    getMovies: (state) => state.movies,
   },
   mutations: {
-    GET_MOVIES(state, movies) {
-      state.data = movies;
+    SET_MOVIES(state, movies) {
+      state.movies = movies;
     },
   },
   actions: {
-    getMovies({commit}) {
-      return axios.get(`https://api.themoviedb.org/3/list/1`, {params: {api_key: process.env.VUE_APP_API_KEY, language: 'ru'}})
-          .then(res => {
-            let movies = res.data;
-            commit('GET_MOVIES', movies)
-          }).catch(err => {
-            alert(err);
-      })
+    async searchMovies({ commit }, query) {
+      const options = {
+        params: {
+          api_key: process.env.VUE_APP_API_KEY,
+          query,
+          language: "ru",
+        },
+      };
+      try {
+        const response = await axios.get(
+          `https://api.themoviedb.org/3/search/movie`,
+          options
+        );
+        commit("SET_MOVIES", response.data);
+      } catch (e) {
+        alert(e);
+      }
     },
   },
-  modules: {
-  }
-})
+
+  modules: {},
+});
