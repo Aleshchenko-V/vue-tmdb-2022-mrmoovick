@@ -2,8 +2,8 @@
       <b-card
           :aria-hidden="show ? 'true' : null"
           :title=title
-          :sub-title="originalTitle + ', ' + releaseDate.slice(0, 4)"
-          :img-src="backdropPath === null
+          :sub-title="originalTitle + ', ' + releaseDate !== '' ? releaseDate.slice(0, 4) : 'unknown'"
+          :img-src="backdropPath === ''
           ?'https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg'
           :'https://image.tmdb.org/t/p/original' + backdropPath"
           footer-tag="footer"

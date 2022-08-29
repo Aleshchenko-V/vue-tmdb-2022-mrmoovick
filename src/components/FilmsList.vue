@@ -1,19 +1,22 @@
 <template>
-  <div class="d-flex justify-content-center align-items-end container" v-if="!loading">
+  <div class="d-flex flex-column justify-content-center align-items-end container" v-if="!loading">
+    <div class="d-flex flex-row">
       <b-list-group horizontal class="flex-sm-wrap">
         <b-list-group-item class="w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card" v-for="movie in movies.results" :key="movie.id">
           <film-card
               :title="movie.title"
-              :backdropPath="movie.backdrop_path"
+              :backdropPath="movie.backdrop_path || ''"
               :overview="movie.overview"
               :originalLanguage="movie.original_language"
               :originalTitle="movie.original_title"
-              :releaseDate="movie.release_date"
+              :releaseDate="movie.release_date || ''"
               :overallRating="movie.vote_average"
           >
           </film-card>
         </b-list-group-item>
       </b-list-group>
+    </div>
+    <my-pagination @paginationCurrentPage="nextPage" :totalRows="totalResults"/>
   </div>
   <div class="spinner" v-else>
     <b-spinner label="Loading..."></b-spinner>
@@ -22,21 +25,43 @@
 
 <script>
 import FilmCard from "@/components/FilmCard";
+import MyPagination from "@/components/UI/MyPagination"
 import { mapGetters } from "vuex";
 
 export default {
   name: "FilmsList",
-  components: {FilmCard},
+  components: {FilmCard, MyPagination},
   data() {
     return {
       loading: false,
+      totalResults: 0,
     }
   },
   methods: {
+
+    compareTotalResults() {
+      if (this.movies.total_results > 10000) {
+        this.totalResults = 10000;
+      } else {
+        this.totalResults = this.movies.total_results;
+      }
+    },
+
     async fetchFilms() {
       this.loading = true;
 
       await this.$store.dispatch('getMovies');
+      this.compareTotalResults();
+
+      this.loading = false;
+    },
+
+    async nextPage(currentPage) {
+
+      this.loading = true;
+
+      await this.$store.dispatch("nextMoviesPage", {page: Object.values(currentPage)[0], query: this.searchQuery});
+      this.compareTotalResults();
 
       this.loading = false;
     },
@@ -45,7 +70,7 @@ export default {
     this.fetchFilms()
   },
   computed: {
-      ...mapGetters(['movies']),
+      ...mapGetters(['movies', 'searchQuery']),
   }
 
 }
