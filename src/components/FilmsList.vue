@@ -3,8 +3,7 @@
     <div class="d-flex flex-column justify-content-center align-items-end container" v-if="!loading">
       <div class="d-flex flex-row">
         <b-list-group horizontal class="flex-sm-wrap">
-          {{uniqueMovies}}
-          <b-list-group-item class="w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card" v-for="movie in movies.results" :key="movie.id">
+          <b-list-group-item class="w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card" v-for="movie in uniqueMovies.results" :key="movie.id">
             <film-card
                 :title="movie.title"
                 :backdropPath="movie.backdrop_path || ''"
@@ -64,19 +63,21 @@ export default {
     this.fetchFilms()
   },
   mounted() {
-    const observer = new IntersectionObserver(async entries => {
-      if (entries[0].isIntersecting && this.currentPage !== this.movies.total_pages) {
-        if(this.movies.total_pages === 1) {
-          return;
+    setTimeout(() => {
+      const observer = new IntersectionObserver(async entries => {
+        if (entries[0].intersectionRatio > 0 && this.currentPage !== this.movies.total_pages) {
+          if(this.movies.total_pages === 1) {
+            return;
+          }
+          if (this.searchQuery && this.currentPage !== this.movies.page) {
+            this.currentPage = 1;
+          }
+          this.currentPage += 1;
+          await this.$store.dispatch("nextMoviesPage", {page: this.currentPage, query: this.searchQuery});
         }
-        if (this.searchQuery && this.currentPage !== this.movies.page) {
-          this.currentPage = 1;
-        }
-        this.currentPage += 1;
-        await this.$store.dispatch("nextMoviesPage", {page: this.currentPage, query: this.searchQuery});
-      }
-    }, {})
-    observer.observe(this.$refs.observer)
+      }, {})
+      observer.observe(this.$refs.observer)
+    }, 1000)
   },
   computed: {
     ...mapGetters(['uniqueMovies']),

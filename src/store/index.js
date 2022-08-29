@@ -15,6 +15,7 @@ export default new Vuex.Store({
       state.movies.results.forEach(el => {
         el.id = uniqueId(el.id)
       })
+      return state.movies;
     },
   },
   mutations: {
