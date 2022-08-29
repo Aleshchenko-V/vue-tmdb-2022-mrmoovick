@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
+import uniqueId from "lodash.uniqueid"
 
 Vue.use(Vuex);
 
@@ -8,25 +9,26 @@ export default new Vuex.Store({
   state: {
     movies: [],
     searchQuery: '',
-    currentPage: 1,
   },
   getters: {
-    movies: (state) => state.movies,
-    searchQuery: (state) => state.searchQuery,
-    currentMoviesPage: (state) => state.currentPage,
+    uniqueMovies: (state) => {
+      state.movies.results.forEach(el => {
+        el.id = uniqueId(el.id)
+      })
+    },
   },
   mutations: {
     GET_MOVIES(state, movies) {
       state.movies = {...movies};
+      state.searchQuery = '';
     },
     SET_MOVIES(state, movies) {
       state.movies = movies.response;
       state.searchQuery = movies.query;
-      state.currentPage = 1;
     },
     NEXT_MOVIES_PAGE(state, movies) {
-      state.movies = {...movies};
-      state.currentPage = movies.page;
+      state.movies.results = [...state.movies.results, ...movies.results];
+      state.movies.page = movies.page;
     }
   },
   actions: {
