@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
-import uniqueId from "lodash.uniqueid"
+import uniqby from "lodash.uniqby"
 
 Vue.use(Vuex);
 
@@ -12,10 +12,7 @@ export default new Vuex.Store({
   },
   getters: {
     uniqueMovies: (state) => {
-      let uniqueMovies = state.movies.results.map(el => {
-        el.id = uniqueId(el.id)
-        return el;
-      })
+      let uniqueMovies = uniqby(state.movies.results, 'id')
       return uniqueMovies;
     },
   },
