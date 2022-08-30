@@ -94,7 +94,7 @@ export default {
   },
   computed: {
     ...mapGetters(["uniqueMovies"]),
-    ...mapState(["movieDetails", "searchQuery"]),
+    ...mapState(["movieDetails", "movies", "searchQuery"]),
   },
 };
 </script>
