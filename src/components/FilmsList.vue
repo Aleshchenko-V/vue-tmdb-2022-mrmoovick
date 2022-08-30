@@ -66,7 +66,6 @@ export default {
           if (this.searchQuery && this.currentPage !== this.movies.page) {
             this.currentPage = 1;
           }
-          console.log(this.uniqueMovies)
           this.currentPage += 1;
           await this.$store.dispatch("nextMoviesPage", {page: this.currentPage, query: this.searchQuery});
           this.compareTotalResults();
