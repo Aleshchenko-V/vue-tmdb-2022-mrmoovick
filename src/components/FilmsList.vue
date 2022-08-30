@@ -23,7 +23,7 @@
         </film-card>
       </b-list-group-item>
     </b-list-group>
-    <modal-window />
+    <modal-window :genres="genres" />
   </div>
   <div class="spinner" v-else>
     <b-spinner label="Loading..."></b-spinner>
@@ -34,13 +34,14 @@
 import FilmCard from "@/components/FilmCard";
 import ModalWindow from "@/components/ModalWindow.vue";
 
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 export default {
   name: "FilmsList",
   components: { FilmCard, ModalWindow },
   data() {
     return {
       loading: false,
+      genres: "",
     };
   },
   methods: {
@@ -53,18 +54,20 @@ export default {
     },
     async getMovieDetails(card) {
       await this.$store.dispatch("getMovieDetails", card);
+      const unFilteredGenres = this.movieDetails.genres.map((el) => el.name);
+      this.genres =
+        unFilteredGenres.length > 3
+          ? unFilteredGenres.slice(0, 3).join(", ") + "..."
+          : unFilteredGenres.join(", ");
     },
   },
   created() {
     this.fetchFilms();
   },
-  mounted() {
-    this.$root.$on("bv::modal::show", (bvEvent, modalId) => {
-      console.log("Modal is about to be shown", bvEvent, modalId);
-    });
-  },
+
   computed: {
     ...mapGetters(["uniqueMovies"]),
+    ...mapState(["movieDetails"]),
   },
 };
 </script>

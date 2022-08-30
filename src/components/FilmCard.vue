@@ -69,7 +69,7 @@ export default {
       required: true,
     },
     cardId: {
-      type: String,
+      type: Number,
       required: true,
     },
   },
