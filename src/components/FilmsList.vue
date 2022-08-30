@@ -3,7 +3,11 @@
     <div class="d-flex flex-column justify-content-center align-items-end container" v-if="!loading">
       <div class="d-flex flex-row">
         <b-list-group horizontal class="flex-sm-wrap">
-          <b-list-group-item class="w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card" v-for="movie in uniqueMovies" :key="movie.id">
+          <b-list-group-item
+              class="w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card"
+              v-for="movie in uniqueMovies"
+              :key="movie.id"
+          >
             <film-card
                 :title="movie.title"
                 :backdropPath="movie.backdrop_path || ''"
@@ -12,10 +16,13 @@
                 :originalTitle="movie.original_title"
                 :releaseDate="movie.release_date || ''"
                 :overallRating="movie.vote_average"
+                :cardId="movie.id"
+                @getCardId="getMovieDetails"
             >
             </film-card>
           </b-list-group-item>
         </b-list-group>
+        <modal-window :genres="genres" />
       </div>
     </div>
     <div class="spinner" v-else>
@@ -27,16 +34,19 @@
 
 <script>
 import FilmCard from "@/components/FilmCard";
-import {mapGetters, mapState} from "vuex";
+import ModalWindow from "@/components/ModalWindow.vue";
+
+import { mapGetters, mapState } from "vuex";
 export default {
   name: "FilmsList",
-  components: {FilmCard},
+  components: { FilmCard, ModalWindow },
   data() {
     return {
       loading: false,
       totalResults: 0,
       currentPage: 1,
-    }
+      genres: "",
+    };
   },
   methods: {
     compareTotalResults() {
@@ -48,13 +58,21 @@ export default {
     },
     async fetchFilms() {
       this.loading = true;
-      await this.$store.dispatch('getMovies');
+      await this.$store.dispatch("getMovies");
       this.compareTotalResults();
       this.loading = false;
     },
+    async getMovieDetails(card) {
+      await this.$store.dispatch("getMovieDetails", card);
+      const unFilteredGenres = this.movieDetails.genres.map((el) => el.name);
+      this.genres =
+        unFilteredGenres.length > 3
+          ? unFilteredGenres.slice(0, 3).join(", ") + "..."
+          : unFilteredGenres.join(", ");
+    },
   },
   created() {
-    this.fetchFilms()
+    this.fetchFilms();
   },
   mounted() {
     setTimeout(() => {
@@ -75,10 +93,10 @@ export default {
     }, 1000)
   },
   computed: {
-    ...mapGetters(['uniqueMovies']),
-    ...mapState(['movies', 'searchQuery'])
-  }
-}
+    ...mapGetters(["uniqueMovies"]),
+    ...mapState(["movieDetails", "searchQuery"]),
+  },
+};
 </script>
 
 <style scoped>
@@ -94,4 +112,5 @@ export default {
   justify-content: center;
   align-items: center;
 }
+
 </style>

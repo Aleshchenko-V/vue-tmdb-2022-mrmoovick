@@ -1,5 +1,6 @@
 <template>
       <b-card
+          v-b-modal.modal-scrollable
           :aria-hidden="show ? 'true' : null"
           :title=title
           :sub-title="originalTitle + ', ' + (releaseDate !== '' ? releaseDate.slice(0, 4) : 'unknown')"
@@ -11,6 +12,7 @@
           img-top
           tag="article"
           class="text-muted card-text form-control card-img-top b-card "
+          @click="$emit('getCardId', cardId)"
       >
         <b-card-text class="b-card__text">
           {{ overview }}
@@ -28,8 +30,8 @@ export default {
   name: "FilmCard",
   data() {
     return {
-      show: false
-    }
+      show: false,
+    };
   },
   props: {
     title: {
@@ -38,7 +40,7 @@ export default {
     },
     backdropPath: {
       type: String,
-      required: true
+      required: true,
     },
     overview: {
       type: String,
@@ -50,58 +52,66 @@ export default {
     },
     originalTitle: {
       type: String,
-      required: true
+      required: true,
     },
     releaseDate: {
       type: String,
-      required: true
+      required: true,
     },
     overallRating: {
       type: Number,
       required: true,
     },
+    cardId: {
+      type: Number,
+      required: true,
+    },
   },
-}
+};
 </script>
 
 <style scoped>
-  .text-muted {
-    color: #fff !important;
-  }
-  .card-text {
-    font-size: 14px;
-    color: #fff;
-  }
-  .form-control {
-    color: orange;
-  }
-  .card-img-top {
-    border-radius: 10px;
-  }
-  .b-card__footer {
-    display: flex;
-    flex-direction: row;
-    justify-content:space-between;
-  }
-  .b-card__text {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 8;
-    -webkit-box-orient: vertical;
-  }
-  .b-card {
-    width: 360px;
-    height: 550px;
-    border: 0;
-    background-color: #1e1b26;
-    color: #fff;
-    transition:all 0.5s ease;
-  }
-  .b-card:hover {
-    -webkit-transform: scale(1.05);
-    -ms-transform: scale(1.05);
-    transform: scale(1.05);
-    z-index: 1;
-  }
+.text-muted {
+  color: #fff !important;
+}
+.card-text {
+  font-size: 14px;
+  color: #fff;
+}
+.form-control {
+  color: orange;
+}
+.form-control:focus {
+  background-color: #1e1b26;
+  box-shadow: none;
+}
+.card-img-top {
+  border-radius: 10px;
+}
+.b-card__footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.b-card__text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 8;
+  -webkit-box-orient: vertical;
+}
+.b-card {
+  width: 360px;
+  height: 550px;
+  border: 0;
+  background-color: #1e1b26;
+  color: #fff;
+  transition: all 0.5s ease;
+}
+.b-card:hover {
+  -webkit-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
+  z-index: 1;
+}
 </style>
