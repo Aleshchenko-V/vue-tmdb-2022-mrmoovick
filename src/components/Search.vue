@@ -4,7 +4,7 @@
       <b-row class="text-center m-3">
         <b-col cols="9"
           ><input
-            v-model="searchQuery"
+            v-model.trim="searchQuery"
             type="text"
             class="form-control"
             @keydown.enter="getFilms"
@@ -14,7 +14,7 @@
           ><b-button
             @click="getFilms"
             :disabled="isLoading"
-            variant="outline-primary"
+            variant="outline-light"
             >Search</b-button
           ></b-col
         >
@@ -37,7 +37,11 @@ export default {
   methods: {
     async getFilms() {
       this.isLoading = true;
-      await this.$store.dispatch("searchMovies", this.searchQuery);
+      if (this.searchQuery) {
+        await this.$store.dispatch("searchMovies", this.searchQuery);
+      } else {
+        await this.$store.dispatch("getMovies");
+      }
       this.isLoading = false;
     },
   },
@@ -45,6 +49,10 @@ export default {
 </script>
 
 <style scoped>
+.form-control:focus {
+  box-shadow: none;
+  border: none;
+}
 .loader {
   height: 888px;
   display: flex;
