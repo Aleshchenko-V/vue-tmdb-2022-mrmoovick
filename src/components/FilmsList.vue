@@ -1,19 +1,27 @@
 <template>
-  <div class="d-flex justify-content-center align-items-end container" v-if="!loading">
-      <b-list-group horizontal class="flex-sm-wrap">
-        <b-list-group-item class="w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card" v-for="movie in movies.results" :key="movie.id">
-          <film-card
-              :title="movie.title"
-              :backdropPath="movie.backdrop_path"
-              :overview="movie.overview"
-              :originalLanguage="movie.original_language"
-              :originalTitle="movie.original_title"
-              :releaseDate="movie.release_date"
-              :overallRating="movie.vote_average"
-          >
-          </film-card>
-        </b-list-group-item>
-      </b-list-group>
+  <div
+    class="d-flex justify-content-center align-items-end container"
+    v-if="!loading"
+  >
+    <b-list-group horizontal class="flex-sm-wrap">
+      <b-list-group-item
+        class="w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card"
+        v-for="movie in movies.results"
+        :key="movie.id"
+      >
+        <film-card
+          :title="movie.title"
+          :backdropPath="movie.backdrop_path"
+          :overview="movie.overview"
+          :originalLanguage="movie.original_language"
+          :originalTitle="movie.original_title"
+          :releaseDate="movie.release_date"
+          :overallRating="movie.vote_average"
+        >
+        </film-card>
+      </b-list-group-item>
+    </b-list-group>
+    <modal-window />
   </div>
   <div class="spinner" v-else>
     <b-spinner label="Loading..."></b-spinner>
@@ -22,33 +30,38 @@
 
 <script>
 import FilmCard from "@/components/FilmCard";
-import { mapGetters } from "vuex";
+import ModalWindow from "@/components/ModalWindow.vue";
 
+import { mapGetters } from "vuex";
 export default {
   name: "FilmsList",
-  components: {FilmCard},
+  components: { FilmCard, ModalWindow },
   data() {
     return {
       loading: false,
-    }
+    };
   },
   methods: {
     async fetchFilms() {
       this.loading = true;
 
-      await this.$store.dispatch('getMovies');
+      await this.$store.dispatch("getMovies");
 
       this.loading = false;
     },
   },
   created() {
-    this.fetchFilms()
+    this.fetchFilms();
+  },
+  mounted() {
+    this.$root.$on("bv::modal::show", (bvEvent, modalId) => {
+      console.log("Modal is about to be shown", bvEvent, modalId);
+    });
   },
   computed: {
-      ...mapGetters(['movies']),
-  }
-
-}
+    ...mapGetters(["movies"]),
+  },
+};
 </script>
 
 <style scoped>
@@ -64,5 +77,4 @@ export default {
   justify-content: center;
   align-items: center;
 }
-
 </style>
