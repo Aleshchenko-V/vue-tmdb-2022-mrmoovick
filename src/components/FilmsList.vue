@@ -6,7 +6,7 @@
     <b-list-group horizontal class="flex-sm-wrap">
       <b-list-group-item
         class="w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card"
-        v-for="movie in movies.results"
+        v-for="movie in uniqueMovies"
         :key="movie.id"
       >
         <film-card
@@ -17,6 +17,8 @@
           :originalTitle="movie.original_title"
           :releaseDate="movie.release_date"
           :overallRating="movie.vote_average"
+          :cardId="movie.id"
+          @getCardId="getMovieDetails"
         >
         </film-card>
       </b-list-group-item>
@@ -49,6 +51,9 @@ export default {
 
       this.loading = false;
     },
+    async getMovieDetails(card) {
+      await this.$store.dispatch("getMovieDetails", card);
+    },
   },
   created() {
     this.fetchFilms();
@@ -59,7 +64,7 @@ export default {
     });
   },
   computed: {
-    ...mapGetters(["movies"]),
+    ...mapGetters(["uniqueMovies"]),
   },
 };
 </script>

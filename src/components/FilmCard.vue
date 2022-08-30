@@ -14,6 +14,7 @@
     img-top
     tag="article"
     class="text-muted card-text form-control card-img-top b-card"
+    @click="$emit('getCardId', cardId)"
   >
     <b-card-text class="b-card__text">
       {{ overview }}
@@ -67,6 +68,10 @@ export default {
       type: Number,
       required: true,
     },
+    cardId: {
+      type: String,
+      required: true,
+    },
   },
 };
 </script>
@@ -81,6 +86,10 @@ export default {
 }
 .form-control {
   color: orange;
+}
+.form-control:focus {
+  background-color: #1e1b26;
+  box-shadow: none;
 }
 .card-img-top {
   border-radius: 10px;
