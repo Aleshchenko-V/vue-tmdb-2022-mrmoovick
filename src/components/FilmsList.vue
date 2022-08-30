@@ -3,7 +3,7 @@
     <div class="d-flex flex-column justify-content-center align-items-end container" v-if="!loading">
       <div class="d-flex flex-row">
         <b-list-group horizontal class="flex-sm-wrap">
-          <b-list-group-item class="w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card" v-for="movie in uniqueMovies.results" :key="movie.id">
+          <b-list-group-item class="w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card" v-for="movie in uniqueMovies" :key="movie.id">
             <film-card
                 :title="movie.title"
                 :backdropPath="movie.backdrop_path || ''"
@@ -52,12 +52,6 @@ export default {
       this.compareTotalResults();
       this.loading = false;
     },
-    async nextPage(currentPage) {
-      this.loading = true;
-      await this.$store.dispatch("nextMoviesPage", {page: Object.values(currentPage)[0], query: this.searchQuery});
-      this.compareTotalResults();
-      this.loading = false;
-    },
   },
   created() {
     this.fetchFilms()
@@ -74,6 +68,7 @@ export default {
           }
           this.currentPage += 1;
           await this.$store.dispatch("nextMoviesPage", {page: this.currentPage, query: this.searchQuery});
+          this.compareTotalResults();
         }
       }, {})
       observer.observe(this.$refs.observer)

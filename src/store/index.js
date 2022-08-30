@@ -12,10 +12,11 @@ export default new Vuex.Store({
   },
   getters: {
     uniqueMovies: (state) => {
-      state.movies.results.forEach(el => {
+      let uniqueMovies = state.movies.results.map(el => {
         el.id = uniqueId(el.id)
+        return el;
       })
-      return state.movies;
+      return uniqueMovies;
     },
   },
   mutations: {

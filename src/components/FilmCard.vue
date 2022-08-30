@@ -59,8 +59,8 @@ export default {
     overallRating: {
       type: Number,
       required: true,
-    }
-  }
+    },
+  },
 }
 </script>
 
