@@ -1,16 +1,17 @@
 <template>
   <div id="app">
-    <search />
+    <page-header />
     <films-list />
   </div>
 </template>
 
 <script>
 import FilmsList from "@/components/FilmsList";
-import Search from "@/components/Search";
+import PageHeader from "@/components/PageHeader.vue";
+
 export default {
   name: "App",
-  components: { FilmsList, Search },
+  components: { FilmsList, PageHeader },
 };
 </script>
 
@@ -23,7 +24,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   justify-content: center;
-  align-items: center;
   flex-direction: column;
 }
 </style>
