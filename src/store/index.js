@@ -8,6 +8,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     movies: [],
+    actors: [],
     searchQuery: '',
     movieDetails: {},
   },
@@ -22,6 +23,9 @@ export default new Vuex.Store({
       state.movies = { ...movies };
       state.searchQuery = '';
     },
+    GET_ACTORS(state, actors) {
+      state.actors = { ...actors }
+    },
     SET_MOVIES(state, movies) {
       state.movies = movies.response;
       state.searchQuery = movies.query;
@@ -35,6 +39,34 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    async getMovies({ commit }) {
+      const options = {
+        params: { api_key: process.env.VUE_APP_API_KEY, language: "uk" },
+      };
+      try {
+        const response = await axios.get(
+            "https://api.themoviedb.org/3/movie/popular",
+            options
+        );
+        commit("GET_MOVIES", response.data);
+      } catch (e) {
+        alert(e);
+      }
+    },
+    async getActors({ commit }) {
+      const options = {
+        params: { api_key: process.env.VUE_APP_API_KEY, language: "uk" },
+      };
+      try {
+        const response = await axios.get(
+            "https://api.themoviedb.org/3/movie/616037/credits",
+            options
+        );
+        commit("GET_ACTORS", response.data.cast);
+      } catch (e) {
+        alert(e);
+      }
+    },
     async searchMovies({ commit }, query) {
       const options = {
         params: {
@@ -53,20 +85,6 @@ export default new Vuex.Store({
         } else {
           return;
         }
-      } catch (e) {
-        alert(e);
-      }
-    },
-    async getMovies({ commit }) {
-      const options = {
-        params: { api_key: process.env.VUE_APP_API_KEY, language: "uk" },
-      };
-      try {
-        const response = await axios.get(
-          "https://api.themoviedb.org/3/movie/popular",
-          options
-        );
-        commit("GET_MOVIES", response.data);
       } catch (e) {
         alert(e);
       }
