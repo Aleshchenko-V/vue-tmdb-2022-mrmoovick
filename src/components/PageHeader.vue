@@ -2,13 +2,11 @@
   <div class="container-lg sticky-top">
     <b-navbar
       variant="secondary"
-      class="site-navbar d-flex juctify-content-between pl-3 rounded-bottom"
+      class="site-navbar d-flex juctify-content-between rounded-bottom"
     >
       <a href="#" class="site-logo">
         <img src="@/assets/site-logo.png" alt="logo" width="60px" />
       </a>
-      <b-navbar-brand href="#" class="d-flex flex-column"></b-navbar-brand>
-
       <search-movie />
       <div class="logos d-flex">
         <a href="https://www.themoviedb.org/?language=en" target="_blank"
@@ -28,22 +26,19 @@
 
 <script>
 import SearchMovie from "./SearchMovie.vue";
-//import { mapState } from "vuex";
+
 export default {
   name: "PageHeader",
   components: {
     SearchMovie,
   },
-  //computed: {
-  //  ...mapState(["isLoading"]),
-  //},
 };
 </script>
 
 <style>
-div.container-fluid {
+div.container-lg {
   padding: 0px !important;
-  margin: 0px !important;
+  margin: auto !important;
 }
 .site-navbar {
   padding-right: 30px !important;
@@ -51,7 +46,4 @@ div.container-fluid {
 .site-logo {
   margin-left: 10px;
 }
-/*.container-lg {
-  border-radius: 10px !important;
-}*/
 </style>
