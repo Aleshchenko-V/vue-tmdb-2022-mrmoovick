@@ -39,9 +39,8 @@ export default {
         return 'Male'
       } else if(this.actorDetails.gender === 1) {
         return 'Female'
-      } else {
-        return 'Unknown'
       }
+      return 'Unknown'
     },
     getAliveYears() {
       let date = new Date;

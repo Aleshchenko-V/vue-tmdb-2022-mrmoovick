@@ -35,9 +35,6 @@ export default {
   data() {
     return {
       loading: false,
-      slickOptions: {
-        slidesToShow: 3,
-      },
     }
   },
   methods: {
