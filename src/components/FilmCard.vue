@@ -11,8 +11,8 @@
           img-alt="Image"
           img-top
           tag="article"
-          class="text-muted card-text form-control card-img-top b-card "
-          @click="$emit('getCardId', cardId)"
+          class="text-muted card-text form-control card-img-top b-card"
+          @click="$emit('getCardId', cardId), $store.dispatch('getActors', cardId)"
       >
         <b-card-text class="b-card__text">
           {{ overview }}

@@ -11,6 +11,7 @@ export default new Vuex.Store({
     actors: [],
     searchQuery: '',
     movieDetails: {},
+    actorDetails: {},
   },
   getters: {
     uniqueMovies: (state) => {
@@ -33,6 +34,9 @@ export default new Vuex.Store({
     GET_MOVIE_DETAILS(state, movie) {
       state.movieDetails = movie;
     },
+    GET_ACTOR_DETAILS(state, actor) {
+      state.actorDetails = actor;
+    },
     NEXT_MOVIES_PAGE(state, movies) {
       state.movies.results = [...state.movies.results, ...movies.results];
       state.movies.page = movies.page;
@@ -41,7 +45,7 @@ export default new Vuex.Store({
   actions: {
     async getMovies({ commit }) {
       const options = {
-        params: { api_key: process.env.VUE_APP_API_KEY, language: "uk" },
+        params: { api_key: process.env.VUE_APP_API_KEY, language: "en" },
       };
       try {
         const response = await axios.get(
@@ -53,13 +57,13 @@ export default new Vuex.Store({
         alert(e);
       }
     },
-    async getActors({ commit }) {
+    async getActors({ commit }, movieId) {
       const options = {
-        params: { api_key: process.env.VUE_APP_API_KEY, language: "uk" },
+        params: { api_key: process.env.VUE_APP_API_KEY, language: "en" },
       };
       try {
         const response = await axios.get(
-            "https://api.themoviedb.org/3/movie/616037/credits",
+            `https://api.themoviedb.org/3/movie/${movieId}/credits`,
             options
         );
         commit("GET_ACTORS", response.data.cast);
@@ -72,7 +76,7 @@ export default new Vuex.Store({
         params: {
           api_key: process.env.VUE_APP_API_KEY,
           query,
-          language: "uk",
+          language: "en",
         },
       };
       try {
@@ -91,7 +95,7 @@ export default new Vuex.Store({
     },
     async getMovieDetails({ commit }, movieId) {
       const options = {
-        params: { api_key: process.env.VUE_APP_API_KEY, language: "uk" },
+        params: { api_key: process.env.VUE_APP_API_KEY, language: "en" },
       };
       try {
         const response = await axios.get(
@@ -103,9 +107,23 @@ export default new Vuex.Store({
         alert(e);
       }
     },
+    async getActorDetails({ commit }, actorId) {
+      const options = {
+        params: { api_key: process.env.VUE_APP_API_KEY, language: "en" },
+      };
+      try {
+        const response = await axios.get(
+            `https://api.themoviedb.org/3/person/${actorId}`,
+            options
+        );
+        commit("GET_ACTOR_DETAILS", response.data);
+      } catch (e) {
+        alert(e);
+      }
+    },
     async nextMoviesPage({commit}, {page, query}) {
       const options = {
-        params: {api_key: process.env.VUE_APP_API_KEY, query, language: "ru", page}
+        params: {api_key: process.env.VUE_APP_API_KEY, query, language: "en", page}
       }
       if (query) {
         try {

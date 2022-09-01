@@ -1,16 +1,16 @@
 <template>
-  <div class="about">
-    <actor-list />
+  <div class="actor-card">
+    <actor-details />
   </div>
 </template>
 
 <script>
 
-import ActorList from "@/components/ActorList";
+import ActorDetails from "@/components/ActorDetails";
 export default {
   name: 'HomeView',
   components: {
-    ActorList,
+    ActorDetails,
   }
 }
 
