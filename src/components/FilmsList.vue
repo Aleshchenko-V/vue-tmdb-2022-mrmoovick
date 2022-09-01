@@ -45,7 +45,6 @@ export default {
   components: { FilmCard, ModalWindow },
   data() {
     return {
-      //isLoading: false,
       totalResults: 0,
       currentPage: 1,
       genres: "",
