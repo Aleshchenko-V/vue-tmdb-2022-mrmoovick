@@ -1,8 +1,6 @@
 <template>
   <div :class="{ show: visible }" class="scroll-to-top" @click="backToTop">
-    <a href="#page-header"
-      ><img src="@/assets/up-arrow.png" alt="arrow" width="50px"
-    /></a>
+    <img src="@/assets/up-arrow.png" alt="arrow" width="50px" />
   </div>
 </template>
 
@@ -16,8 +14,8 @@ export default {
   },
   methods: {
     trackScroll() {
-      var scrolled = window.pageYOffset;
-      var coords = document.documentElement.clientHeight;
+      const scrolled = window.pageYOffset;
+      const coords = document.documentElement.clientHeight;
 
       if (scrolled > coords) {
         this.visible = true;
