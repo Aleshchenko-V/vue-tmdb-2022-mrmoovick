@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div>
     <movie-search />
     <films-list/>
   </div>
@@ -10,7 +10,7 @@
 import FilmsList from "@/components/FilmsList";
 import MovieSearch from "@/components/MoviesSearch";
 export default {
-  name: 'HomeView',
+  name: 'MoviesPageView',
   components: {
     MovieSearch,
     FilmsList,

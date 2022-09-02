@@ -17,7 +17,7 @@
                 :releaseDate="movie.release_date || ''"
                 :overallRating="movie.vote_average"
                 :cardId="movie.id"
-                @getCardId="getMovieDetails"
+                @get-card-id="getMovieDetails"
             >
             </film-card>
           </b-list-group-item>
@@ -36,7 +36,7 @@
 import FilmCard from "@/components/FilmCard";
 import ModalWindow from "@/components/ModalWindow.vue";
 
-import { mapGetters, mapState } from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 export default {
   name: "FilmsList",
   components: { FilmCard, ModalWindow },
@@ -58,18 +58,19 @@ export default {
     },
     async fetchFilms() {
       this.loading = true;
-      await this.$store.dispatch("getMovies");
+      await this.getMovies();
       this.compareTotalResults();
       this.loading = false;
     },
     async getMovieDetails(card) {
-      await this.$store.dispatch("getMovieDetails", card);
+      await this.getMovieDetails(card);
       const unFilteredGenres = this.movieDetails.genres.map((el) => el.name);
       this.genres =
         unFilteredGenres.length > 3
           ? unFilteredGenres.slice(0, 3).join(", ") + "..."
           : unFilteredGenres.join(", ");
     },
+    ...mapActions(['getMovies','getMovieDetails','nextMoviesPage']),
   },
   created() {
     this.fetchFilms();
@@ -85,7 +86,7 @@ export default {
             this.currentPage = 1;
           }
           this.currentPage += 1;
-          await this.$store.dispatch("nextMoviesPage", {page: this.currentPage, query: this.searchQuery});
+          await this.nextMoviesPage({page: this.currentPage, query: this.searchQuery})
           this.compareTotalResults();
         }
       }, {})

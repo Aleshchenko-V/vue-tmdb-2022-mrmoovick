@@ -24,17 +24,17 @@ export default new Vuex.Store({
       state.movies = { ...movies };
       state.searchQuery = '';
     },
-    GET_ACTORS(state, actors) {
+    SET_ACTORS(state, actors) {
       state.actors = { ...actors }
     },
     SET_MOVIES(state, movies) {
       state.movies = movies.response;
       state.searchQuery = movies.query;
     },
-    GET_MOVIE_DETAILS(state, movie) {
+    SET_MOVIE_DETAILS(state, movie) {
       state.movieDetails = movie;
     },
-    GET_ACTOR_DETAILS(state, actor) {
+    SET_ACTOR_DETAILS(state, actor) {
       state.actorDetails = actor;
     },
     NEXT_MOVIES_PAGE(state, movies) {
@@ -48,11 +48,11 @@ export default new Vuex.Store({
         params: { api_key: process.env.VUE_APP_API_KEY, language: "en" },
       };
       try {
-        const response = await axios.get(
+        const { data } = await axios.get(
             "https://api.themoviedb.org/3/movie/popular",
             options
         );
-        commit("GET_MOVIES", response.data);
+        commit("GET_MOVIES", data);
       } catch (e) {
         alert(e);
       }
@@ -62,11 +62,12 @@ export default new Vuex.Store({
         params: { api_key: process.env.VUE_APP_API_KEY, language: "en" },
       };
       try {
-        const response = await axios.get(
+        const { data } = await axios.get(
             `https://api.themoviedb.org/3/movie/${movieId}/credits`,
             options
         );
-        commit("GET_ACTORS", response.data.cast);
+        const { cast } = data;
+        commit("SET_ACTORS", cast);
       } catch (e) {
         alert(e);
       }
@@ -81,11 +82,11 @@ export default new Vuex.Store({
       };
       try {
         if(query) {
-          const response = await axios.get(
+          const { data } = await axios.get(
               `https://api.themoviedb.org/3/search/movie`,
               options
           );
-          commit("SET_MOVIES", {response: response.data, query});
+          commit("SET_MOVIES", {response: data, query});
         } else {
           return;
         }
@@ -98,11 +99,11 @@ export default new Vuex.Store({
         params: { api_key: process.env.VUE_APP_API_KEY, language: "en" },
       };
       try {
-        const response = await axios.get(
+        const { data } = await axios.get(
           `https://api.themoviedb.org/3/movie/${movieId}`,
           options
         );
-        commit("GET_MOVIE_DETAILS", response.data);
+        commit("SET_MOVIE_DETAILS", data);
       } catch (e) {
         alert(e);
       }
@@ -112,11 +113,11 @@ export default new Vuex.Store({
         params: { api_key: process.env.VUE_APP_API_KEY, language: "en" },
       };
       try {
-        const response = await axios.get(
+        const { data } = await axios.get(
             `https://api.themoviedb.org/3/person/${actorId}`,
             options
         );
-        commit("GET_ACTOR_DETAILS", response.data);
+        commit("SET_ACTOR_DETAILS", data);
       } catch (e) {
         alert(e);
       }
@@ -127,15 +128,15 @@ export default new Vuex.Store({
       }
       if (query) {
         try {
-          const response = await axios.get("https://api.themoviedb.org/3/search/movie", options)
-          commit("NEXT_MOVIES_PAGE", response.data)
+          const { data } = await axios.get("https://api.themoviedb.org/3/search/movie", options)
+          commit("NEXT_MOVIES_PAGE", data)
         } catch (e) {
           alert(e);
         }
       } else {
         try {
-          const response = await axios.get("https://api.themoviedb.org/3/movie/popular", options)
-          commit("NEXT_MOVIES_PAGE", response.data)
+          const { data } = await axios.get("https://api.themoviedb.org/3/movie/popular", options)
+          commit("NEXT_MOVIES_PAGE", data)
         } catch (e) {
           alert(e);
         }

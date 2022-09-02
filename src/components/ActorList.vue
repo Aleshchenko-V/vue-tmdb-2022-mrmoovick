@@ -15,7 +15,7 @@
                       :profilePath="actor.profile_path || ''"
                       :character="actor.character"
                       :actorId="actor.id"
-                      @getActorId="getActorDetails"
+                      @get-actor-id="getActor"
                   >
                   </actor-card>
               </b-list-group-item>
@@ -27,7 +27,7 @@
 
 <script>
 import ActorCard from "@/components/ActorCard";
-import { mapState } from "vuex";
+import { mapActions, mapState} from "vuex";
 
 export default {
   name: "ActorList",
@@ -38,9 +38,10 @@ export default {
     }
   },
   methods: {
-    async getActorDetails(actorId) {
-      await this.$store.dispatch("getActorDetails", actorId);
+    getActor(actorId) {
+      this.getActorDetails(actorId);
     },
+    ...mapActions(['getActorDetails'])
   },
   computed: {
     ...mapState(["actors"]),

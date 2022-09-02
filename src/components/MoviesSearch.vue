@@ -27,8 +27,10 @@
 </template>
 
 <script>
+import {mapActions} from "vuex";
+
 export default {
-  name: "MovieSearch",
+  name: "MoviesSearch",
   data() {
     return {
       searchQuery: "",
@@ -36,15 +38,16 @@ export default {
     };
   },
   methods: {
-    async getFilms() {
+    getFilms() {
       this.isLoading = true;
       if (this.searchQuery) {
-        await this.$store.dispatch("searchMovies", this.searchQuery);
+        this.searchMovies(this.searchQuery)
       } else {
-        await this.$store.dispatch("getMovies");
+        this.getMovies()
       }
       this.isLoading = false;
     },
+    ...mapActions(['searchMovies', 'getMovies']),
   },
 };
 </script>

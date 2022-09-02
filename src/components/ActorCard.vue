@@ -11,7 +11,7 @@
         img-top
         tag="article"
         class="text-muted card-text form-control card-img-top b-card" style="box-sizing: content-box;"
-        @click="$emit('getActorId', actorId)"
+        @click="$emit('get-actor-id', actorId)"
     >
     </b-card>
   </router-link>
@@ -20,7 +20,7 @@
 <script>
 export default {
   name: "ActorCard",
-  data() {
+  data: () => {
     return {
       show: false,
     };

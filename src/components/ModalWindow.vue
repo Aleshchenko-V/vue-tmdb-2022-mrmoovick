@@ -7,6 +7,7 @@
       title="Movie Details"
       :hide-footer="true"
       body-class="modal-window"
+      @hidden="clear"
     >
       <div class="movie-details d-flex flex-column">
         <div class="d-flex flex-row">
@@ -16,7 +17,7 @@
               class="movie-details__poster"
               :src="
                 !movieDetails.poster_path
-                  ? 'https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg'
+                  ?  NO_IMG_URL
                   : 'https://image.tmdb.org/t/p/w500' +
                     movieDetails.poster_path
               "
@@ -74,6 +75,12 @@ import ActorList from "@/components/ActorList";
 
 export default {
   components: { ActorList },
+  data() {
+    this.NO_IMG_URL = 'https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg'
+    return {
+
+    }
+  },
   props: {
     genres: {
       type: String,
@@ -84,6 +91,9 @@ export default {
     getGenres(movie) {
       return movie.map((el) => el.name).join(", ");
     },
+    clear() {
+      this.$store.state.movieDetails = {};
+    }
   },
   computed: {
     ...mapState(["movieDetails"]),
