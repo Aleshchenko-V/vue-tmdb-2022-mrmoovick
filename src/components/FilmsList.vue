@@ -38,7 +38,7 @@
       </div>
     </div>
     <div class="spinner" v-else>
-      <b-spinner></b-spinner>
+      <b-spinner />
     </div>
     <div ref="observer"></div>
   </div>

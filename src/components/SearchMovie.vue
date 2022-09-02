@@ -19,11 +19,7 @@
 <script>
 import { mapState } from "vuex";
 export default {
-  data() {
-    return {
-      searchQuery: "",
-    };
-  },
+  data: () => ({ searchQuery: "" }),
   methods: {
     async getFilms() {
       this.$store.state.isLoading = true;

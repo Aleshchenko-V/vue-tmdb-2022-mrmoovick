@@ -1,38 +1,46 @@
 <template>
-      <b-card
-          v-b-modal.modal-scrollable
-          :aria-hidden="show ? 'true' : null"
-          :title=title
-          :sub-title="originalTitle + ', ' + (releaseDate !== '' ? releaseDate.slice(0, 4) : 'unknown')"
-          :img-src="backdropPath === ''
-          ?'https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg'
-          :'https://image.tmdb.org/t/p/original' + backdropPath"
-          footer-tag="footer"
-          img-alt="Image"
-          img-top
-          tag="article"
-          class="text-muted card-text form-control card-img-top b-card "
-          @click="$emit('getCardId', cardId)"
-      >
-        <b-card-text class="b-card__text">
-          {{ overview }}
-        </b-card-text>
-        <template #footer>
-          <div class="b-card__footer">
-            <b-form-rating readonly :value="overallRating" stars="10"></b-form-rating>
-          </div>
-        </template>
-      </b-card>
+  <b-card
+    v-b-modal.modal-scrollable
+    :aria-hidden="show ? 'true' : null"
+    :title="title"
+    :sub-title="
+      originalTitle +
+      ', ' +
+      (releaseDate !== '' ? releaseDate.slice(0, 4) : 'unknown')
+    "
+    :img-src="
+      backdropPath === ''
+        ? 'https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg'
+        : 'https://image.tmdb.org/t/p/original' + backdropPath
+    "
+    footer-tag="footer"
+    img-alt="Image"
+    img-top
+    tag="article"
+    class="text-muted card-text form-control card-img-top b-card"
+    @click="$emit('getCardId', cardId)"
+  >
+    <b-card-text class="b-card__text">
+      {{ overview }}
+    </b-card-text>
+    <template #footer>
+      <div class="b-card__footer">
+        <b-form-rating
+          readonly
+          :value="overallRating"
+          stars="10"
+        ></b-form-rating>
+      </div>
+    </template>
+  </b-card>
 </template>
 
 <script>
 export default {
   name: "FilmCard",
-  data() {
-    return {
-      show: false,
-    };
-  },
+  data: () => ({
+    show: false,
+  }),
   props: {
     title: {
       type: String,
