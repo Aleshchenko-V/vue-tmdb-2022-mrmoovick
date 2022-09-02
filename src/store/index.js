@@ -21,6 +21,8 @@ export default new Vuex.Store({
   },
   mutations: {
     GET_MOVIES(state, movies) {
+      state.actorDetails = {};
+      state.movieDetails = {};
       state.movies = { ...movies };
       state.searchQuery = '';
     },
@@ -28,6 +30,7 @@ export default new Vuex.Store({
       state.actors = { ...actors }
     },
     SET_MOVIES(state, movies) {
+      state.movieDetails = {};
       state.movies = movies.response;
       state.searchQuery = movies.query;
     },
@@ -36,6 +39,7 @@ export default new Vuex.Store({
     },
     SET_ACTOR_DETAILS(state, actor) {
       state.actorDetails = {};
+      state.movieDetails = {};
       state.actorDetails = actor;
     },
     NEXT_MOVIES_PAGE(state, movies) {
