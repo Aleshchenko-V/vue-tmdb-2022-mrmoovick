@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import SearchMovie from "./SearchMovie.vue";
+import SearchMovie from "./SearchMovie";
 
 export default {
   name: "PageHeader",
@@ -35,13 +35,13 @@ export default {
 };
 </script>
 
-<style>
-div.container-lg {
+<style scoped>
+.container-lg {
   padding: 0px !important;
   margin: auto !important;
 }
 .site-navbar {
-  padding-right: 30px !important;
+  padding-right: 30px;
 }
 .site-logo {
   margin-left: 10px;

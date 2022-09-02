@@ -7,7 +7,7 @@
 
 <script>
 import FilmsList from "@/components/FilmsList";
-import PageHeader from "@/components/PageHeader.vue";
+import PageHeader from "@/components/PageHeader";
 
 export default {
   name: "App",

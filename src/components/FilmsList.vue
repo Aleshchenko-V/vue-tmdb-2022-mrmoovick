@@ -37,19 +37,17 @@
 
 <script>
 import FilmCard from "@/components/FilmCard";
-import ModalWindow from "@/components/ModalWindow.vue";
+import ModalWindow from "@/components/ModalWindow";
 
 import { mapGetters, mapState } from "vuex";
 export default {
   name: "FilmsList",
   components: { FilmCard, ModalWindow },
-  data() {
-    return {
-      totalResults: 0,
-      currentPage: 1,
-      genres: "",
-    };
-  },
+  data: () => ({
+    totalResults: 0,
+    currentPage: 1,
+    genres: "",
+  }),
   methods: {
     compareTotalResults() {
       if (this.movies.total_results > 10000) {
