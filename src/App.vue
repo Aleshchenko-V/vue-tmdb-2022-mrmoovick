@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <scroll-to-top />
     <page-header />
     <films-list />
   </div>
@@ -8,10 +9,11 @@
 <script>
 import FilmsList from "@/components/FilmsList";
 import PageHeader from "@/components/PageHeader.vue";
+import ScrollToTop from "@/components/ScrollToTop.vue";
 
 export default {
   name: "App",
-  components: { FilmsList, PageHeader },
+  components: { FilmsList, PageHeader, ScrollToTop },
 };
 </script>
 
@@ -19,6 +21,7 @@ export default {
 @import "~bootstrap/scss/bootstrap";
 #app {
   display: flex;
+  position: relative;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
