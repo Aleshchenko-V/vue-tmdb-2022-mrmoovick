@@ -66,10 +66,8 @@ export default {
       }
     },
     async fetchFilms() {
-      this.$store.state.isLoading = true;
       await this.$store.dispatch("getMovies");
       this.compareTotalResults();
-      this.$store.state.isLoading = false;
     },
     async getMovieDetails(card) {
       await this.$store.dispatch("getMovieDetails", card);
@@ -97,7 +95,7 @@ export default {
             this.currentPage = 1;
           }
           this.currentPage += 1;
-          await this.$store.dispatch("nextMoviesPage", {
+          await this.$store.dispatch("getNextMoviesPage", {
             page: this.currentPage,
             query: this.searchQuery,
           });
@@ -108,8 +106,8 @@ export default {
     }, 1000);
   },
   computed: {
-    ...mapGetters(["uniqueMovies"]),
-    ...mapState(["movieDetails", "movies", "searchQuery", "isLoading"]),
+    ...mapGetters(["uniqueMovies", "isLoading"]),
+    ...mapState(["movieDetails", "movies", "searchQuery"]),
   },
 };
 </script>

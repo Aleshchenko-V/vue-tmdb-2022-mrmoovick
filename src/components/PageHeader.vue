@@ -4,7 +4,7 @@
       variant="secondary"
       class="site-navbar d-flex justify-content-between rounded-bottom"
     >
-      <a href="#" class="site-logo">
+      <a href="/" class="site-logo">
         <img src="@/assets/site-logo.png" alt="logo" width="60px" />
       </a>
       <search-movie />

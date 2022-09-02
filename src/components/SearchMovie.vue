@@ -2,10 +2,11 @@
   <b-container class="d-flex justify-content-center">
     <b-col cols="9"
       ><input
-        v-model.trim="searchQuery"
+        :value="searchQuery"
         type="text"
         class="form-control"
         @keydown.enter="getFilms"
+        @input="updateSearch($event.target.value)"
         :disabled="isLoading"
     /></b-col>
     <b-col cols="2"
@@ -17,22 +18,14 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 export default {
-  data: () => ({ searchQuery: "" }),
   methods: {
-    async getFilms() {
-      this.$store.state.isLoading = true;
-      if (this.searchQuery) {
-        await this.$store.dispatch("searchMovies", this.searchQuery);
-      } else {
-        await this.$store.dispatch("getMovies");
-      }
-      this.$store.state.isLoading = false;
-    },
+    ...mapActions(["getFilms", "updateSearch"]),
   },
   computed: {
     ...mapState(["isLoading"]),
+    ...mapGetters(["searchQuery"]),
   },
 };
 </script>
