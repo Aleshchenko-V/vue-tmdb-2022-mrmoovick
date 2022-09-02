@@ -26,13 +26,13 @@
 </template>
 
 <script>
-import {mapState} from "vuex";
+import {mapActions, mapState} from "vuex";
 import get from "lodash/get";
 
 export default {
   name: "ActorPageView",
   mounted() {
-    this.$store.dispatch('getActorDetails', this.$route.params.id);
+    this.getActorDetails(this.$route.params.id);
   },
   methods: {
     getGender() {
@@ -43,6 +43,7 @@ export default {
       let age = date.getFullYear() - this.actorDetails.birthday.slice(0, 4);
       return `${this.actorDetails.birthday} (${age} years old)`
     },
+    ...mapActions(['getActorDetails']),
   },
   computed: {
     ...mapState(['actorDetails'])
