@@ -7,7 +7,7 @@
       title="Movie Details"
       :hide-footer="true"
       body-class="modal-window"
-      @hidden="clear"
+      @hidden="clearMovieDetails"
     >
       <div class="movie-details d-flex flex-column">
         <div class="d-flex flex-row">
@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import {mapMutations, mapState} from "vuex";
 import ActorList from "@/components/ActorList";
 
 export default {
@@ -91,9 +91,7 @@ export default {
     getGenres(movie) {
       return movie.map((el) => el.name).join(", ");
     },
-    clear() {
-      this.$store.state.movieDetails = {};
-    }
+    ...mapMutations(["clearMovieDetails"]),
   },
   computed: {
     ...mapState(["movieDetails"]),

@@ -32,7 +32,6 @@ import get from "lodash/get";
 export default {
   name: "ActorPageView",
   mounted() {
-    this.$store.state.actorDetails = {};
     this.$store.dispatch('getActorDetails', this.$route.params.id);
   },
   methods: {

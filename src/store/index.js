@@ -35,11 +35,15 @@ export default new Vuex.Store({
       state.movieDetails = movie;
     },
     SET_ACTOR_DETAILS(state, actor) {
+      state.actorDetails = {};
       state.actorDetails = actor;
     },
     NEXT_MOVIES_PAGE(state, movies) {
       state.movies.results = [...state.movies.results, ...movies.results];
       state.movies.page = movies.page;
+    },
+    clearMovieDetails(state) {
+      state.movieDetails = {};
     }
   },
   actions: {
