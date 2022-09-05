@@ -15,7 +15,7 @@
                       :profilePath="profile_path || ''"
                       :character="character"
                       :actorId="id"
-                      @get-actor-id="(actorId) => {getActorDetails(actorId);}"
+                      @get-actor-id="getActorDetails($event)"
                   >
                   </actor-card>
               </b-list-group-item>
