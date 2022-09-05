@@ -3,7 +3,7 @@
     <div>
       <b-row class="text-center m-3">
         <b-col cols="9"
-          ><input
+        ><input
             v-model.trim="searchQuery"
             type="text"
             class="form-control"
@@ -11,12 +11,12 @@
             :disabled="isLoading"
         /></b-col>
         <b-col
-          ><b-button
+        ><b-button
             @click="getFilms"
             :disabled="isLoading"
             variant="outline-light"
-            >Search</b-button
-          ></b-col
+        >Search</b-button
+        ></b-col
         >
       </b-row>
       <div class="loader" v-if="isLoading">
@@ -27,7 +27,10 @@
 </template>
 
 <script>
+import {mapActions} from "vuex";
+
 export default {
+  name: "MoviesSearch",
   data() {
     return {
       searchQuery: "",
@@ -35,15 +38,16 @@ export default {
     };
   },
   methods: {
-    async getFilms() {
+    getFilms() {
       this.isLoading = true;
       if (this.searchQuery) {
-        await this.$store.dispatch("searchMovies", this.searchQuery);
+        this.searchMovies(this.searchQuery)
       } else {
-        await this.$store.dispatch("getMovies");
+        this.getMovies()
       }
       this.isLoading = false;
     },
+    ...mapActions(['searchMovies', 'getMovies']),
   },
 };
 </script>
