@@ -19,8 +19,8 @@ export default new Vuex.Store({
       let uniqueMovies = uniqby(state.movies.results, "id");
       return uniqueMovies;
     },
-    searchQuery: (state) => state.searchQuery,
-    isLoading: (state) => state.isLoading,
+    //searchQuery: (state) => state.searchQuery,
+    //isLoading: (state) => state.isLoading,
   },
   mutations: {
     GET_MOVIES(state, movies) {
@@ -29,7 +29,7 @@ export default new Vuex.Store({
       state.movies = { ...movies };
       state.searchQuery = "";
     },
-    UPDATE_SEARCH(state, payload) {
+    SET_SEARCH_QUERY(state, payload) {
       state.searchQuery = payload;
     },
     SET_ACTORS(state, actors) {
@@ -65,6 +65,7 @@ export default new Vuex.Store({
         params: { api_key: process.env.VUE_APP_API_KEY, language: "en" },
       };
       try {
+        commit("SET_IS_LOADING", true);
         const { data } = await axios.get(
           "https://api.themoviedb.org/3/movie/popular",
           options
@@ -72,6 +73,8 @@ export default new Vuex.Store({
         commit("GET_MOVIES", data);
       } catch (e) {
         alert(e);
+      } finally {
+        commit("SET_IS_LOADING", false);
       }
     },
     async getActors({ commit }, movieId) {
@@ -118,7 +121,7 @@ export default new Vuex.Store({
       const options = {
         params: { api_key: process.env.VUE_APP_API_KEY, language: "en" },
       };
-      commit("SET_IS_LOADING", true);
+
       try {
         const { data } = await axios.get(
           `https://api.themoviedb.org/3/movie/${movieId}`,
@@ -127,8 +130,6 @@ export default new Vuex.Store({
         commit("SET_MOVIE_DETAILS", data);
       } catch (e) {
         alert(e);
-      } finally {
-        commit("SET_IS_LOADING", false);
       }
     },
     async getActorDetails({ commit }, actorId) {
@@ -175,9 +176,6 @@ export default new Vuex.Store({
           alert(e);
         }
       }
-    },
-    updateSearch({ commit }, val) {
-      commit("UPDATE_SEARCH", val.trim());
     },
     getFilms({ state, dispatch }) {
       if (state.searchQuery) {

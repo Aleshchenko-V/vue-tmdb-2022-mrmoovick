@@ -5,12 +5,12 @@
         :value="searchQuery"
         type="text"
         class="form-control"
-        @keydown.enter="getFilms"
-        @input="updateSearch($event.target.value)"
+        @keydown.enter="getFilm"
+        @input="SET_SEARCH_QUERY($event.target.value.trim())"
         :disabled="isLoading"
     /></b-col>
     <b-col cols="2"
-      ><b-button @click="getFilms" :disabled="isLoading" variant="outline-light"
+      ><b-button @click="getFilm" :disabled="isLoading" variant="outline-light"
         >Search</b-button
       ></b-col
     >
@@ -18,14 +18,18 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from "vuex";
+import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   methods: {
-    ...mapActions(["getFilms", "updateSearch"]),
+    getFilm() {
+      this.$router.replace({ path: "/" });
+      this.searchQuery ? this.searchMovies(this.searchQuery) : this.getFilms();
+    },
+    ...mapActions(["getFilms", "searchMovies"]),
+    ...mapMutations(["SET_SEARCH_QUERY"]),
   },
   computed: {
-    ...mapState(["isLoading"]),
-    ...mapGetters(["searchQuery"]),
+    ...mapState(["isLoading", "searchQuery"]),
   },
 };
 </script>

@@ -1,18 +1,16 @@
 <template>
   <div id="app">
     <page-header />
-    <theme-toggler />
     <router-view />
   </div>
 </template>
 
 <script>
 import PageHeader from "@/components/PageHeader";
-import ThemeToggler from "./components/ThemeToggler.vue";
 
 export default {
   name: "App",
-  components: { PageHeader, ThemeToggler },
+  components: { PageHeader },
 };
 </script>
 

@@ -53,7 +53,6 @@ export default {
   name: "FilmsList",
   components: { FilmCard, ModalWindow },
   data: () => ({
-    isLoading: false,
     totalResults: 0,
     currentPage: 1,
     genres: "",
@@ -67,10 +66,8 @@ export default {
       }
     },
     async fetchFilms() {
-      this.loading = true;
       await this.getMovies();
       this.compareTotalResults();
-      this.loading = false;
     },
     async getChosenMovieDetails(card) {
       await this.getMovieDetails(card);
@@ -83,7 +80,9 @@ export default {
     ...mapActions(["getMovies", "getMovieDetails", "nextMoviesPage"]),
   },
   created() {
-    this.fetchFilms();
+    if (!this.searchQuery) {
+      this.fetchFilms();
+    }
   },
   mounted() {
     setTimeout(() => {
@@ -110,8 +109,8 @@ export default {
     }, 1000);
   },
   computed: {
-    ...mapGetters(["uniqueMovies", "isLoading"]),
-    ...mapState(["movieDetails", "movies", "searchQuery"]),
+    ...mapGetters(["uniqueMovies"]),
+    ...mapState(["movieDetails", "movies", "searchQuery", "isLoading"]),
   },
 };
 </script>

@@ -4,9 +4,14 @@
       variant="secondary"
       class="site-navbar d-flex justify-content-between rounded-bottom"
     >
-      <a href="/" class="site-logo">
-        <img src="@/assets/site-logo.png" alt="logo" width="60px" />
-      </a>
+      <router-link to="/" class="site-logo">
+        <img
+          src="@/assets/site-logo.png"
+          alt="logo"
+          width="60px"
+          @click="getMovies()"
+        />
+      </router-link>
       <search-movie />
       <div class="logos d-flex">
         <a href="https://www.themoviedb.org/?language=en" target="_blank"
@@ -26,11 +31,14 @@
 
 <script>
 import SearchMovie from "./SearchMovie";
-
+import { mapActions } from "vuex";
 export default {
   name: "PageHeader",
   components: {
     SearchMovie,
+  },
+  methods: {
+    ...mapActions(["getMovies"]),
   },
 };
 </script>
