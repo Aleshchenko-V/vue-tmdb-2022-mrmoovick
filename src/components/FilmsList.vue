@@ -1,23 +1,23 @@
 <template>
   <div>
-    <div class="d-flex flex-column justify-content-center align-items-end container" v-if="!loading">
+    <div class="d-flex flex-column justify-content-center align-items-end container" v-if="!isLoading">
       <div class="d-flex flex-row">
         <b-list-group horizontal class="flex-sm-wrap">
           <b-list-group-item
               class="w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card"
-              v-for="movie in uniqueMovies"
-              :key="movie.id"
+              v-for="{id, title, backdrop_path, overview, original_language, original_title, release_date, vote_average} in uniqueMovies"
+              :key="id"
           >
             <film-card
-                :title="movie.title"
-                :backdropPath="movie.backdrop_path || ''"
-                :overview="movie.overview"
-                :originalLanguage="movie.original_language"
-                :originalTitle="movie.original_title"
-                :releaseDate="movie.release_date || ''"
-                :overallRating="movie.vote_average"
-                :cardId="movie.id"
-                @get-card-id="getMovieDetails"
+                :title="title"
+                :backdropPath="backdrop_path || ''"
+                :overview="overview"
+                :originalLanguage="original_language"
+                :originalTitle="original_title"
+                :releaseDate="release_date || ''"
+                :overallRating="vote_average"
+                :cardId="id"
+                @get-card-id="getChosenMovieDetails"
             >
             </film-card>
           </b-list-group-item>
@@ -42,7 +42,7 @@ export default {
   components: { FilmCard, ModalWindow },
   data() {
     return {
-      loading: false,
+      isLoading: false,
       totalResults: 0,
       currentPage: 1,
       genres: "",
@@ -62,7 +62,7 @@ export default {
       this.compareTotalResults();
       this.loading = false;
     },
-    async getMovieDetails(card) {
+    async getChosenMovieDetails(card) {
       await this.getMovieDetails(card);
       const unFilteredGenres = this.movieDetails.genres.map((el) => el.name);
       this.genres =

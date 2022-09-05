@@ -5,7 +5,7 @@
         :title="name"
         :sub-title="character"
         :img-src="profilePath === ''
-          ?'https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg'
+          ? NO_IMG_URL
           :'https://image.tmdb.org/t/p/original' + profilePath"
         img-alt="Image"
         img-top
@@ -20,11 +20,10 @@
 <script>
 export default {
   name: "ActorCard",
-  data: () => {
-    return {
-      show: false,
-    };
-  },
+  data: () => ({
+    show: false,
+    NO_IMG_URL: 'https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg',
+  }),
   props: {
     name: {
       type: String,

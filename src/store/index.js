@@ -149,7 +149,7 @@ export default new Vuex.Store({
           alert(e);
         }
       }
-    }
+    },
   },
 
   modules: {},

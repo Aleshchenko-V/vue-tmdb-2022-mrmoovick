@@ -1,21 +1,21 @@
 <template>
   <div>
-    <div class="d-flex flex-row container" v-if="!loading">
+    <div class="d-flex flex-row container" v-if="!isLoading">
       <div class="d-flex flex-row">
           <b-list-group horizontal class="flex-sm-wrap">
               <b-list-group-item
                   class="w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card"
-                  v-for="actor in actors"
-                  :key="actor.id"
+                  v-for="{id, name, known_for_department, popularity, profile_path, character} in actors"
+                  :key="id"
               >
                   <actor-card
-                      :name="actor.name"
-                      :knownForDepartment="actor.known_for_department || ''"
-                      :popularity="actor.popularity"
-                      :profilePath="actor.profile_path || ''"
-                      :character="actor.character"
-                      :actorId="actor.id"
-                      @get-actor-id="getActor"
+                      :name="name"
+                      :knownForDepartment="known_for_department || ''"
+                      :popularity="popularity"
+                      :profilePath="profile_path || ''"
+                      :character="character"
+                      :actorId="id"
+                      @get-actor-id="(actorId) => {getActorDetails(actorId);}"
                   >
                   </actor-card>
               </b-list-group-item>
@@ -34,13 +34,10 @@ export default {
   components: { ActorCard },
   data() {
     return {
-      loading: false,
+      isLoading: false,
     }
   },
   methods: {
-    getActor(actorId) {
-      this.getActorDetails(actorId);
-    },
     ...mapActions(['getActorDetails'])
   },
   computed: {
