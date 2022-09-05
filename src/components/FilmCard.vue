@@ -10,7 +10,7 @@
     "
     :img-src="
       backdropPath === ''
-        ? 'https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg'
+        ? NO_IMG_URL
         : 'https://image.tmdb.org/t/p/original' + backdropPath
     "
     footer-tag="footer"
@@ -18,7 +18,7 @@
     img-top
     tag="article"
     class="text-muted card-text form-control card-img-top b-card"
-    @click="$emit('getCardId', cardId)"
+    @click="$emit('get-card-id', cardId), getActors(cardId)"
   >
     <b-card-text class="b-card__text">
       {{ overview }}
@@ -36,10 +36,14 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "FilmCard",
   data: () => ({
     show: false,
+    NO_IMG_URL:
+      "https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg",
   }),
   props: {
     title: {
@@ -74,6 +78,9 @@ export default {
       type: Number,
       required: true,
     },
+  },
+  methods: {
+    ...mapActions(["getActors"]),
   },
 };
 </script>
