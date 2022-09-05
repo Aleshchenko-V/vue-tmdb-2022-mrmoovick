@@ -1,30 +1,29 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <search />
+    <films-list />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import FilmsList from "@/components/FilmsList";
+import Search from "@/components/Search";
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  name: "App",
+  components: { FilmsList, Search },
+};
 </script>
 
 <style lang="scss">
 @import "~bootstrap/scss/bootstrap";
-
 #app {
+  display: flex;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 </style>
