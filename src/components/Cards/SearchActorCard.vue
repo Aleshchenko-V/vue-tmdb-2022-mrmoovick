@@ -1,9 +1,14 @@
 <template>
-  <b-card class="d-flex justify-content-center align-items-center" bg-variant="dark" text-variant="white" :title="name"
-          :img-src="profileImage === ''
-          ? NO_IMG_URL
-          : 'https://image.tmdb.org/t/p/original' + profileImage" img-left>
-  </b-card>
+  <router-link :to="`/actor/${actorId}`">
+    <b-card class="d-flex justify-content-center align-items-center" bg-variant="dark" text-variant="white"
+            :title="name"
+            :img-src="profileImage === ''
+            ? NO_IMG_URL
+            : 'https://image.tmdb.org/t/p/original' + profileImage" img-left
+            @click="$emit('get-actor-id', actorId)"
+    >
+    </b-card>
+  </router-link>
 </template>
 
 <script>
@@ -21,12 +26,20 @@ export default {
     profileImage: {
       type: String,
       required: true,
+    },
+    actorId: {
+      type: Number,
+      required: true,
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
+a {
+  text-decoration: none;
+}
+
 .card {
   height: 60px;
   margin-top: 5px;

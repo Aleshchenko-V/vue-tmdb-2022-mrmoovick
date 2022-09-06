@@ -1,14 +1,18 @@
 <template>
-  <b-card class="d-flex justify-content-center align-items-center" bg-variant="dark" text-variant="white" :title="name"
-          :img-src="movieImage === ''
-          ? NO_IMG_URL
-          : 'https://image.tmdb.org/t/p/original' + movieImage" img-left>
-    <b-card-text>
-      <div class="d-flex flex-column mt-1">
-        <p class="mb-0">{{ rating }} {{ originalName }}, {{ releaseDate ? releaseDate : '' }}</p>
-      </div>
-    </b-card-text>
-  </b-card>
+  <router-link :to="`/tv/${tvId}`">
+    <b-card class="d-flex justify-content-center align-items-center" bg-variant="dark" text-variant="white"
+            :title="name"
+            :img-src="movieImage === ''
+            ? NO_IMG_URL
+            : 'https://image.tmdb.org/t/p/original' + movieImage" img-left
+            @click="$emit('get-tv-id', tvId)">
+      <b-card-text>
+        <div class="d-flex flex-column mt-1">
+          <p class="mb-0">{{ rating }} {{ originalName }}, {{ releaseDate ? releaseDate : '' }}</p>
+        </div>
+      </b-card-text>
+    </b-card>
+  </router-link>
 </template>
 
 <script>
@@ -38,12 +42,20 @@ export default {
     movieImage: {
       type: String,
       required: true,
-    }
+    },
+    tvId: {
+      type: Number,
+      required: true,
+    },
   }
 }
 </script>
 
 <style scoped lang="scss">
+a {
+  text-decoration: none;
+}
+
 .card {
   height: 60px;
   font-size: 12px;
