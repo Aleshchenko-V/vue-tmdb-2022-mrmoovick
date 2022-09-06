@@ -9,7 +9,7 @@
           src="@/assets/site-logo.png"
           alt="logo"
           width="60px"
-          @click="getMovies()"
+          @click="getMovies"
         />
       </router-link>
       <search-movie />

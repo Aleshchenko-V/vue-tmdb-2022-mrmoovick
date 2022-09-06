@@ -19,8 +19,6 @@ export default new Vuex.Store({
       let uniqueMovies = uniqby(state.movies.results, "id");
       return uniqueMovies;
     },
-    //searchQuery: (state) => state.searchQuery,
-    //isLoading: (state) => state.isLoading,
   },
   mutations: {
     GET_MOVIES(state, movies) {
