@@ -32,7 +32,6 @@ export default {
       this.multiSearch(this.searchQuery)
     },
     getFilm() {
-      this.$router.replace('/');
       this.movieSearch(this.searchQuery);
     },
     ...mapActions(["getFilms", "multiSearch", "movieSearch"]),

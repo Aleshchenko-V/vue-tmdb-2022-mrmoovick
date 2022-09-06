@@ -3,15 +3,15 @@
     <div class="d-flex flex-row">
       <div class="d-flex justify-content-center">
         <img
-          width="300"
-          height="450"
-          class="movie-details__poster"
-          :src="
+            width="300"
+            height="450"
+            class="movie-details__poster"
+            :src="
             !tvDetails.poster_path
               ? NO_IMG_URL
               : 'https://image.tmdb.org/t/p/w500' + tvDetails.poster_path
           "
-          alt="poster"
+            alt="poster"
         />
       </div>
       <div class="wrapper-details">
@@ -25,7 +25,7 @@
           </div>
           <div class="details-item">
             <div class="details-subtitle">Genres:</div>
-            <div class="details-subitem">{{ getGenres(tvDetails.genres) }}</div>
+            <div class="details-subitem">{{ tvDetails.genres ? getGenresNames(tvDetails.genres) : '' }}</div>
           </div>
           <div class="details-item">
             <div class="details-subtitle">Number of episodes:</div>
@@ -69,7 +69,8 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import {mapState, mapActions} from "vuex";
+
 export default {
   name: "MoviesPageView",
 

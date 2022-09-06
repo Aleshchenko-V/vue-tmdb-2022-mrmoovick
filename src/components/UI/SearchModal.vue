@@ -73,15 +73,15 @@ export default {
     makeOptionalResponseAndRedirect(type) {
       switch (type) {
         case 'movies':
-          this.$router.replace('/')
+          if (this.$route.path !== '/') this.$router.replace('/')
           this.movieSearch(this.searchQuery);
           break;
         case 'actors':
-          this.$router.replace('/')
+          if (this.$route.path !== '/actors') this.$router.replace('/actors')
           this.actorSearch(this.searchQuery);
           break;
         case 'tvs':
-          this.$router.replace('/')
+          if (this.$route.path !== '/tvs') this.$router.replace('/tvs')
           this.tvSearch(this.searchQuery);
           break;
       }
