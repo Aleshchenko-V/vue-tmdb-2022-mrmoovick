@@ -1,9 +1,10 @@
 <template>
   <div class="TodoDetails"
-       v-show="show" @click.self="hide">
+       v-show="this.$store.getters.show" @click.self="hide">
     <div class="TodoDetails__content">
       <slot name="time"></slot>
       <slot></slot>
+      <slot name="edit"></slot>
     </div>
   </div>
 </template>
@@ -11,26 +12,17 @@
 <script>
 export default {
   name: 'TodoDetails',
-  data() {
-    return {
-      show: false
-    }
-  },
   methods: {
     hide() {
-      this.show = false;
+        this.$store.dispatch('showAndHideModal', false);
     },
-    onClose() {
-      this.$emit("close", this);
-    },
-    open() {
-      this.show = true;
-    }
   }
 }
 </script>
 
 <style scoped>
+
+@import '../styles/index.scss';
 
   .TodoDetails {
     display: flex;
@@ -66,6 +58,28 @@ export default {
     margin: auto;
     font-size: 24px;
     font-style: italic;
+  }
+
+  .TodoDetails__buttons {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+  }
+
+  .TodoDetails__buttons input[type='text'] {
+    display: block;
+    height: calc(2.25rem + 2px);
+    padding: 0.275rem 0.5rem;
+    margin-right: 10px;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #bdbdbd;
+    border-radius: 0.25rem;
   }
 
   .isChecked {
