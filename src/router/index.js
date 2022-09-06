@@ -14,6 +14,16 @@ const routes = [
     name: "actor",
     component: () => import("@/views/ActorPageView"),
   },
+  {
+    path: "/film/:id",
+    name: "film",
+    component: () => import("@/views/FilmPageView"),
+  },
+  {
+    path: "/tv/:id",
+    name: "tv",
+    component: () => import("@/views/TVPageView"),
+  },
 ];
 
 const router = new VueRouter({
