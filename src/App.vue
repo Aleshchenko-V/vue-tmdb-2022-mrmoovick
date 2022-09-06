@@ -1,18 +1,19 @@
 <template>
   <div id="app">
-    <back-to-top />
-    <search />
-    <films-list />
+    <page-header />
+    <router-view />
+    <scroll-up :scroll-duration="1000" :scroll-y="250"></scroll-up>
   </div>
 </template>
 
 <script>
-import FilmsList from "@/components/FilmsList";
-import Search from "@/components/Search";
-import BackToTop from "@/components/BackToTop";
+import PageHeader from "@/components/PageHeader";
+import ScrollUp from "vue-scroll-up";
+import "vue-scroll-up/dist/style.css";
+
 export default {
   name: "App",
-  components: { FilmsList, Search, BackToTop },
+  components: { PageHeader, ScrollUp },
 };
 </script>
 
@@ -26,7 +27,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   justify-content: center;
-  align-items: center;
   flex-direction: column;
 }
 </style>
