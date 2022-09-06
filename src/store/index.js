@@ -28,7 +28,7 @@ export default new Vuex.Store({
         actors: [],
       };
       state.searchResults.results
-          ? state.searchResults.results.forEach((el) => {
+        ? state.searchResults.results.forEach((el) => {
             if (el.media_type === "person") {
               obj.actors.push(el);
             } else if (el.media_type === "tv") {
@@ -37,7 +37,7 @@ export default new Vuex.Store({
               obj.movies.push(el);
             }
           })
-          : (obj = 0);
+        : (obj = 0);
       return obj;
     },
   },
@@ -54,7 +54,7 @@ export default new Vuex.Store({
     SET_ACTORS(state, actors) {
       state.actors = { ...actors };
     },
-    SET_MULTI_SEARCH_MOVIES(state, {response, query}) {
+    SET_MULTI_SEARCH_MOVIES(state, { response, query }) {
       state.searchResults = { ...response };
       state.searchQuery = query;
     },
@@ -152,8 +152,8 @@ export default new Vuex.Store({
         commit("SET_IS_LOADING", true);
         if (query) {
           const { data } = await axios.get(
-              `https://api.themoviedb.org/3/search/movie`,
-              options
+            `https://api.themoviedb.org/3/search/movie`,
+            options
           );
           commit("SET_SEARCH_MOVIES", { response: data });
         } else {
@@ -166,13 +166,14 @@ export default new Vuex.Store({
       }
     },
     async getMovieDetails({ commit }, movieId) {
+      console.log(movieId);
       const options = {
         params: { api_key: process.env.VUE_APP_API_KEY, language: "en" },
       };
 
       try {
         const { data } = await axios.get(
-          `https://api.themoviedb.org/3/movie/${movieId}`,
+          `https://api.themoviedb.org/3/movie/${629176}`,
           options
         );
         commit("SET_MOVIE_DETAILS", data);
