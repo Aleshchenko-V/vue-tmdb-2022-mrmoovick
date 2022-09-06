@@ -12,7 +12,10 @@
           @click="getMovies"
         />
       </router-link>
-      <search-movie />
+      <div style="width: 750px">
+        <search-movie />
+        <search-modal />
+      </div>
       <div class="logos d-flex">
         <a href="https://www.themoviedb.org/?language=en" target="_blank"
           ><img src="@/assets/tmdb-logo.svg" alt="tmdb-logo" width="40px;"
@@ -32,9 +35,11 @@
 <script>
 import SearchMovie from "./SearchMovie";
 import { mapActions } from "vuex";
+import SearchModal from "@/components/UI/SearchModal";
 export default {
   name: "PageHeader",
   components: {
+    SearchModal,
     SearchMovie,
   },
   methods: {

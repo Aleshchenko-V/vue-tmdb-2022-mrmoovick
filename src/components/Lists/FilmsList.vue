@@ -45,8 +45,8 @@
 </template>
 
 <script>
-import FilmCard from "@/components/FilmCard";
-import ModalWindow from "@/components/ModalWindow";
+import FilmCard from "@/components/Cards/FilmCard";
+import ModalWindow from "@/components/UI/ModalWindow";
 
 import { mapActions, mapGetters, mapState } from "vuex";
 export default {
@@ -77,7 +77,7 @@ export default {
           ? unFilteredGenres.slice(0, 3).join(", ") + "..."
           : unFilteredGenres.join(", ");
     },
-    ...mapActions(["getMovies", "getMovieDetails", "nextMoviesPage"]),
+    ...mapActions(["getMovies", "getMovieDetails", "getNextMoviesPage"]),
   },
   created() {
     if (!this.searchQuery) {
@@ -98,7 +98,7 @@ export default {
             this.currentPage = 1;
           }
           this.currentPage += 1;
-          await this.nextMoviesPage({
+          await this.getNextMoviesPage({
             page: this.currentPage,
             query: this.searchQuery,
           });

@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import ActorCard from "@/components/ActorCard";
+import ActorCard from "@/components/Cards/ActorCard";
 import { mapActions, mapState } from "vuex";
 
 export default {

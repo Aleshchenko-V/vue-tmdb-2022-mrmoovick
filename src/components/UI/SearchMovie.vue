@@ -5,9 +5,12 @@
         :value="searchQuery"
         type="text"
         class="form-control"
-        @keydown.enter="getFilm"
+        @keyup="throttledSearch"
+        @keyup.enter="getFilm"
         @input="SET_SEARCH_QUERY($event.target.value.trim())"
         :disabled="isLoading"
+        @focus="changeFocus(true)"
+        @blur="changeFocus(false)"
     /></b-col>
     <b-col cols="2"
       ><b-button @click="getFilm" :disabled="isLoading" variant="outline-light"
@@ -19,17 +22,26 @@
 
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
+import debounce from "lodash.debounce";
+
 export default {
   methods: {
-    getFilm() {
-      this.$router.replace({ path: "/" });
-      this.searchQuery ? this.searchMovies(this.searchQuery) : this.getFilms();
+    getMultiSearchResults() {
+      this.multiSearch(this.searchQuery)
     },
-    ...mapActions(["getFilms", "searchMovies"]),
-    ...mapMutations(["SET_SEARCH_QUERY"]),
+    getFilm() {
+      this.$router.replace('/');
+      this.movieSearch(this.searchQuery);
+    },
+    ...mapActions(["getFilms", "multiSearch", "movieSearch"]),
+    ...mapMutations(["SET_SEARCH_QUERY", "changeFocus"]),
   },
   computed: {
     ...mapState(["isLoading", "searchQuery"]),
+    throttledSearch() {
+      let DELAY = 750;
+      return debounce(this.getMultiSearchResults, DELAY);
+    }
   },
 };
 </script>

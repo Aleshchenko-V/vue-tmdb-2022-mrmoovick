@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import FilmsList from "@/components/FilmsList";
+import FilmsList from "@/components/Lists/FilmsList";
 export default {
   name: "MoviesPageView",
   components: {

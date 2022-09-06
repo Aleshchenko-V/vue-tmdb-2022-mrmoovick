@@ -71,7 +71,7 @@
 
 <script>
 import {mapMutations, mapState} from "vuex";
-import ActorList from "@/components/ActorList";
+import ActorList from "@/components/Lists/ActorList";
 
 export default {
   components: { ActorList },

@@ -9,15 +9,36 @@ export default new Vuex.Store({
   state: {
     movies: [],
     actors: [],
+    focused: false,
     searchQuery: "",
     movieDetails: {},
     actorDetails: {},
+    searchResults: [],
     isLoading: false,
   },
   getters: {
     uniqueMovies: (state) => {
       let uniqueMovies = uniqby(state.movies.results, "id");
       return uniqueMovies;
+    },
+    sortedMovies: (state) => {
+      let obj = {
+        movies: [],
+        tvs: [],
+        actors: [],
+      };
+      state.searchResults.results
+          ? state.searchResults.results.forEach((el) => {
+            if (el.media_type === "person") {
+              obj.actors.push(el);
+            } else if (el.media_type === "tv") {
+              obj.tvs.push(el);
+            } else {
+              obj.movies.push(el);
+            }
+          })
+          : (obj = 0);
+      return obj;
     },
   },
   mutations: {
@@ -33,10 +54,14 @@ export default new Vuex.Store({
     SET_ACTORS(state, actors) {
       state.actors = { ...actors };
     },
-    SET_MOVIES(state, movies) {
-      state.movieDetails = {};
-      state.movies = movies.response;
-      state.searchQuery = movies.query;
+    SET_MULTI_SEARCH_MOVIES(state, {response, query}) {
+      state.searchResults = { ...response };
+      state.searchQuery = query;
+    },
+    SET_SEARCH_MOVIES(state, { response }) {
+      state.searchQuery = "";
+      state.searchResults = [];
+      state.movies = { ...response };
     },
     SET_MOVIE_DETAILS(state, movie) {
       state.movieDetails = movie;
@@ -52,6 +77,9 @@ export default new Vuex.Store({
     },
     clearMovieDetails(state) {
       state.movieDetails = {};
+    },
+    changeFocus(state, payload) {
+      state.focused = payload;
     },
     SET_IS_LOADING(state, payload) {
       state.isLoading = payload;
@@ -90,7 +118,7 @@ export default new Vuex.Store({
         alert(e);
       }
     },
-    async searchMovies({ commit }, query) {
+    async multiSearch({ commit }, query) {
       const options = {
         params: {
           api_key: process.env.VUE_APP_API_KEY,
@@ -98,14 +126,36 @@ export default new Vuex.Store({
           language: "en",
         },
       };
-      commit("SET_IS_LOADING", true);
       try {
         if (query) {
           const { data } = await axios.get(
-            `https://api.themoviedb.org/3/search/movie`,
+            `https://api.themoviedb.org/3/search/multi`,
             options
           );
-          commit("SET_MOVIES", { response: data, query });
+          commit("SET_MULTI_SEARCH_MOVIES", { response: data, query });
+        } else {
+          return;
+        }
+      } catch (e) {
+        alert(e);
+      }
+    },
+    async movieSearch({ commit }, query) {
+      const options = {
+        params: {
+          api_key: process.env.VUE_APP_API_KEY,
+          query,
+          language: "en",
+        },
+      };
+      try {
+        commit("SET_IS_LOADING", true);
+        if (query) {
+          const { data } = await axios.get(
+              `https://api.themoviedb.org/3/search/movie`,
+              options
+          );
+          commit("SET_SEARCH_MOVIES", { response: data });
         } else {
           return;
         }
