@@ -1,16 +1,20 @@
 <template>
-  <div id="app">
-    <page-header />
-    <router-view />
+  <div id="app" @click.stop="changeVisible(false)">
+    <page-header/>
+    <router-view/>
   </div>
 </template>
 
 <script>
 import PageHeader from "@/components/UI/PageHeader";
+import {mapMutations} from "vuex";
 
 export default {
   name: "App",
-  components: { PageHeader },
+  components: {PageHeader},
+  methods: {
+    ...mapMutations(["changeVisible"]),
+  }
 };
 </script>
 
