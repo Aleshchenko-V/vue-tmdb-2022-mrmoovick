@@ -1,23 +1,35 @@
 <template>
   <div>
-    <div class="d-flex flex-column justify-content-center align-items-end container" v-if="!loading">
+    <div
+      class="d-flex flex-column justify-content-center align-items-end container mt-3"
+      v-if="!isLoading"
+    >
       <div class="d-flex flex-row">
         <b-list-group horizontal class="flex-sm-wrap">
           <b-list-group-item
-              class="w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card"
-              v-for="movie in uniqueMovies"
-              :key="movie.id"
+            class="w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card"
+            v-for="{
+              title,
+              backdrop_path,
+              overview,
+              original_language,
+              original_title,
+              release_date,
+              vote_average,
+              id,
+            } in uniqueMovies"
+            :key="id"
           >
             <film-card
-                :title="movie.title"
-                :backdropPath="movie.backdrop_path || ''"
-                :overview="movie.overview"
-                :originalLanguage="movie.original_language"
-                :originalTitle="movie.original_title"
-                :releaseDate="movie.release_date || ''"
-                :overallRating="movie.vote_average"
-                :cardId="movie.id"
-                @getCardId="getMovieDetails"
+              :title="title"
+              :backdropPath="backdrop_path || ''"
+              :overview="overview"
+              :originalLanguage="original_language"
+              :originalTitle="original_title"
+              :releaseDate="release_date || ''"
+              :overallRating="vote_average"
+              :cardId="id"
+              @get-card-id="getChosenMovieDetails"
             >
             </film-card>
           </b-list-group-item>
@@ -26,7 +38,7 @@
       </div>
     </div>
     <div class="spinner" v-else>
-      <b-spinner label="Loading..."></b-spinner>
+      <b-spinner />
     </div>
     <div ref="observer"></div>
   </div>
@@ -34,20 +46,17 @@
 
 <script>
 import FilmCard from "@/components/FilmCard";
-import ModalWindow from "@/components/ModalWindow.vue";
+import ModalWindow from "@/components/ModalWindow";
 
-import { mapGetters, mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 export default {
   name: "FilmsList",
   components: { FilmCard, ModalWindow },
-  data() {
-    return {
-      loading: false,
-      totalResults: 0,
-      currentPage: 1,
-      genres: "",
-    };
-  },
+  data: () => ({
+    totalResults: 0,
+    currentPage: 1,
+    genres: "",
+  }),
   methods: {
     compareTotalResults() {
       if (this.movies.total_results > 10000) {
@@ -57,44 +66,51 @@ export default {
       }
     },
     async fetchFilms() {
-      this.loading = true;
-      await this.$store.dispatch("getMovies");
+      await this.getMovies();
       this.compareTotalResults();
-      this.loading = false;
     },
-    async getMovieDetails(card) {
-      await this.$store.dispatch("getMovieDetails", card);
+    async getChosenMovieDetails(card) {
+      await this.getMovieDetails(card);
       const unFilteredGenres = this.movieDetails.genres.map((el) => el.name);
       this.genres =
         unFilteredGenres.length > 3
           ? unFilteredGenres.slice(0, 3).join(", ") + "..."
           : unFilteredGenres.join(", ");
     },
+    ...mapActions(["getMovies", "getMovieDetails", "nextMoviesPage"]),
   },
   created() {
-    this.fetchFilms();
+    if (!this.searchQuery) {
+      this.fetchFilms();
+    }
   },
   mounted() {
     setTimeout(() => {
-      const observer = new IntersectionObserver(async entries => {
-        if (entries[0].intersectionRatio > 0 && this.currentPage !== this.movies.total_pages) {
-          if(this.movies.total_pages === 1) {
+      const observer = new IntersectionObserver(async (entries) => {
+        if (
+          entries[0].intersectionRatio > 0 &&
+          this.currentPage !== this.movies.total_pages
+        ) {
+          if (this.movies.total_pages === 1) {
             return;
           }
           if (this.searchQuery && this.currentPage !== this.movies.page) {
             this.currentPage = 1;
           }
           this.currentPage += 1;
-          await this.$store.dispatch("nextMoviesPage", {page: this.currentPage, query: this.searchQuery});
+          await this.nextMoviesPage({
+            page: this.currentPage,
+            query: this.searchQuery,
+          });
           this.compareTotalResults();
         }
-      }, {})
-      observer.observe(this.$refs.observer)
-    }, 1000)
+      }, {});
+      observer.observe(this.$refs.observer);
+    }, 1000);
   },
   computed: {
     ...mapGetters(["uniqueMovies"]),
-    ...mapState(["movieDetails", "movies", "searchQuery"]),
+    ...mapState(["movieDetails", "movies", "searchQuery", "isLoading"]),
   },
 };
 </script>
@@ -112,5 +128,4 @@ export default {
   justify-content: center;
   align-items: center;
 }
-
 </style>
