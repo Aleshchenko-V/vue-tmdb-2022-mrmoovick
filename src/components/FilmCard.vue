@@ -1,38 +1,49 @@
 <template>
-      <b-card
-          v-b-modal.modal-scrollable
-          :aria-hidden="show ? 'true' : null"
-          :title=title
-          :sub-title="originalTitle + ', ' + (releaseDate !== '' ? releaseDate.slice(0, 4) : 'unknown')"
-          :img-src="backdropPath === ''
-          ? NO_IMG_URL
-          : 'https://image.tmdb.org/t/p/original' + backdropPath"
-          footer-tag="footer"
-          img-alt="Image"
-          img-top
-          tag="article"
-          class="text-muted card-text form-control card-img-top b-card"
-          @click="$emit('get-card-id', cardId), getActors(cardId)"
-      >
-        <b-card-text class="b-card__text">
-          {{ overview }}
-        </b-card-text>
-        <template #footer>
-          <div class="b-card__footer">
-            <b-form-rating readonly :value="overallRating" stars="10"></b-form-rating>
-          </div>
-        </template>
-      </b-card>
+  <b-card
+    v-b-modal.modal-scrollable
+    :aria-hidden="show ? 'true' : null"
+    :title="title"
+    :sub-title="
+      originalTitle +
+      ', ' +
+      (releaseDate !== '' ? releaseDate.slice(0, 4) : 'unknown')
+    "
+    :img-src="
+      backdropPath === ''
+        ? NO_IMG_URL
+        : 'https://image.tmdb.org/t/p/original' + backdropPath
+    "
+    footer-tag="footer"
+    img-alt="Image"
+    img-top
+    tag="article"
+    class="text-muted card-text form-control card-img-top b-card"
+    @click="$emit('get-card-id', cardId), getActors(cardId)"
+  >
+    <b-card-text class="b-card__text">
+      {{ overview }}
+    </b-card-text>
+    <template #footer>
+      <div class="b-card__footer">
+        <b-form-rating
+          readonly
+          :value="overallRating"
+          stars="10"
+        ></b-form-rating>
+      </div>
+    </template>
+  </b-card>
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   name: "FilmCard",
   data: () => ({
-      show: false,
-      NO_IMG_URL: 'https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg',
+    show: false,
+    NO_IMG_URL:
+      "https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg",
   }),
   props: {
     title: {
@@ -69,7 +80,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['getActors'])
+    ...mapActions(["getActors"]),
   },
 };
 </script>

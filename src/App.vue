@@ -1,8 +1,18 @@
 <template>
   <div id="app">
-    <router-view/>
+    <page-header />
+    <router-view />
   </div>
 </template>
+
+<script>
+import PageHeader from "@/components/PageHeader";
+
+export default {
+  name: "App",
+  components: { PageHeader },
+};
+</script>
 
 <style lang="scss">
 #app {
@@ -11,7 +21,6 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   justify-content: center;
-  align-items: center;
   flex-direction: column;
 }
 </style>

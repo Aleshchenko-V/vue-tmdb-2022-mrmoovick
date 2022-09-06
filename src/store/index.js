@@ -9,9 +9,10 @@ export default new Vuex.Store({
   state: {
     movies: [],
     actors: [],
-    searchQuery: '',
+    searchQuery: "",
     movieDetails: {},
     actorDetails: {},
+    isLoading: false,
   },
   getters: {
     uniqueMovies: (state) => {
@@ -24,10 +25,13 @@ export default new Vuex.Store({
       state.actorDetails = {};
       state.movieDetails = {};
       state.movies = { ...movies };
-      state.searchQuery = '';
+      state.searchQuery = "";
+    },
+    SET_SEARCH_QUERY(state, payload) {
+      state.searchQuery = payload;
     },
     SET_ACTORS(state, actors) {
-      state.actors = { ...actors }
+      state.actors = { ...actors };
     },
     SET_MOVIES(state, movies) {
       state.movieDetails = {};
@@ -48,7 +52,10 @@ export default new Vuex.Store({
     },
     clearMovieDetails(state) {
       state.movieDetails = {};
-    }
+    },
+    SET_IS_LOADING(state, payload) {
+      state.isLoading = payload;
+    },
   },
   actions: {
     async getMovies({ commit }) {
@@ -56,13 +63,16 @@ export default new Vuex.Store({
         params: { api_key: process.env.VUE_APP_API_KEY, language: "en" },
       };
       try {
+        commit("SET_IS_LOADING", true);
         const { data } = await axios.get(
-            "https://api.themoviedb.org/3/movie/popular",
-            options
+          "https://api.themoviedb.org/3/movie/popular",
+          options
         );
         commit("GET_MOVIES", data);
       } catch (e) {
         alert(e);
+      } finally {
+        commit("SET_IS_LOADING", false);
       }
     },
     async getActors({ commit }, movieId) {
@@ -71,8 +81,8 @@ export default new Vuex.Store({
       };
       try {
         const { data } = await axios.get(
-            `https://api.themoviedb.org/3/movie/${movieId}/credits`,
-            options
+          `https://api.themoviedb.org/3/movie/${movieId}/credits`,
+          options
         );
         const { cast } = data;
         commit("SET_ACTORS", cast);
@@ -88,24 +98,28 @@ export default new Vuex.Store({
           language: "en",
         },
       };
+      commit("SET_IS_LOADING", true);
       try {
-        if(query) {
+        if (query) {
           const { data } = await axios.get(
-              `https://api.themoviedb.org/3/search/movie`,
-              options
+            `https://api.themoviedb.org/3/search/movie`,
+            options
           );
-          commit("SET_MOVIES", {response: data, query});
+          commit("SET_MOVIES", { response: data, query });
         } else {
           return;
         }
       } catch (e) {
         alert(e);
+      } finally {
+        commit("SET_IS_LOADING", false);
       }
     },
     async getMovieDetails({ commit }, movieId) {
       const options = {
         params: { api_key: process.env.VUE_APP_API_KEY, language: "en" },
       };
+
       try {
         const { data } = await axios.get(
           `https://api.themoviedb.org/3/movie/${movieId}`,
@@ -122,32 +136,50 @@ export default new Vuex.Store({
       };
       try {
         const { data } = await axios.get(
-            `https://api.themoviedb.org/3/person/${actorId}`,
-            options
+          `https://api.themoviedb.org/3/person/${actorId}`,
+          options
         );
         commit("SET_ACTOR_DETAILS", data);
       } catch (e) {
         alert(e);
       }
     },
-    async nextMoviesPage({commit}, {page, query}) {
+    async getNextMoviesPage({ commit }, { page, query }) {
       const options = {
-        params: {api_key: process.env.VUE_APP_API_KEY, query, language: "en", page}
-      }
+        params: {
+          api_key: process.env.VUE_APP_API_KEY,
+          query,
+          language: "en",
+          page,
+        },
+      };
       if (query) {
         try {
-          const { data } = await axios.get("https://api.themoviedb.org/3/search/movie", options)
-          commit("NEXT_MOVIES_PAGE", data)
+          const { data } = await axios.get(
+            "https://api.themoviedb.org/3/search/movie",
+            options
+          );
+          commit("NEXT_MOVIES_PAGE", data);
         } catch (e) {
           alert(e);
         }
       } else {
         try {
-          const { data } = await axios.get("https://api.themoviedb.org/3/movie/popular", options)
-          commit("NEXT_MOVIES_PAGE", data)
+          const { data } = await axios.get(
+            "https://api.themoviedb.org/3/movie/popular",
+            options
+          );
+          commit("NEXT_MOVIES_PAGE", data);
         } catch (e) {
           alert(e);
         }
+      }
+    },
+    getFilms({ state, dispatch }) {
+      if (state.searchQuery) {
+        dispatch("searchMovies", state.searchQuery);
+      } else {
+        dispatch("getMovies");
       }
     },
   },
