@@ -50,12 +50,12 @@
         </div>
       </div>
     </div>
-    <div class="movie-details__actor-cast"></div>
   </div>
 </template>
 
 <script>
 import {mapState, mapActions} from "vuex";
+
 
 export default {
   name: "MoviesPageView",
@@ -77,7 +77,7 @@ export default {
     ...mapActions(["getMovieDetails"]),
   },
   computed: {
-    ...mapState(["movieDetails"]),
+    ...mapState(["movieDetails", "actors"]),
   },
 };
 </script>

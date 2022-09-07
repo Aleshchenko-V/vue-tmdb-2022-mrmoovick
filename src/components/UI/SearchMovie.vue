@@ -44,7 +44,7 @@ export default {
   },
   computed: {
     ...mapState(["isLoading", "searchQuery", "isShown"]),
-    ...mapGetters(["sortedMovies"]),
+    ...mapGetters(["sortedTypes"]),
     throttledSearch() {
       let DELAY = 750;
       return debounce(this.getMultiSearchResults, DELAY);

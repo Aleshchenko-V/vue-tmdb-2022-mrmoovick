@@ -1,39 +1,39 @@
 <template>
   <div>
     <div
-        class="d-flex flex-column justify-content-center align-items-center container mt-3"
-        v-if="!isLoading">
-      <div class="d-flex flex-row" v-if="uniqueMovies.length !== 0">
+        class="d-flex flex-column justify-content-center align-items-end container mt-3"
+        v-if="!isLoading"
+    >
+      <div class="d-flex flex-row">
         <b-list-group horizontal class="flex-sm-wrap">
           <b-list-group-item
               class="w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card"
               v-for="{
-              title,
+              name,
               backdrop_path,
               overview,
-              original_title,
-              release_date,
+              original_name,
+              first_air_date,
               vote_average,
               id,
-            } in uniqueMovies"
+            } in uniqueTvs"
               :key="id"
           >
-            <film-card
-                :title="title"
+            <tv-card
+                :name="name"
                 :backdropPath="backdrop_path || ''"
                 :overview="overview"
-                :originalTitle="original_title"
-                :releaseDate="release_date || ''"
+                :originalName="original_name"
+                :firstAirDate="first_air_date || ''"
                 :overallRating="vote_average"
-                :cardId="id"
-                @get-movie-card-id="getChosenMovieDetails"
+                :tvId="id"
+                @get-tv-card-id="getChosenTvDetails"
             >
-            </film-card>
+            </tv-card>
           </b-list-group-item>
         </b-list-group>
         <modal-window :genres="genres"/>
       </div>
-      <div v-else style="color: #fff">Unfortunately, your search returned no results...</div>
     </div>
     <div class="spinner" v-else>
       <b-spinner/>
@@ -43,14 +43,14 @@
 </template>
 
 <script>
-import FilmCard from "@/components/Cards/FilmCard";
-import ModalWindow from "@/components/UI/MovieModalWindow";
+import ModalWindow from "@/components/UI/TvModalWindow";
 
 import {mapActions, mapGetters, mapState} from "vuex";
+import TvCard from "@/components/Cards/TvCard";
 
 export default {
-  name: "FilmsList",
-  components: {FilmCard, ModalWindow},
+  name: "TvsList",
+  components: {TvCard, ModalWindow},
   data: () => ({
     totalResults: 0,
     currentPage: 1,
@@ -58,46 +58,37 @@ export default {
   }),
   methods: {
     compareTotalResults() {
-      if (this.movies.total_results > 10000) {
+      if (this.tvs.total_results > 10000) {
         this.totalResults = 10000;
       } else {
-        this.totalResults = this.movies.total_results;
+        this.totalResults = this.tvs.total_results;
       }
     },
-    async fetchFilms() {
-      await this.getMovies();
-      this.compareTotalResults();
-    },
-    async getChosenMovieDetails(card) {
-      await this.getMovieDetails(card);
-      const unFilteredGenres = this.movieDetails.genres.map((el) => el.name);
+    async getChosenTvDetails(tv) {
+      await this.getTvDetails(tv);
+      const unFilteredGenres = this.tvDetails.genres.map((el) => el.name);
       this.genres =
           unFilteredGenres.length > 3
               ? unFilteredGenres.slice(0, 3).join(", ") + "..."
               : unFilteredGenres.join(", ");
     },
-    ...mapActions(["getMovies", "getMovieDetails", "getNextMoviesPage"]),
-  },
-  created() {
-    if (!this.searchQuery) {
-      this.fetchFilms();
-    }
+    ...mapActions(["getTvDetails", "getNextTvPage"]),
   },
   mounted() {
     setTimeout(() => {
       const observer = new IntersectionObserver(async (entries) => {
         if (
             entries[0].intersectionRatio > 0 &&
-            this.currentPage !== this.movies.total_pages
+            this.currentPage !== this.tvs.total_pages
         ) {
-          if (this.movies.total_pages === 1) {
+          if (this.tvs.total_pages === 1) {
             return;
           }
-          if (this.currentPage !== this.movies.page) {
+          if (this.currentPage !== this.tvs.page) {
             this.currentPage = 1;
           }
           this.currentPage += 1;
-          await this.getNextMoviesPage({
+          await this.getNextTvPage({
             page: this.currentPage,
             query: this.selectedSearchQuery,
           });
@@ -108,8 +99,8 @@ export default {
     }, 1000);
   },
   computed: {
-    ...mapGetters(["uniqueMovies"]),
-    ...mapState(["movieDetails", "movies", "searchQuery", "isLoading", "selectedSearchQuery"]),
+    ...mapGetters(["uniqueTvs"]),
+    ...mapState(["tvDetails", "tvs", "searchQuery", "isLoading", "selectedSearchQuery"]),
   },
 };
 </script>

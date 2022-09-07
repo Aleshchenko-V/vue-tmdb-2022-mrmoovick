@@ -1,37 +1,19 @@
 <template>
   <b-card
-      v-b-modal.modal-scrollable
       :aria-hidden="show ? 'true' : null"
-      :title="title"
-      :sub-title="
-      originalTitle +
-      ', ' +
-      (releaseDate !== '' ? releaseDate.slice(0, 4) : 'unknown')
-    "
+      :title="name"
+      :sub-title="airDate"
       :img-src="
-      backdropPath === ''
+      posterPath === ''
         ? NO_IMG_URL
-        : 'https://image.tmdb.org/t/p/original' + backdropPath
+        : 'https://image.tmdb.org/t/p/original' + posterPath
     "
       footer-tag="footer"
       img-alt="Image"
       img-top
       tag="article"
       class="text-muted card-text form-control card-img-top b-card"
-      @click="$emit('get-movie-card-id', cardId), getMovieActors(cardId)"
   >
-    <b-card-text class="b-card__text">
-      {{ overview }}
-    </b-card-text>
-    <template #footer>
-      <div class="b-card__footer">
-        <b-form-rating
-            readonly
-            :value="overallRating"
-            stars="10"
-        ></b-form-rating>
-      </div>
-    </template>
   </b-card>
 </template>
 
@@ -39,18 +21,18 @@
 import {mapActions} from "vuex";
 
 export default {
-  name: "FilmCard",
+  name: "SeasonCard",
   data: () => ({
     show: false,
     NO_IMG_URL:
         "https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg",
   }),
   props: {
-    title: {
+    name: {
       type: String,
       required: true,
     },
-    backdropPath: {
+    airDate: {
       type: String,
       required: true,
     },
@@ -58,19 +40,11 @@ export default {
       type: String,
       required: true,
     },
-    originalTitle: {
+    posterPath: {
       type: String,
       required: true,
     },
-    releaseDate: {
-      type: String,
-      required: true,
-    },
-    overallRating: {
-      type: Number,
-      required: true,
-    },
-    cardId: {
+    seasonId: {
       type: Number,
       required: true,
     },
@@ -81,18 +55,31 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+
+a {
+  text-decoration: none;
+}
+
 .text-muted {
   color: #fff !important;
+}
+
+.card-body {
+  padding: 0.5rem;
+}
+
+.card-subtitle {
+  font-size: 13px;
+}
+
+.card-title {
+  font-size: 18px;
 }
 
 .card-text {
   font-size: 14px;
   color: #fff;
-}
-
-.form-control {
-  color: orange;
 }
 
 .form-control:focus {
@@ -101,6 +88,10 @@ export default {
 }
 
 .card-img-top {
+  min-width: 138px;
+  width: 138px;
+  height: 145px;
+  display: block;
   border-radius: 10px;
 }
 
@@ -119,18 +110,19 @@ export default {
 }
 
 .b-card {
-  width: 360px;
-  height: 550px;
+  width: 160px;
+  height: 250px;
   border: 0;
   background-color: #1e1b26;
   color: #fff;
   transition: all 0.5s ease;
-}
+  overflow: hidden;
 
-.b-card:hover {
-  -webkit-transform: scale(1.05);
-  -ms-transform: scale(1.05);
-  transform: scale(1.05);
-  z-index: 1;
+  &:hover {
+    -webkit-transform: scale(1.05);
+    -ms-transform: scale(1.05);
+    transform: scale(1.05);
+    z-index: 1;
+  }
 }
 </style>

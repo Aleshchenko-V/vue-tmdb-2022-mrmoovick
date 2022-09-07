@@ -2,11 +2,11 @@
   <b-card
       v-b-modal.modal-scrollable
       :aria-hidden="show ? 'true' : null"
-      :title="title"
+      :title="name"
       :sub-title="
-      originalTitle +
+      originalName +
       ', ' +
-      (releaseDate !== '' ? releaseDate.slice(0, 4) : 'unknown')
+      (firstAirDate !== '' ? firstAirDate : 'unknown')
     "
       :img-src="
       backdropPath === ''
@@ -18,7 +18,7 @@
       img-top
       tag="article"
       class="text-muted card-text form-control card-img-top b-card"
-      @click="$emit('get-movie-card-id', cardId), getMovieActors(cardId)"
+      @click="$emit('get-tv-card-id', tvId), getTvActors(tvId)"
   >
     <b-card-text class="b-card__text">
       {{ overview }}
@@ -39,14 +39,14 @@
 import {mapActions} from "vuex";
 
 export default {
-  name: "FilmCard",
+  name: "TvCard",
   data: () => ({
     show: false,
     NO_IMG_URL:
         "https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg",
   }),
   props: {
-    title: {
+    name: {
       type: String,
       required: true,
     },
@@ -58,11 +58,11 @@ export default {
       type: String,
       required: true,
     },
-    originalTitle: {
+    originalName: {
       type: String,
       required: true,
     },
-    releaseDate: {
+    firstAirDate: {
       type: String,
       required: true,
     },
@@ -70,13 +70,13 @@ export default {
       type: Number,
       required: true,
     },
-    cardId: {
+    tvId: {
       type: Number,
       required: true,
     },
   },
   methods: {
-    ...mapActions(["getMovieActors"]),
+    ...mapActions(["getTvActors"]),
   },
 };
 </script>
@@ -134,3 +134,4 @@ export default {
   z-index: 1;
 }
 </style>
+

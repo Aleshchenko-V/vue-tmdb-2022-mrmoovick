@@ -11,11 +11,14 @@ export default new Vuex.Store({
         actors: [],
         tvs: [],
         uniqueMovies: [],
+        uniqueActors: [],
+        uniqueTvs: [],
         searchQuery: "",
         selectedSearchQuery: "",
         movieDetails: {},
         actorDetails: {},
         tvDetails: {},
+        seasonDetails: {},
         searchResults: [],
         isLoading: false,
         isVisible: false,
@@ -26,7 +29,15 @@ export default new Vuex.Store({
             uniqueMovies = uniqby(movies.results, "id");
             return uniqueMovies;
         },
-        sortedMovies: (state) => {
+        uniqueActors: ({uniqueActors, actors}) => {
+            uniqueActors = uniqby(actors.results, "id");
+            return uniqueActors;
+        },
+        uniqueTvs: ({uniqueTvs, tvs}) => {
+            uniqueTvs = uniqby(tvs.results, "id");
+            return uniqueTvs;
+        },
+        sortedTypes: (state) => {
             let obj = {
                 movies: [],
                 tvs: [],
@@ -56,11 +67,19 @@ export default new Vuex.Store({
             state.selectedSearchQuery = "";
             state.movies = movies;
         },
+        SET_ACTORS(state, actors) {
+            if (actors.e) {
+                state.actors = {results: []};
+            } else {
+                state.actors = {results: [...actors]};
+            }
+
+        },
+        SET_TVS(state, tvs) {
+            state.tvs = {...tvs}
+        },
         SET_SEARCH_QUERY(state, payload) {
             state.searchQuery = payload;
-        },
-        SET_ACTORS(state, actors) {
-            state.actors = {results: {...actors.cast}};
         },
         SET_MULTI_SEARCH_MOVIES(state, {response, query}) {
             state.searchResults = [];
@@ -81,6 +100,7 @@ export default new Vuex.Store({
         },
         SET_SEARCH_TVS(state, {response}) {
             state.tvs = {};
+            state.selectedSearchQuery = state.searchQuery;
             state.searchQuery = "";
             state.searchResults = [];
             state.tvs = response;
@@ -103,6 +123,13 @@ export default new Vuex.Store({
             state.movieDetails = {};
             state.tvDetails = tv;
         },
+        SET_SEASON_DETAILS(state, season) {
+            state.actorDetails = {};
+            state.tvDetails = {};
+            state.movieDetails = {};
+            state.seasonDetails = {};
+            state.seasonDetails = season;
+        },
         NEXT_MOVIES_PAGE(state, response) {
             state.movies.results = [...state.movies.results, ...response.results];
             state.movies.page = response.page;
@@ -110,6 +137,10 @@ export default new Vuex.Store({
         NEXT_ACTOR_PAGE(state, response) {
             state.actors.results = [...state.actors.results, ...response.results];
             state.actors.page = response.page;
+        },
+        NEXT_TV_PAGE(state, response) {
+            state.tvs.results = [...state.tvs.results, ...response.results];
+            state.tvs.page = response.page;
         },
         clearMovieDetails(state) {
             state.movieDetails = {};
@@ -142,7 +173,7 @@ export default new Vuex.Store({
                 commit("SET_IS_LOADING", false);
             }
         },
-        async getActors({commit}, movieId) {
+        async getMovieActors({commit}, movieId) {
             const options = {
                 params: {api_key: process.env.VUE_APP_API_KEY, language: "en"},
             };
@@ -151,7 +182,35 @@ export default new Vuex.Store({
                     `https://api.themoviedb.org/3/movie/${movieId}/credits`,
                     options
                 );
-                commit("SET_ACTORS", data);
+                commit("SET_ACTORS", data.cast);
+            } catch (e) {
+                commit("SET_ACTORS", {e: e});
+            }
+        },
+        async getTvActors({commit}, tvId) {
+            const options = {
+                params: {api_key: process.env.VUE_APP_API_KEY, language: "en"},
+            };
+            try {
+                const {data} = await axios.get(
+                    `https://api.themoviedb.org/3/tv/${tvId}/credits`,
+                    options
+                );
+                commit("SET_ACTORS", data.cast);
+            } catch (e) {
+                commit("SET_ACTORS", {e: e});
+            }
+        },
+        async getTvs({commit}, tvId) {
+            const options = {
+                params: {api_key: process.env.VUE_APP_API_KEY, language: "en"},
+            };
+            try {
+                const {data} = await axios.get(
+                    `https://api.themoviedb.org/3/tv/${tvId}`,
+                    options
+                );
+                commit("SET_TVS", data);
             } catch (e) {
                 alert(e);
             }
@@ -300,6 +359,20 @@ export default new Vuex.Store({
                 alert(e);
             }
         },
+        async getSeasonDetails({commit}, {tvId, seasonNumber}) {
+            const options = {
+                params: {api_key: process.env.VUE_APP_API_KEY, language: "en"},
+            };
+            try {
+                const {data} = await axios.get(
+                    `https://api.themoviedb.org/3/tv/${tvId}/season/${seasonNumber}`,
+                    options
+                );
+                commit("SET_SEASON_DETAILS", data);
+            } catch (e) {
+                alert(e);
+            }
+        },
         async getNextMoviesPage({commit}, {page, query}) {
             const options = {
                 params: {
@@ -350,7 +423,25 @@ export default new Vuex.Store({
                 alert(e);
             }
         },
-
+        async getNextTvPage({commit}, {page, query}) {
+            const options = {
+                params: {
+                    api_key: process.env.VUE_APP_API_KEY,
+                    query,
+                    language: "en",
+                    page,
+                },
+            };
+            try {
+                const {data} = await axios.get(
+                    "https://api.themoviedb.org/3/search/tv",
+                    options
+                );
+                commit("NEXT_TV_PAGE", data);
+            } catch (e) {
+                alert(e);
+            }
+        },
         getFilms({state, dispatch}) {
             if (state.searchQuery) {
                 dispatch("movieSearch", state.searchQuery);

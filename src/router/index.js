@@ -10,6 +10,16 @@ const routes = [
         component: () => import("@/views/MoviesPageView"),
     },
     {
+        path: "/tvs",
+        name: "tvs",
+        component: () => import("@/views/TvsPageView"),
+    },
+    {
+        path: "/actors",
+        name: "actors",
+        component: () => import("@/views/ActorsPageView"),
+    },
+    {
         path: "/actor/:id",
         name: "actor",
         component: () => import("@/views/ActorPageView"),
@@ -25,9 +35,9 @@ const routes = [
         component: () => import("@/views/TVPageView"),
     },
     {
-        path: "/actors",
-        name: "actors",
-        component: () => import("@/views/ActorsPageView"),
+        path: "/tv/:id/season/:season_number",
+        name: "tv",
+        component: () => import("@/views/SeasonPageView"),
     },
 ];
 

@@ -4,7 +4,7 @@
       <div class="d-flex flex-row">
         <b-list-group horizontal class="flex-sm-wrap">
           <b-list-group-item
-              class="w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card"
+              class="w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card slide"
               v-for="{
               id,
               name,
@@ -12,7 +12,7 @@
               popularity,
               profile_path,
               character,
-            } in actors.results"
+            } in uniqueActors"
               :key="id"
           >
             <actor-card
@@ -36,7 +36,7 @@
 
 <script>
 import ActorCard from "@/components/Cards/ActorCard";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
   name: "ActorsList",
@@ -57,6 +57,7 @@ export default {
   },
   computed: {
     ...mapState(["actors", "searchQuery"]),
+    ...mapGetters(["uniqueActors"]),
   },
   props: {
     big: {
@@ -82,7 +83,6 @@ export default {
           await this.getNextActorPage({
             page: this.currentPage,
             query: this.searchQuery,
-            type: 'actor',
           });
           this.compareTotalResults();
         }

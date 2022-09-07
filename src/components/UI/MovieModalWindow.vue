@@ -74,6 +74,7 @@ import {mapMutations, mapState} from "vuex";
 import ActorList from "@/components/Lists/ActorsList";
 
 export default {
+  name: 'MovieModalWindow',
   components: {ActorList},
   data: () => ({
     NO_IMG_URL: 'https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg'
@@ -107,7 +108,7 @@ export default {
   display: flex;
   align-items: flex-start;
   flex-wrap: wrap;
-  justify-content: start;
+  justify-content: flex-start;
   padding-left: 15px;
   margin-top: 15px;
   width: 100%;
