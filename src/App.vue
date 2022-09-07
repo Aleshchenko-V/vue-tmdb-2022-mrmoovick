@@ -5,7 +5,6 @@
     <scroll-up :scroll-duration="1000" :scroll-y="250"></scroll-up>
   </div>
 </template>
-
 <script>
 import PageHeader from "@/components/PageHeader";
 import ScrollUp from "vue-scroll-up";
