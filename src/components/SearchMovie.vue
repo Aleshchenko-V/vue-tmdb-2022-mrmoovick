@@ -1,7 +1,7 @@
 <template>
   <b-container class="d-flex justify-content-center">
     <b-col cols="9"
-      ><input
+    ><input
         :value="searchQuery"
         type="text"
         class="form-control"
@@ -10,19 +10,23 @@
         :disabled="isLoading"
     /></b-col>
     <b-col cols="2"
-      ><b-button @click="getFilm" :disabled="isLoading" variant="outline-light"
-        >Search</b-button
-      ></b-col
+    >
+      <b-button @click="getFilm" :disabled="isLoading" variant="outline-light"
+      >Search
+      </b-button
+      >
+    </b-col
     >
   </b-container>
 </template>
 
 <script>
-import { mapActions, mapMutations, mapState } from "vuex";
+import {mapActions, mapMutations, mapState} from "vuex";
+
 export default {
   methods: {
     getFilm() {
-      this.$router.replace({ path: "/" });
+      if (this.$route.path !== "/") this.$router.replace({path: "/"});
       this.searchQuery ? this.searchMovies(this.searchQuery) : this.getFilms();
     },
     ...mapActions(["getFilms", "searchMovies"]),
@@ -39,6 +43,7 @@ export default {
   box-shadow: none;
   border: none;
 }
+
 .loader {
   height: 888px;
   display: flex;
