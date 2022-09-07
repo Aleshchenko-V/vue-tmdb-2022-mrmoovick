@@ -1,16 +1,20 @@
 <template>
   <b-container class="d-flex justify-content-center">
     <b-col cols="9"
-    ><input
-        :value="searchQuery"
-        type="text"
-        class="form-control"
-        @keyup="throttledSearch"
-        @keyup.enter="getFilm"
-        @click.stop="changeVisible(true)"
-        @input="SET_SEARCH_QUERY($event.target.value.trim())"
-        :disabled="isLoading"
-    /></b-col>
+    >
+      <b-overlay :show="isShown" rounded="sm" style="width: 500px">
+        <input
+            :value="searchQuery"
+            type="text"
+            class="form-control"
+            @keyup="throttledSearch"
+            @keyup.enter="getFilm"
+            @click.stop="changeVisible(true)"
+            @input="SET_SEARCH_QUERY($event.target.value.trim())"
+            :disabled="isLoading"
+        />
+      </b-overlay>
+    </b-col>
     <b-col cols="2"
     >
       <b-button @click="getFilm" :disabled="isLoading" variant="outline-light"
@@ -23,22 +27,24 @@
 </template>
 
 <script>
-import {mapActions, mapMutations, mapState} from "vuex";
+import {mapActions, mapGetters, mapMutations, mapState} from "vuex";
 import debounce from "lodash.debounce";
 
 export default {
   methods: {
     getMultiSearchResults() {
-      this.multiSearch(this.searchQuery)
+      this.multiSearch(this.searchQuery);
     },
     getFilm() {
+      if (this.$route.path !== '/') this.$router.replace('/')
       this.movieSearch(this.searchQuery);
     },
     ...mapActions(["getFilms", "multiSearch", "movieSearch"]),
     ...mapMutations(["SET_SEARCH_QUERY", "changeVisible"]),
   },
   computed: {
-    ...mapState(["isLoading", "searchQuery"]),
+    ...mapState(["isLoading", "searchQuery", "isShown"]),
+    ...mapGetters(["sortedMovies"]),
     throttledSearch() {
       let DELAY = 750;
       return debounce(this.getMultiSearchResults, DELAY);

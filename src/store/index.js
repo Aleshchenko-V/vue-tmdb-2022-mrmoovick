@@ -10,17 +10,20 @@ export default new Vuex.Store({
         movies: [],
         actors: [],
         tvs: [],
-        isVisible: false,
+        uniqueMovies: [],
         searchQuery: "",
+        selectedSearchQuery: "",
         movieDetails: {},
         actorDetails: {},
         tvDetails: {},
         searchResults: [],
         isLoading: false,
+        isVisible: false,
+        isShown: false,
     },
     getters: {
-        uniqueMovies: (state) => {
-            let uniqueMovies = uniqby(state.movies.results, "id");
+        uniqueMovies: ({uniqueMovies, movies}) => {
+            uniqueMovies = uniqby(movies.results, "id");
             return uniqueMovies;
         },
         sortedMovies: (state) => {
@@ -45,10 +48,13 @@ export default new Vuex.Store({
     },
     mutations: {
         GET_MOVIES(state, movies) {
+            state.movies = {};
             state.actorDetails = {};
             state.movieDetails = {};
-            state.movies = {...movies};
+            state.movies = [];
             state.searchQuery = "";
+            state.selectedSearchQuery = "";
+            state.movies = movies;
         },
         SET_SEARCH_QUERY(state, payload) {
             state.searchQuery = payload;
@@ -57,25 +63,27 @@ export default new Vuex.Store({
             state.actors = {results: {...actors.cast}};
         },
         SET_MULTI_SEARCH_MOVIES(state, {response, query}) {
+            state.searchResults = [];
             state.searchResults = {...response};
             state.searchQuery = query;
         },
         SET_SEARCH_MOVIES(state, {response}) {
-            state.movies = {};
-            state.searchQuery = "";
+            state.movies = [];
             state.searchResults = [];
-            state.movies = {...response};
+            state.selectedSearchQuery = state.searchQuery;
+            state.searchQuery = "";
+            state.movies = response;
         },
         SET_SEARCH_ACTORS(state, {response}) {
             state.actors = {};
             state.searchResults = [];
-            state.actors = {...response};
+            state.actors = response;
         },
         SET_SEARCH_TVS(state, {response}) {
             state.tvs = {};
             state.searchQuery = "";
             state.searchResults = [];
-            state.tvs = {...response};
+            state.tvs = response;
         },
         SET_MOVIE_DETAILS(state, movie) {
             state.actorDetails = {};
@@ -112,6 +120,9 @@ export default new Vuex.Store({
         SET_IS_LOADING(state, payload) {
             state.isLoading = payload;
         },
+        SET_SHOW(state, payload) {
+            state.isShown = payload;
+        }
     },
     actions: {
         async getMovies({commit}) {
@@ -155,16 +166,20 @@ export default new Vuex.Store({
             };
             try {
                 if (query) {
+                    commit("SET_SHOW", true);
                     const {data} = await axios.get(
                         `https://api.themoviedb.org/3/search/multi`,
                         options
                     );
                     commit("SET_MULTI_SEARCH_MOVIES", {response: data, query});
                 } else {
+                    commit("SET_SHOW", true);
                     return;
                 }
             } catch (e) {
                 alert(e);
+            } finally {
+                commit("SET_SHOW", false);
             }
         },
         async movieSearch({commit}, query) {

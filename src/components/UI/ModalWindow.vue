@@ -44,13 +44,13 @@
               <div class="details-item">
                 <div class="details-subtitle">Budget:</div>
                 <div class="details-subitem">
-                  {{ movieDetails.budget || "Невідомо" }}
+                  {{ movieDetails.budget || "unknown" }}
                 </div>
               </div>
               <div class="details-item mb-3">
                 <div class="details-subtitle">Revenue:</div>
                 <div class="details-subitem">
-                  {{ movieDetails.revenue || "Невідомо" }}
+                  {{ movieDetails.revenue || "unknown" }}
                 </div>
               </div>
             </div>
@@ -75,10 +75,9 @@ import ActorList from "@/components/Lists/ActorsList";
 
 export default {
   components: {ActorList},
-  data() {
-    this.NO_IMG_URL = 'https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg'
-    return {}
-  },
+  data: () => ({
+    NO_IMG_URL: 'https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg'
+  }),
   props: {
     genres: {
       type: String,
@@ -86,9 +85,6 @@ export default {
     },
   },
   methods: {
-    getGenres(movie) {
-      return movie.map((el) => el.name).join(", ");
-    },
     ...mapMutations(["clearMovieDetails"]),
   },
   computed: {
@@ -108,14 +104,20 @@ export default {
 }
 
 .details-info {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  justify-content: start;
   padding-left: 15px;
-  width: 350px;
+  margin-top: 15px;
+  width: 100%;
 }
 
 .details-item {
-  margin: auto;
   display: flex;
   justify-content: space-between;
+  width: 360px;
+  margin: 0 10px;
 }
 
 .details-subitem {
@@ -134,6 +136,7 @@ export default {
 
 .description {
   padding-left: 15px;
+  margin-top: 25px;
 }
 
 .movie-details__actor-cast {

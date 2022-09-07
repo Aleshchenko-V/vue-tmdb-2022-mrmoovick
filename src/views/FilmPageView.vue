@@ -3,29 +3,23 @@
     <div class="d-flex flex-row">
       <div class="d-flex justify-content-center">
         <img
-          width="300"
-          height="450"
-          class="movie-details__poster"
-          :src="
+            width="300"
+            height="450"
+            class="movie-details__poster"
+            :src="
             !movieDetails.poster_path
               ? NO_IMG_URL
               : 'https://image.tmdb.org/t/p/w500' + movieDetails.poster_path
           "
-          alt="poster"
+            alt="poster"
         />
       </div>
       <div class="wrapper-details">
+        <h1>{{ movieDetails.title }}</h1>
         <div class="details-info">
-          <h1>{{ movieDetails.title }}</h1>
-
-          <div class="details-item">
-            <div class="details-subtitle">
-              {{ movieDetails.original_title }}
-            </div>
-          </div>
           <div class="details-item">
             <div class="details-subtitle">Genres:</div>
-            <div class="details-subitem">{{ genres }}</div>
+            <div class="details-subitem">{{ movieDetails.genres ? getGenres() : '' }}</div>
           </div>
           <div class="details-item">
             <div class="details-subtitle">Release Date:</div>
@@ -40,13 +34,13 @@
           <div class="details-item">
             <div class="details-subtitle">Budget:</div>
             <div class="details-subitem">
-              {{ movieDetails.budget || "Невідомо" }}
+              {{ movieDetails.budget || "unknown" }}
             </div>
           </div>
           <div class="details-item mb-3">
             <div class="details-subtitle">Revenue:</div>
             <div class="details-subitem">
-              {{ movieDetails.revenue || "Невідомо" }}
+              {{ movieDetails.revenue || "unknown" }}
             </div>
           </div>
         </div>
@@ -61,14 +55,25 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import {mapState, mapActions} from "vuex";
+
 export default {
   name: "MoviesPageView",
+  data: () => ({
+    NO_IMG_URL:
+        "https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg",
+  }),
 
   mounted() {
     this.getMovieDetails(this.$route.params.id);
   },
   methods: {
+    getGenres() {
+      const unFilteredGenres = this.movieDetails.genres.map((el) => el.name);
+      return unFilteredGenres.length > 3
+          ? unFilteredGenres.slice(0, 3).join(", ") + "..."
+          : unFilteredGenres.join(", ");
+    },
     ...mapActions(["getMovieDetails"]),
   },
   computed: {

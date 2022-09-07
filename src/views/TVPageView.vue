@@ -15,14 +15,8 @@
         />
       </div>
       <div class="wrapper-details">
+        <h1>{{ tvDetails.name }}</h1>
         <div class="details-info">
-          <h1>{{ tvDetails.name }}</h1>
-
-          <div class="details-item">
-            <div class="details-subtitle">
-              {{ tvDetails.original_name }}
-            </div>
-          </div>
           <div class="details-item">
             <div class="details-subtitle">Genres:</div>
             <div class="details-subitem">{{ tvDetails.genres ? getGenresNames(tvDetails.genres) : '' }}</div>
@@ -48,13 +42,13 @@
           <div class="details-item">
             <div class="details-subtitle">Status:</div>
             <div class="details-subitem">
-              {{ tvDetails.status || "Невідомо" }}
+              {{ tvDetails.status || "unknown" }}
             </div>
           </div>
           <div class="details-item mb-3">
             <div class="details-subtitle">Last air date:</div>
             <div class="details-subitem">
-              {{ tvDetails.last_air_date || "Невідомо" }}
+              {{ tvDetails.last_air_date || "unknown" }}
             </div>
           </div>
         </div>
@@ -73,7 +67,10 @@ import {mapState, mapActions} from "vuex";
 
 export default {
   name: "MoviesPageView",
-
+  data: () => ({
+    NO_IMG_URL:
+        "https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg",
+  }),
   mounted() {
     this.getTvDetails(this.$route.params.id);
   },
