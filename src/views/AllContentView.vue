@@ -1,17 +1,11 @@
 <template>
-  <div>
-    <div v-show="sortedTypes && searchQuery && isVisible" id="window">
-      <div
-        v-show="
-          sortedTypes
-            ? sortedTypes
-              ? sortedTypes.movies.length !== 0
-              : false
-            : false
-        "
-      >
+  <div class="container-lg">
+    <div v-if="searchResults.results.length !== 0">
+      <h2 style="color: #fff">You are most likely looking for:</h2>
+      <div v-show="sortedTypes ? sortedTypes.movies.length !== 0 : false">
         <h2 class="mb-2">Movies</h2>
         <div
+          class="d-flex justify-content-center"
           v-for="{
             id,
             original_title,
@@ -23,6 +17,7 @@
           :key="id"
         >
           <search-movie-card
+            :searchCard="true"
             :original-title="original_title"
             :rating="vote_average"
             :movieImage="backdrop_path || ''"
@@ -42,6 +37,7 @@
       <div v-show="sortedTypes ? sortedTypes.tvs.length !== 0 : false">
         <h2 class="mt-2">Tvs</h2>
         <div
+          class="d-flex justify-content-center"
           v-for="{
             id,
             name,
@@ -53,6 +49,7 @@
           :key="id"
         >
           <search-tv-card
+            :searchCard="true"
             :name="name"
             :original-name="original_name"
             :release-date="first_air_date ? getYear(first_air_date) : ''"
@@ -72,12 +69,14 @@
       <div v-show="sortedTypes ? sortedTypes.actors.length !== 0 : false">
         <h2 class="mt-2">Actors</h2>
         <div
+          class="d-flex justify-content-center"
           v-for="{ id, name, profile_path } in sortedTypes.actors
             ? decreaseData(sortedTypes.actors)
             : []"
           :key="id"
         >
           <search-actor-card
+            :searchCard="true"
             :actor-id="id"
             :name="name"
             :profile-image="profile_path || ''"
@@ -92,6 +91,9 @@
         </div>
       </div>
     </div>
+    <div v-else style="color: #fff">
+      Unfortunately, your search returned no results...
+    </div>
   </div>
 </template>
 
@@ -103,7 +105,11 @@ import SearchTvCard from "@/components/Cards/SearchTvCard";
 
 export default {
   name: "SearchModal",
-  components: { SearchTvCard, SearchActorCard, SearchMovieCard },
+  components: {
+    SearchTvCard,
+    SearchActorCard,
+    SearchMovieCard,
+  },
   methods: {
     decreaseData(data) {
       let arr = [];
@@ -124,15 +130,15 @@ export default {
     makeOptionalResponseAndRedirect(type) {
       switch (type) {
         case "movies":
-          if (this.$route.path !== "/") this.$router.replace("/");
+          this.$router.replace("/");
           this.movieSearch(this.searchQuery);
           break;
         case "actors":
-          if (this.$route.path !== "/actors") this.$router.replace("/actors");
+          this.$router.replace("/actors");
           this.actorSearch(this.searchQuery);
           break;
         case "tvs":
-          if (this.$route.path !== "/tvs") this.$router.replace("/tvs");
+          this.$router.replace("/tvs");
           this.tvSearch(this.searchQuery);
           break;
       }
@@ -148,37 +154,12 @@ export default {
   },
   computed: {
     ...mapGetters(["sortedTypes"]),
-    ...mapState(["searchQuery", "isVisible"]),
+    ...mapState(["searchQuery", "isVisible", "searchResults"]),
   },
 };
 </script>
 
 <style scoped lang="scss">
-#window {
-  display: flex;
-  flex-direction: column;
-  width: 510px;
-  height: 675px;
-  background: #212529;
-  opacity: 0.95;
-  text-align: center;
-  padding: 15px;
-  border: 3px solid white;
-  border-radius: 10px;
-  color: #0000cc;
-  position: absolute;
-  left: 229px;
-  right: 0;
-  top: 57px;
-  bottom: 0;
-  z-index: 2;
-  overflow-y: auto;
-
-  h2 {
-    color: red;
-  }
-}
-
 .seeMore {
   color: #fff;
 
