@@ -33,7 +33,6 @@
         </b-list-group>
         <modal-window :genres="genres"/>
       </div>
-      <div v-else style="color: #fff">Unfortunately, your search returned no results...</div>
     </div>
     <div class="spinner" v-else>
       <b-spinner/>
