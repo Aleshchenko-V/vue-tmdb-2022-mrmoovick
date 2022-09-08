@@ -36,7 +36,7 @@ const routes = [
     },
     {
         path: "/tv/:id/season/:season_number",
-        name: "tv",
+        name: "season",
         component: () => import("@/views/SeasonPageView"),
     },
 ];
