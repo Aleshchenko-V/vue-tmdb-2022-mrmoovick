@@ -4,8 +4,8 @@
       <div class="d-flex flex-row">
         <b-list-group horizontal class="flex-sm-wrap">
           <b-list-group-item
-            class="w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card"
-            v-for="{
+              class="w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card"
+              v-for="{
               id,
               name,
               known_for_department,
@@ -13,16 +13,16 @@
               profile_path,
               character,
             } in actors"
-            :key="id"
+              :key="id"
           >
             <actor-card
-              :name="name"
-              :knownForDepartment="known_for_department || ''"
-              :popularity="popularity"
-              :profilePath="profile_path || ''"
-              :character="character"
-              :actorId="id"
-              @get-actor-id="getActorDetails($event)"
+                :name="name"
+                :knownForDepartment="known_for_department || ''"
+                :popularity="popularity"
+                :profilePath="profile_path || ''"
+                :character="character"
+                :actorId="id"
+                @get-actor-id="getActorDetails($event), getActorKnownFor(name), closeModal()"
             >
             </actor-card>
           </b-list-group-item>
@@ -34,13 +34,16 @@
 
 <script>
 import ActorCard from "@/components/ActorCard";
-import { mapActions, mapState } from "vuex";
+import {mapActions, mapState} from "vuex";
 
 export default {
   name: "ActorList",
-  components: { ActorCard },
+  components: {ActorCard},
   methods: {
-    ...mapActions(["getActorDetails"]),
+    ...mapActions(["getActorDetails", "getActorKnownFor"]),
+    closeModal() {
+      this.$parent.$parent.$parent.$refs['my-modal'].hide()
+    }
   },
   computed: {
     ...mapState(["actors"]),
@@ -52,9 +55,11 @@ export default {
 .card {
   border-radius: 20px;
 }
+
 .container {
   max-width: 1160px;
 }
+
 .spinner {
   height: 888px;
   display: flex;
