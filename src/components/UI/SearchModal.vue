@@ -1,7 +1,15 @@
 <template>
   <div>
     <div v-show="sortedTypes && searchQuery && isVisible" id="window">
-      <div v-show="sortedTypes ? sortedTypes.movies.length !== 0 : false">
+      <div
+        v-show="
+          sortedTypes
+            ? sortedTypes
+              ? sortedTypes.movies.length !== 0
+              : false
+            : false
+        "
+      >
         <h2 class="mb-2">Movies</h2>
         <div
           v-for="{
