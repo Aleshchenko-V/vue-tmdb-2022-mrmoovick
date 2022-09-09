@@ -3,15 +3,15 @@
     <div class="d-flex flex-row">
       <div class="d-flex justify-content-center">
         <img
-            width="300"
-            height="450"
-            class="movie-details__poster"
-            :src="
+          width="300"
+          height="450"
+          class="movie-details__poster"
+          :src="
             !tvDetails.poster_path
               ? NO_IMG_URL
               : 'https://image.tmdb.org/t/p/w500' + tvDetails.poster_path
           "
-            alt="poster"
+          alt="poster"
         />
       </div>
       <div class="wrapper-details">
@@ -19,7 +19,9 @@
         <div class="details-info">
           <div class="details-item">
             <div class="details-subtitle">Genres:</div>
-            <div class="details-subitem">{{ tvDetails.genres ? getGenresNames(tvDetails.genres) : '' }}</div>
+            <div class="details-subitem">
+              {{ tvDetails.genres ? getGenresNames(tvDetails.genres) : "" }}
+            </div>
           </div>
           <div class="details-item">
             <div class="details-subtitle">Number of episodes:</div>
@@ -56,6 +58,10 @@
           <h3>Overview:</h3>
           <p>{{ tvDetails.overview }}</p>
         </div>
+        <div class="description">
+          <h3>Seasons:</h3>
+          <seasons-list />
+        </div>
       </div>
     </div>
     <div class="movie-details__actor-cast"></div>
@@ -63,13 +69,15 @@
 </template>
 
 <script>
-import {mapState, mapActions} from "vuex";
+import { mapState, mapActions } from "vuex";
+import SeasonsList from "../components/Lists/SeasonsList.vue";
 
 export default {
+  components: { SeasonsList },
   name: "MoviesPageView",
   data: () => ({
     NO_IMG_URL:
-        "https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg",
+      "https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg",
   }),
   mounted() {
     this.getTvDetails(this.$route.params.id);
