@@ -1,25 +1,29 @@
 <template>
   <div id="app" @click.stop="changeVisible(false)">
-    <page-header/>
-    <router-view/>
+    <page-header />
+    <router-view />
+    <scroll-up :scroll-duration="1000" :scroll-y="250"></scroll-up>
   </div>
 </template>
-
 <script>
 import PageHeader from "@/components/UI/PageHeader";
-import {mapMutations} from "vuex";
+import ScrollUp from "vue-scroll-up";
+import "vue-scroll-up/dist/style.css";
+import { mapMutations } from "vuex";
 
 export default {
   name: "App",
-  components: {PageHeader},
+  components: { PageHeader, ScrollUp },
   methods: {
     ...mapMutations(["changeVisible"]),
-  }
+  },
 };
 </script>
 
 <style lang="scss">
 #app {
+  display: flex;
+  position: relative;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
