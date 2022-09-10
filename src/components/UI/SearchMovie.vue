@@ -40,7 +40,7 @@ export default {
       }
     },
     getFilm() {
-      if (this.searchQuery && this.searchQuery !== this.selectedSearchQuery) {
+      if (this.searchQuery) {
         this.multiSearch(this.searchQuery);
         if (this.$route.path !== "/results") {
           this.$router.replace("/results");
