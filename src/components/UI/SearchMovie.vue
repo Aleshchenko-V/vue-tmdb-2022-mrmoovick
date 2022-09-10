@@ -3,28 +3,32 @@
     <b-col cols="9">
       <b-overlay :show="isShown" rounded="sm" style="width: 500px">
         <input
-            :value="searchQuery"
-            type="text"
-            class="form-control"
-            @keyup="throttledSearch"
-            @keyup.enter="getFilm(), clearFilters()"
-            @keyup.escape="clearSelectedQuery()"
-            @click.stop="changeVisible(true)"
-            @input="SET_SEARCH_QUERY($event.target.value.trim())"
-            :disabled="isLoading"
+          :value="searchQuery"
+          type="text"
+          class="form-control"
+          @keyup="throttledSearch"
+          @keyup.enter="getFilm(), clearFilters()"
+          @keyup.escape="clearSelectedQuery()"
+          @click.stop="changeVisible(true)"
+          @input="SET_SEARCH_QUERY($event.target.value.trim())"
+          :disabled="isLoading"
+          placeholder="Type some query"
         />
       </b-overlay>
     </b-col>
     <b-col cols="2">
-      <b-button @click="getFilm(), clearFilters()" :disabled="isLoading" variant="outline-light"
-      >Search
+      <b-button
+        @click="getFilm(), clearFilters()"
+        :disabled="isLoading"
+        variant="outline-light"
+        >Search
       </b-button>
     </b-col>
   </b-container>
 </template>
 
 <script>
-import {mapActions, mapGetters, mapMutations, mapState} from "vuex";
+import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
 import debounce from "lodash.debounce";
 
 export default {
@@ -36,7 +40,7 @@ export default {
       if (this.searchQuery !== this.selectedSearchQuery) {
         this.multiSearch(this.searchQuery);
       } else {
-        return
+        return;
       }
     },
     getFilm() {
@@ -51,7 +55,12 @@ export default {
       this.clearSelectedQuery();
     },
     ...mapActions(["multiSearch"]),
-    ...mapMutations(["SET_SEARCH_QUERY", "changeVisible", "clearFilters", "clearSelectedQuery"]),
+    ...mapMutations([
+      "SET_SEARCH_QUERY",
+      "changeVisible",
+      "clearFilters",
+      "clearSelectedQuery",
+    ]),
   },
   computed: {
     ...mapState(["isLoading", "searchQuery", "isShown", "selectedSearchQuery"]),
