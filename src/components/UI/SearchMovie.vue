@@ -7,7 +7,7 @@
             type="text"
             class="form-control"
             @keyup="throttledSearch"
-            @keyup.enter="getFilm(), clearFilters()"
+            @keyup.enter="getFilm(), clearFilters(), changeVisible(false)"
             @keyup.escape="clearSelectedQuery()"
             @click.stop="changeVisible(true)"
             @input="SET_SEARCH_QUERY($event.target.value.trim())"
@@ -16,7 +16,7 @@
       </b-overlay>
     </b-col>
     <b-col cols="2">
-      <b-button @click="getFilm(), clearFilters()" :disabled="isLoading" variant="outline-light"
+      <b-button @click="getFilm(), clearFilters(), changeVisible(false)" :disabled="isLoading" variant="outline-light"
       >Search
       </b-button>
     </b-col>
@@ -30,9 +30,6 @@ import debounce from "lodash.debounce";
 export default {
   methods: {
     getMultiSearchResults() {
-      if (!this.searchQuery) {
-        this.clearSelectedQuery();
-      }
       if (this.searchQuery !== this.selectedSearchQuery) {
         this.multiSearch(this.searchQuery);
       } else {

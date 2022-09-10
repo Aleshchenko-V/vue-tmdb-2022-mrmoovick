@@ -5,8 +5,8 @@
       <div v-show="sortedTypes ? sortedTypes.movies.length !== 0 : false">
         <h2 class="mb-2">Movies</h2>
         <div
-          class="d-flex justify-content-center"
-          v-for="{
+            class="d-flex justify-content-center"
+            v-for="{
             id,
             original_title,
             vote_average,
@@ -14,22 +14,22 @@
             title,
             release_date,
           } in sortedTypes.movies ? decreaseData(sortedTypes.movies) : []"
-          :key="id"
+            :key="id"
         >
           <search-movie-card
-            :searchCard="true"
-            :original-title="original_title"
-            :rating="vote_average"
-            :movieImage="backdrop_path || ''"
-            :title="title"
-            :release-date="release_date ? getYear(release_date) : ''"
-            :movie-id="id"
-            @get-movie-id="getMovieDetails($event)"
+              :searchCard="true"
+              :original-title="original_title"
+              :rating="vote_average"
+              :movieImage="backdrop_path || ''"
+              :title="title"
+              :release-date="release_date ? getYear(release_date) : ''"
+              :movie-id="id"
+              @get-movie-id="getMovieDetails($event)"
           />
         </div>
         <div
-          class="d-flex justify-content-end mt-2 seeMore"
-          @click="makeOptionalResponseAndRedirect('movies')"
+            class="d-flex justify-content-end mt-2 seeMore"
+            @click="makeOptionalResponseAndRedirect('movies')"
         >
           see more...
         </div>
@@ -37,8 +37,8 @@
       <div v-show="sortedTypes ? sortedTypes.tvs.length !== 0 : false">
         <h2 class="mt-2">Tvs</h2>
         <div
-          class="d-flex justify-content-center"
-          v-for="{
+            class="d-flex justify-content-center"
+            v-for="{
             id,
             name,
             original_name,
@@ -46,22 +46,22 @@
             vote_average,
             poster_path,
           } in sortedTypes.tvs ? decreaseData(sortedTypes.tvs) : []"
-          :key="id"
+            :key="id"
         >
           <search-tv-card
-            :searchCard="true"
-            :name="name"
-            :original-name="original_name"
-            :release-date="first_air_date ? getYear(first_air_date) : ''"
-            :rating="vote_average"
-            :movieImage="poster_path || ''"
-            :tv-id="id"
-            @get-tv-id="getTvDetails($event)"
+              :searchCard="true"
+              :name="name"
+              :original-name="original_name"
+              :release-date="first_air_date ? getYear(first_air_date) : ''"
+              :rating="vote_average"
+              :movieImage="poster_path || ''"
+              :tv-id="id"
+              @get-tv-id="getTvDetails($event)"
           />
         </div>
         <div
-          class="d-flex justify-content-end mt-2 seeMore"
-          @click="makeOptionalResponseAndRedirect('tvs')"
+            class="d-flex justify-content-end mt-2 seeMore"
+            @click="makeOptionalResponseAndRedirect('tvs')"
         >
           see more...
         </div>
@@ -69,23 +69,23 @@
       <div v-show="sortedTypes ? sortedTypes.actors.length !== 0 : false">
         <h2 class="mt-2">Actors</h2>
         <div
-          class="d-flex justify-content-center"
-          v-for="{ id, name, profile_path } in sortedTypes.actors
+            class="d-flex justify-content-center"
+            v-for="{ id, name, profile_path } in sortedTypes.actors
             ? decreaseData(sortedTypes.actors)
             : []"
-          :key="id"
+            :key="id"
         >
           <search-actor-card
-            :searchCard="true"
-            :actor-id="id"
-            :name="name"
-            :profile-image="profile_path || ''"
-            @get-actor-id="getActorDetails($event)"
+              :searchCard="true"
+              :actor-id="id"
+              :name="name"
+              :profile-image="profile_path || ''"
+              @get-actor-id="getActorDetails($event)"
           />
         </div>
         <div
-          class="d-flex justify-content-end mt-2 seeMore"
-          @click="makeOptionalResponseAndRedirect('actors')"
+            class="d-flex justify-content-end mt-2 seeMore"
+            @click="makeOptionalResponseAndRedirect('actors')"
         >
           see more...
         </div>
@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from "vuex";
+import {mapActions, mapGetters, mapMutations, mapState} from "vuex";
 import SearchMovieCard from "@/components/Cards/SearchMovieCard";
 import SearchActorCard from "@/components/Cards/SearchActorCard";
 import SearchTvCard from "@/components/Cards/SearchTvCard";
@@ -128,6 +128,7 @@ export default {
       }
     },
     makeOptionalResponseAndRedirect(type) {
+      this.clearSelectedQuery();
       switch (type) {
         case "movies":
           this.$router.replace("/");
@@ -151,6 +152,7 @@ export default {
       "actorSearch",
       "tvSearch",
     ]),
+    ...mapMutations(["clearSelectedQuery"])
   },
   computed: {
     ...mapGetters(["sortedTypes"]),
