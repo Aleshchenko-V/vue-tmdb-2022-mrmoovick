@@ -14,7 +14,7 @@
               season_number,
             } in tvDetails.seasons"
               :key="id"
-              @click="getSeason(season_number)"
+              @click="getSeason(season_number), clearFilters()"
           >
             <season-card
                 :name="name"
@@ -33,7 +33,7 @@
 
 <script>
 import SeasonCard from "@/components/Cards/SeasonCard";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapMutations, mapState} from "vuex";
 
 export default {
   name: "SeasonsList",
@@ -47,6 +47,7 @@ export default {
       this.$router.replace(`/tv/${this.tvDetails.id}/season/${seasonNumber}`)
     },
     ...mapActions(['getSeasonDetails']),
+    ...mapMutations(['clearFilters']),
   },
   computed: {
     ...mapState(['tvDetails']),

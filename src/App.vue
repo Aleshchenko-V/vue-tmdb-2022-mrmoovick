@@ -1,7 +1,7 @@
 <template>
   <div id="app" @click.stop="changeVisible(false)">
-    <page-header />
-    <router-view />
+    <page-header/>
+    <router-view/>
     <scroll-up :scroll-duration="1000" :scroll-y="250"></scroll-up>
   </div>
 </template>
@@ -9,11 +9,11 @@
 import PageHeader from "@/components/UI/PageHeader";
 import ScrollUp from "vue-scroll-up";
 import "vue-scroll-up/dist/style.css";
-import { mapMutations } from "vuex";
+import {mapMutations} from "vuex";
 
 export default {
   name: "App",
-  components: { PageHeader, ScrollUp },
+  components: {PageHeader, ScrollUp},
   methods: {
     ...mapMutations(["changeVisible"]),
   },

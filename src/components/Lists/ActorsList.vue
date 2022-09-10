@@ -22,7 +22,7 @@
                 :profilePath="profile_path || ''"
                 :character="character"
                 :actorId="id"
-                @get-actor-id="getActorDetails($event)"
+                @get-actor-id="getActorDetails($event), clearFilters()"
                 :big="big"
             >
             </actor-card>
@@ -36,7 +36,7 @@
 
 <script>
 import ActorCard from "@/components/Cards/ActorCard";
-import {mapActions, mapGetters, mapState} from "vuex";
+import {mapActions, mapGetters, mapMutations, mapState} from "vuex";
 
 export default {
   name: "ActorsList",
@@ -54,6 +54,7 @@ export default {
       }
     },
     ...mapActions(["getActorDetails", "getNextActorPage"]),
+    ...mapMutations(["clearFilters"]),
   },
   computed: {
     ...mapState(["actors", "searchQuery"]),
