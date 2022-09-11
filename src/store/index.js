@@ -477,7 +477,7 @@ export default new Vuex.Store({
                 );
                 commit("NEXT_ACTOR_PAGE", data);
             } catch (e) {
-                alert(e);
+                return;
             }
         },
         async getNextTvPage({commit}, {page, query}) {
