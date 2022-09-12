@@ -3,8 +3,8 @@
     <div
       :style="
         searchCard
-          ? 'height: 150px; width: 600px'
-          : 'height: 75px; width: 460px'
+          ? 'height: 150px; width: 650px'
+          : 'height: 75px; width: 445px'
       "
       style="border: 1px solid #fff; margin-bottom: 10px; border-radius: 5px"
       class="d-flex"
@@ -13,14 +13,14 @@
       <div
         :style="
           searchCard
-            ? 'height: 150px; width: 100px'
-            : 'height: 75px; width: 75px'
+            ? 'height: 150px; width: 200px'
+            : 'height: 75px; width: 100px'
         "
       >
         <img
           style="
             height: 100%;
-            width: 100%;
+            width: 100px;
             padding: 0;
             border-radius: 5px;
             display: inline-block;
@@ -34,8 +34,10 @@
         />
       </div>
 
-      <div>
-        <h4 class="m-2">{{ name }}</h4>
+      <div :class="!searchCard ? 'd-flex' : 'd-flex align-items  w-100'">
+        <h4 class="m-2" :class="!searchCard ? 'decrease-font-size' : ''">
+          {{ name }}
+        </h4>
       </div>
     </div>
   </router-link>
@@ -98,5 +100,9 @@ a {
   .release-date {
     color: orange !important;
   }
+}
+.decrease-font-size {
+  font-size: 18px;
+  width: 250px;
 }
 </style>

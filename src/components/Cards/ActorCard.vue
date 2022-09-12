@@ -144,7 +144,7 @@ a {
   width: 360px;
   height: 400px;
   border: 0;
-  background-color: #1e1b26;
+  background-color: #aecfa4;
   color: #fff;
   transition: all 0.5s ease;
   overflow: hidden;
@@ -158,10 +158,11 @@ a {
   }
 
   &:hover {
-    -webkit-transform: scale(1.05);
-    -ms-transform: scale(1.05);
-    transform: scale(1.05);
+    -webkit-transform: scale(1.03);
+    -ms-transform: scale(1.03);
+    transform: scale(1.03);
     z-index: 1;
+    box-shadow: 7px 7px 6px rgb(255 255 255 / 60%);
   }
 
   h4 {

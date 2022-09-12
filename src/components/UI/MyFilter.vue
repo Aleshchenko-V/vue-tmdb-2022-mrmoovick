@@ -198,7 +198,7 @@ input[type="range"] {
     height: 28px;
     width: 28px;
     border-radius: 28px;
-    background-color: #fff;
+    background-color: #c4e8c2;
     position: relative;
     margin: 5px 0;
     cursor: pointer;
@@ -241,5 +241,8 @@ input[type="range"] {
       }
     }
   }
+}
+.custom-select {
+  background: #c4e8c2;
 }
 </style>

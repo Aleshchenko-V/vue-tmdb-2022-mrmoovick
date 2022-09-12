@@ -24,8 +24,8 @@ export default {
 #app {
   display: flex;
   position: relative;
-  font-family: "Lobster", "Creepster", Avenir, Helvetica, Arial, sans-serif,
-    cursive;
+  font-family: "Lobster", "Creepster", "Oswald", Avenir, Helvetica, Arial,
+    sans-serif, cursive;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

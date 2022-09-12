@@ -3,7 +3,7 @@
     <div v-if="searchResults.results.length !== 0">
       <h2 style="color: #fff">You are most likely looking for:</h2>
       <div v-show="sortedTypes ? sortedTypes.movies.length !== 0 : false">
-        <h2 class="mb-2">Movies</h2>
+        <h2 class="mb-2 ml-5">Movies</h2>
         <div
           class="d-flex justify-content-center"
           v-for="{
@@ -35,7 +35,7 @@
         </div>
       </div>
       <div v-show="sortedTypes ? sortedTypes.tvs.length !== 0 : false">
-        <h2 class="mt-2">Tvs</h2>
+        <h2 class="mt-2 ml-5">Tvs</h2>
         <div
           class="d-flex justify-content-center"
           v-for="{
@@ -67,7 +67,7 @@
         </div>
       </div>
       <div v-show="sortedTypes ? sortedTypes.actors.length !== 0 : false">
-        <h2 class="mt-2">Actors</h2>
+        <h2 class="mt-2 ml-5">Actors</h2>
         <div
           class="d-flex justify-content-center"
           v-for="{ id, name, profile_path } in sortedTypes.actors

@@ -5,7 +5,7 @@
       v-if="!isLoading"
     >
       <div class="d-flex flex-row" v-if="uniqueMovies.length !== 0">
-        <b-list-group horizontal class="flex-sm-wrap justify-content-center">
+        <b-list-group horizontal class="flex-sm-wrap">
           <b-list-group-item
             class="w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card"
             v-for="{
@@ -41,7 +41,7 @@
     <div class="spinner" v-else>
       <b-spinner />
     </div>
-    <div ref="observer"></div>
+    <div ref="observer" style="border: 1px solid #46a094"></div>
   </div>
 </template>
 

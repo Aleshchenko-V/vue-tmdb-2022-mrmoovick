@@ -111,35 +111,29 @@ export default {
   justify-content: space-between;
 }
 
-.b-card__text {
+.card-body {
   overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 8;
-  -webkit-box-orient: vertical;
+  text-align: justify;
+  font-family: "Oswald";
 }
 
 .b-card {
-  width: 340px;
-  height: 500px;
+  width: 360px;
+  height: 550px;
   border: 0;
   border-radius: 15px !important;
-  /*background-color: #a799b7;*/
-  background-color: rgb(34 34 34);
+  background-color: #6bbd99;
   color: #fff;
   transition: all 0.5s ease;
 }
 .b-card:focus {
-  background-color: rgb(34 34 34);
+  background-color: #6bbd99;
 }
 .b-card:hover {
   -webkit-transform: scale(1.02);
   -ms-transform: scale(1.02);
   transform: scale(1.02);
   z-index: 1;
-  box-shadow: 0px 0px 0px 2px rgb(255 255 255), 0px 2px 4px rgb(255 255 255),
-    0px 4px 8px rgb(255 255 255), 0px 8px 16px rgb(255 255 255),
-    6px -6px 18px rgb(255 0 0 / 60%);
-  /*box-shadow: 6px -6px 18px rgb(255 0 0 / 60%);*/
+  box-shadow: 7px 7px 6px rgb(255 255 255 / 60%);
 }
 </style>

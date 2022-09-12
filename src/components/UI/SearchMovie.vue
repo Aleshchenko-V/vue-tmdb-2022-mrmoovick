@@ -1,7 +1,11 @@
 <template>
   <b-container class="d-flex justify-content-center">
     <b-col cols="9">
-      <b-overlay :show="isShown" rounded="sm" style="width: 500px">
+      <b-overlay
+        :show="isShown"
+        rounded="sm"
+        style="max-width: 500px; min-width: 200px"
+      >
         <input
           :value="searchQuery"
           type="text"
@@ -18,6 +22,7 @@
     </b-col>
     <b-col cols="2">
       <b-button
+        class="search-btn"
         @click="getFilm(), clearFilters()"
         :disabled="isLoading"
         variant="outline-light"
@@ -73,7 +78,11 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.form-control {
+  font-family: "Oswald";
+}
+
 .form-control:focus {
   box-shadow: none;
   border: none;
@@ -84,5 +93,12 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.search-btn {
+  box-shadow: 7px 3px 10px rgba(19, 19, 19, 0.4);
+  transition: 0.3s;
+  &:active {
+    transform: translateX(5px);
+  }
 }
 </style>

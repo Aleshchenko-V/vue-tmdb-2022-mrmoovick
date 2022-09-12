@@ -4,8 +4,8 @@
       <div class="d-flex flex-row">
         <b-list-group horizontal class="flex-sm-wrap">
           <b-list-group-item
-              class="w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card slide"
-              v-for="{
+            class="w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card slide"
+            v-for="{
               id,
               name,
               known_for_department,
@@ -13,34 +13,34 @@
               profile_path,
               character,
             } in uniqueActors"
-              :key="id"
+            :key="id"
           >
             <actor-card
-                :name="name"
-                :knownForDepartment="known_for_department || ''"
-                :popularity="popularity"
-                :profilePath="profile_path || ''"
-                :character="character"
-                :actorId="id"
-                @get-actor-id="getActorDetails($event), clearFilters()"
-                :big="big"
+              :name="name"
+              :knownForDepartment="known_for_department || ''"
+              :popularity="popularity"
+              :profilePath="profile_path || ''"
+              :character="character"
+              :actorId="id"
+              @get-actor-id="getActorDetails($event), clearFilters()"
+              :big="big"
             >
             </actor-card>
           </b-list-group-item>
         </b-list-group>
       </div>
     </div>
-    <div v-show="big" ref="observer"></div>
+    <div v-show="big" ref="observer" style="border: 1px solid #46a094"></div>
   </div>
 </template>
 
 <script>
 import ActorCard from "@/components/Cards/ActorCard";
-import {mapActions, mapGetters, mapMutations, mapState} from "vuex";
+import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
 
 export default {
   name: "ActorsList",
-  components: {ActorCard},
+  components: { ActorCard },
   data: () => ({
     totalResults: 0,
     currentPage: 1,
@@ -67,12 +67,13 @@ export default {
       default: false,
     },
   },
+  created() {},
   mounted() {
     setTimeout(() => {
       const observer = new IntersectionObserver(async (entries) => {
         if (
-            entries[0].intersectionRatio > 0 &&
-            this.currentPage !== this.actors.total_pages
+          entries[0].intersectionRatio > 0 &&
+          this.currentPage !== this.actors.total_pages
         ) {
           if (this.actors.total_pages === 1) {
             return;

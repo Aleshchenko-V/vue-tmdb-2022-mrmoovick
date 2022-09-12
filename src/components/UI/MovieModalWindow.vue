@@ -24,8 +24,8 @@
             />
           </div>
           <div class="wrapper-details">
+            <h2>{{ movieDetails.title }}</h2>
             <div class="details-info">
-              <h2>{{ movieDetails.title }}</h2>
               <div class="details-item">
                 <div class="details-subtitle">Genres:</div>
                 <div class="details-subitem">{{ genres }}</div>
@@ -97,7 +97,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .movie-details,
 .modal-header {
   font-family: "Lobster";
@@ -107,7 +107,7 @@ export default {
 }
 
 .modal-window {
-  background-color: rgb(34 34 34);
+  background-color: #6bbda4;
   color: #fff;
 }
 
@@ -131,22 +131,28 @@ export default {
 .details-subitem {
   display: flex;
   justify-content: center;
-  color: #ffffff90;
+  color: #ffffff80;
 }
 
 .wrapper-details {
   display: flex;
   flex-direction: column;
+  h2 {
+    margin-left: 15px;
+  }
 }
 
 .details-subtitle {
   font-size: 14px;
-  color: #757575;
+  color: #ffffffd4;
 }
 
 .description {
   padding-left: 15px;
   margin-top: 25px;
+  p {
+    color: #ffffffd4;
+  }
 }
 
 .movie-details__actor-cast {

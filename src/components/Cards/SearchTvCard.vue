@@ -3,10 +3,15 @@
     <div
       :style="
         searchCard
-          ? 'height: 150px; width: 600px'
-          : 'height: 75px; width: 460px'
+          ? 'height: 150px; width: 650px'
+          : 'height: 75px; width: 445px;'
       "
-      style="border: 1px solid #fff; margin-bottom: 10px; border-radius: 5px"
+      style="
+        border: 1px solid #fff;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        position: relative;
+      "
       class="d-flex"
       @click="$emit('get-tv-id', tvId)"
     >
@@ -34,18 +39,28 @@
         />
       </div>
 
-      <div>
+      <div :class="!searchCard ? 'd-flex align-items-center' : 'd-flex'">
         <div class="d-flex flex-start flex-column m-2 text-left">
           <div class="d-flex">
-            <h4>
+            <h4 :class="!searchCard ? 'decrease-font-size' : ''">
               {{ name }}
             </h4>
-            <span class="release-date align-self-end" style="color: orange">{{
-              releaseDate ? releaseDate : ""
-            }}</span>
+            <span
+              class="release-date align-self-end"
+              style="
+                color: orange;
+                position: absolute;
+                right: 10px;
+                bottom: 10px;
+              "
+              >{{ releaseDate ? releaseDate : "" }}</span
+            >
           </div>
           <p v-if="searchCard">{{ originalName }}</p>
-          <p :style="rating > 6 ? 'color: green' : 'color: red'">
+          <p
+            style="position: absolute; right: 10px; top: 5px"
+            :style="rating > 6 ? 'color: green' : 'color: red'"
+          >
             {{ rating }}
           </p>
         </div>
@@ -123,5 +138,9 @@ a {
   .release-date {
     color: orange !important;
   }
+}
+.decrease-font-size {
+  font-size: 18px;
+  width: 250px;
 }
 </style>

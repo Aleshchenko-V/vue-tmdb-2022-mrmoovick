@@ -1,31 +1,31 @@
 <template>
   <b-card
-      :aria-hidden="show ? 'true' : null"
-      :title="name"
-      :sub-title="airDate"
-      :img-src="
+    :aria-hidden="show ? 'true' : null"
+    :title="name"
+    :sub-title="airDate"
+    :img-src="
       posterPath === ''
         ? NO_IMG_URL
         : 'https://image.tmdb.org/t/p/original' + posterPath
     "
-      footer-tag="footer"
-      img-alt="Image"
-      img-top
-      tag="article"
-      class="text-muted card-text form-control card-img-top b-card"
+    footer-tag="footer"
+    img-alt="Image"
+    img-top
+    tag="article"
+    class="text-muted card-text form-control card-img-top b-card"
   >
   </b-card>
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   name: "SeasonCard",
   data: () => ({
     show: false,
     NO_IMG_URL:
-        "https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg",
+      "https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg",
   }),
   props: {
     name: {
@@ -56,7 +56,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 a {
   text-decoration: none;
 }
@@ -71,10 +70,12 @@ a {
 
 .card-subtitle {
   font-size: 13px;
+  color: #000 !important;
 }
 
 .card-title {
   font-size: 18px;
+  color: #000;
 }
 
 .card-text {
@@ -110,19 +111,21 @@ a {
 }
 
 .b-card {
-  width: 160px;
+  width: 135px;
   height: 250px;
   border: 0;
-  background-color: #1e1b26;
+  background-color: beige;
   color: #fff;
   transition: all 0.5s ease;
   overflow: hidden;
+  box-sizing: content-box;
 
   &:hover {
-    -webkit-transform: scale(1.05);
-    -ms-transform: scale(1.05);
-    transform: scale(1.05);
+    -webkit-transform: scale(1.03);
+    -ms-transform: scale(1.03);
+    transform: scale(1.03);
     z-index: 1;
+    box-shadow: -7px 7px 6px rgb(255 255 255 / 60%);
   }
 }
 </style>
