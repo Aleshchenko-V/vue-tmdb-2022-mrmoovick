@@ -19,7 +19,7 @@
         <div class="details-info">
           <div class="details-item">
             <div class="details-subtitle">Genres:</div>
-            <div class="details-subitem">{{ movieDetails.genres ? getGenres() : '' }}</div>
+            <div class="details-subitem">{{ movieDetails.genres ? filteredGenres : '' }}</div>
           </div>
           <div class="details-item">
             <div class="details-subtitle">Release Date:</div>
@@ -55,28 +55,26 @@
 
 <script>
 import {mapState, mapActions} from "vuex";
-
+import constants from "@/constants";
 
 export default {
-  name: "MoviesPageView",
+  name: "FilmPageView",
   data: () => ({
-    NO_IMG_URL:
-        "https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg",
+    NO_IMG_URL: constants.NO_IMG_URL,
   }),
-
   mounted() {
     this.getMovieDetails(this.$route.params.id);
   },
   methods: {
-    getGenres() {
-      const unFilteredGenres = this.movieDetails.genres.map((el) => el.name);
+    ...mapActions(["getMovieDetails"]),
+  },
+  computed: {
+    filteredGenres() {
+      const unFilteredGenres = this.movieDetails.genres ? this.movieDetails.genres.map((el) => el.name) : [];
       return unFilteredGenres.length > 3
           ? unFilteredGenres.slice(0, 3).join(", ") + "..."
           : unFilteredGenres.join(", ");
     },
-    ...mapActions(["getMovieDetails"]),
-  },
-  computed: {
     ...mapState(["movieDetails", "actors"]),
   },
 };

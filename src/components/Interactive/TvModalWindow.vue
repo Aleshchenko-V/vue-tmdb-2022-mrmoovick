@@ -101,12 +101,13 @@
 import {mapMutations, mapState} from "vuex";
 import ActorList from "@/components/Lists/ActorsList";
 import SeasonsList from "@/components/Lists/SeasonsList";
+import constants from "@/constants";
 
 export default {
   name: 'TvModalWindow',
   components: {SeasonsList, ActorList},
   data: () => ({
-    NO_IMG_URL: 'https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg'
+    NO_IMG_URL: constants.NO_IMG_URL,
   }),
   props: {
     genres: {

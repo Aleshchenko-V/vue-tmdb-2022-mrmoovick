@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div v-show="sortedTypes && searchQuery && isVisible" id="window">
+    <div v-show="sortedTypes && searchQuery && isSearchModalVisible" id="searchModalWindow">
       <div
-        v-show="
+          v-show="
           sortedTypes
             ? sortedTypes
               ? sortedTypes.movies.length !== 0
@@ -12,29 +12,29 @@
       >
         <h2 class="mb-2">Movies</h2>
         <div
-          v-for="{
+            v-for="{
             id,
             original_title,
             vote_average,
             backdrop_path,
             title,
             release_date,
-          } in sortedTypes.movies ? decreaseData(sortedTypes.movies) : []"
-          :key="id"
+          } in sortedTypes.movies ? sortedTypes.movies : []"
+            :key="id"
         >
           <search-movie-card
-            :original-title="original_title"
-            :rating="vote_average"
-            :movieImage="backdrop_path || ''"
-            :title="title"
-            :release-date="release_date ? getYear(release_date) : ''"
-            :movie-id="id"
-            @get-movie-id="getMovieDetails($event)"
+              :original-title="original_title"
+              :rating="vote_average"
+              :movieImage="backdrop_path || ''"
+              :title="title"
+              :release-date="release_date ? getYear(release_date) : ''"
+              :movie-id="id"
+              @get-movie-id="getMovieDetails($event)"
           />
         </div>
         <div
-          class="d-flex justify-content-end mt-2 seeMore"
-          @click="makeOptionalResponseAndRedirect('movies')"
+            class="d-flex justify-content-end mt-2 see-more"
+            @click="makeOptionalResponseAndRedirect('movies')"
         >
           see more...
         </div>
@@ -42,29 +42,29 @@
       <div v-show="sortedTypes ? sortedTypes.tvs.length !== 0 : false">
         <h2 class="mt-2">Tvs</h2>
         <div
-          v-for="{
+            v-for="{
             id,
             name,
             original_name,
             first_air_date,
             vote_average,
             poster_path,
-          } in sortedTypes.tvs ? decreaseData(sortedTypes.tvs) : []"
-          :key="id"
+          } in sortedTypes.tvs ? sortedTypes.tvs : []"
+            :key="id"
         >
           <search-tv-card
-            :name="name"
-            :original-name="original_name"
-            :release-date="first_air_date ? getYear(first_air_date) : ''"
-            :rating="vote_average"
-            :movieImage="poster_path || ''"
-            :tv-id="id"
-            @get-tv-id="getTvDetails($event)"
+              :name="name"
+              :original-name="original_name"
+              :release-date="first_air_date ? getYear(first_air_date) : ''"
+              :rating="vote_average"
+              :movieImage="poster_path || ''"
+              :tv-id="id"
+              @get-tv-id="getTvDetails($event)"
           />
         </div>
         <div
-          class="d-flex justify-content-end mt-2 seeMore"
-          @click="makeOptionalResponseAndRedirect('tvs')"
+            class="d-flex justify-content-end mt-2 see-more"
+            @click="makeOptionalResponseAndRedirect('tvs')"
         >
           see more...
         </div>
@@ -72,21 +72,21 @@
       <div v-show="sortedTypes ? sortedTypes.actors.length !== 0 : false">
         <h2 class="mt-2">Actors</h2>
         <div
-          v-for="{ id, name, profile_path } in sortedTypes.actors
-            ? decreaseData(sortedTypes.actors)
+            v-for="{ id, name, profile_path } in sortedTypes.actors
+            ? sortedTypes.actors
             : []"
-          :key="id"
+            :key="id"
         >
           <search-actor-card
-            :actor-id="id"
-            :name="name"
-            :profile-image="profile_path || ''"
-            @get-actor-id="getActorDetails($event)"
+              :actor-id="id"
+              :name="name"
+              :profile-image="profile_path || ''"
+              @get-actor-id="getActorDetails($event)"
           />
         </div>
         <div
-          class="d-flex justify-content-end mt-2 seeMore"
-          @click="makeOptionalResponseAndRedirect('actors')"
+            class="d-flex justify-content-end mt-2 see-more"
+            @click="makeOptionalResponseAndRedirect('actors')"
         >
           see more...
         </div>
@@ -96,31 +96,16 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import SearchMovieCard from "@/components/Cards/SearchMovieCard";
 import SearchActorCard from "@/components/Cards/SearchActorCard";
 import SearchTvCard from "@/components/Cards/SearchTvCard";
 
 export default {
   name: "SearchModal",
-  components: { SearchTvCard, SearchActorCard, SearchMovieCard },
+  components: {SearchTvCard, SearchActorCard, SearchMovieCard},
   methods: {
-    decreaseData(data) {
-      let arr = [];
-      if (data.length > 5) {
-        arr = data.splice(0, 5);
-      } else {
-        arr = data;
-      }
-      return arr;
-    },
-    getYear(data) {
-      if (data) {
-        return data.slice(0, 4);
-      } else {
-        return "";
-      }
-    },
+    getYear: (data) => data ? data.slice(0, 4) : "",
     makeOptionalResponseAndRedirect(type) {
       switch (type) {
         case "movies":
@@ -148,13 +133,13 @@ export default {
   },
   computed: {
     ...mapGetters(["sortedTypes"]),
-    ...mapState(["searchQuery", "isVisible"]),
+    ...mapState(["searchQuery", "isSearchModalVisible"]),
   },
 };
 </script>
 
 <style scoped lang="scss">
-#window {
+#searchModalWindow {
   display: flex;
   flex-direction: column;
   width: 510px;
@@ -179,7 +164,7 @@ export default {
   }
 }
 
-.seeMore {
+.see-more {
   color: #fff;
 
   &:hover {

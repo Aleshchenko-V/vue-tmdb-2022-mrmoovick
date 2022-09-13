@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import ModalWindow from "@/components/UI/TvModalWindow";
+import ModalWindow from "@/components/Interactive/TvModalWindow";
 
 import {mapActions, mapGetters, mapState} from "vuex";
 import TvCard from "@/components/Cards/TvCard";

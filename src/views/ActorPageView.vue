@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapMutations, mapState} from "vuex";
 import get from "lodash/get";
 
 export default {
@@ -50,6 +50,7 @@ export default {
       return `${this.actorDetails.birthday} (${age} years old)`
     },
     ...mapActions(['getActorDetails']),
+    ...mapMutations(['SET_IS_LOADING']),
   },
   computed: {
     ...mapState(['actorDetails'])

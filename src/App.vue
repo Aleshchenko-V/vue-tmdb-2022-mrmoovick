@@ -1,21 +1,21 @@
 <template>
-  <div id="app" @click.stop="changeVisible(false)">
-    <page-header />
-    <router-view />
+  <div id="app" @click.stop="changeSearchModalVisible(false)">
+    <page-header/>
+    <router-view/>
     <scroll-up :scroll-duration="1000" :scroll-y="250"></scroll-up>
   </div>
 </template>
 <script>
-import PageHeader from "@/components/UI/PageHeader";
+import PageHeader from "@/components/Interactive/PageHeader";
 import ScrollUp from "vue-scroll-up";
 import "vue-scroll-up/dist/style.css";
-import { mapMutations } from "vuex";
+import {mapMutations} from "vuex";
 
 export default {
   name: "App",
-  components: { PageHeader, ScrollUp },
+  components: {PageHeader, ScrollUp},
   methods: {
-    ...mapMutations(["changeVisible"]),
+    ...mapMutations(["changeSearchModalVisible"]),
   },
 };
 </script>

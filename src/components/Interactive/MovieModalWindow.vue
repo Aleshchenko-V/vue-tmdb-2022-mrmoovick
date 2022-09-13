@@ -62,7 +62,7 @@
         </div>
         <div class="movie-details__actor-cast">
           <h3>Actors:</h3>
-          <actor-list/>
+          <actor-list :big="false"/>
         </div>
       </div>
     </b-modal>
@@ -72,12 +72,13 @@
 <script>
 import {mapMutations, mapState} from "vuex";
 import ActorList from "@/components/Lists/ActorsList";
+import constants from "@/constants";
 
 export default {
   name: 'MovieModalWindow',
   components: {ActorList},
   data: () => ({
-    NO_IMG_URL: 'https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg'
+    NO_IMG_URL: constants.NO_IMG_URL,
   }),
   props: {
     genres: {

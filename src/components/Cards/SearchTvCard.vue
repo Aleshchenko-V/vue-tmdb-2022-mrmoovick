@@ -1,36 +1,36 @@
 <template>
   <router-link :to="`/tv/${tvId}`">
     <div
-      :style="
+        :class="
         searchCard
-          ? 'height: 150px; width: 600px'
-          : 'height: 75px; width: 460px'
+          ? 'big-search-tv-card'
+          : 'small-search-tv-card'
       "
-      style="border: 1px solid #fff; margin-bottom: 10px; border-radius: 5px"
-      class="d-flex"
-      @click="$emit('get-tv-id', tvId)"
+        style="border: 1px solid #fff; margin-bottom: 10px; border-radius: 5px"
+        class="d-flex"
+        @click="$emit('get-tv-id', tvId)"
     >
       <div
-        :style="
+          :class="
           searchCard
-            ? 'height: 150px; width: 200px'
-            : 'height: 75px; width: 100px'
+            ? 'big-search-tv-card-img'
+            : 'small-search-tv-img-img'
         "
       >
         <img
-          style="
+            style="
             height: 100%;
             width: 100%;
             padding: 0;
             border-radius: 5px;
             display: inline-block;
           "
-          :src="
+            :src="
             movieImage === ''
               ? NO_IMG_URL
               : 'https://image.tmdb.org/t/p/original' + movieImage
           "
-          alt="Poster"
+            alt="Poster"
         />
       </div>
 
@@ -40,12 +40,12 @@
             <h4>
               {{ name }}
             </h4>
-            <span class="release-date align-self-end" style="color: orange">{{
-              releaseDate ? releaseDate : ""
-            }}</span>
+            <span class="release-date align-self-end">{{
+                releaseDate ? releaseDate : ""
+              }}</span>
           </div>
           <p v-if="searchCard">{{ originalName }}</p>
-          <p :style="rating > 6 ? 'color: green' : 'color: red'">
+          <p>
             {{ rating }}
           </p>
         </div>
@@ -55,13 +55,13 @@
 </template>
 
 <script>
+import constants from "@/constants";
+
 export default {
-  name: "SearchMovieCard",
-  data() {
-    this.NO_IMG_URL =
-      "https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg";
-    return {};
-  },
+  name: "SearchTvCard",
+  data: () => ({
+    NO_IMG_URL: constants.NO_IMG_URL,
+  }),
   props: {
     name: {
       type: String,
@@ -101,27 +101,23 @@ a {
   color: #fff;
 }
 
-.card {
-  height: 60px;
-  font-size: 12px;
-  margin-top: 5px;
+.big-search-tv-card {
+  height: 150px;
+  width: 600px;
+}
 
-  h4 {
-    font-size: 14px;
-    margin: 0;
-  }
+.big-search-tv-card-img {
+  height: 150px;
+  width: 200px;
+}
 
-  img {
-    width: 55px;
-    height: 100%;
-    margin-left: 20px;
-    border-radius: 10px;
-  }
-  .big-img img {
-    width: 400px;
-  }
-  .release-date {
-    color: orange !important;
-  }
+.small-search-tv-card {
+  height: 75px;
+  width: 460px;
+}
+
+.small-search-tv-card-img {
+  height: 75px;
+  width: 100px;
 }
 </style>
