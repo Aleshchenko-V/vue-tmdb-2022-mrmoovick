@@ -30,7 +30,9 @@
       </b-button>
     </b-col>
     <b-col cols="4" class="mt-2" v-if="!selectedSearchQuery">
-      <label for="discovery-mode" class="discovery-label mr-2">Discovery mode</label>
+      <label for="discovery-mode" class="discovery-label mr-2"
+        >Discovery mode</label
+      >
       <input
         id="discovery-mode"
         type="checkbox"
@@ -101,9 +103,7 @@ export default {
 .form-control::placeholder {
   color: #908e8e;
 }
-//.form-control:disabled {
-//  outline: 2px solid red;
-//}
+
 .form-control:focus {
   box-shadow: none;
   border: none;

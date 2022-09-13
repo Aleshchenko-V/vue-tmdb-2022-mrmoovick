@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="theme-togler">
     <div @click="colorMode = colorMode === 'dark' ? 'light' : 'dark'">
       <img
         v-if="colorMode === 'dark'"
@@ -32,4 +32,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.theme-togler {
+  position: absolute;
+  top: 100px;
+  right: -100px;
+}
+</style>

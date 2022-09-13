@@ -7,7 +7,7 @@
       <div class="d-flex flex-row">
         <b-list-group horizontal class="flex-sm-wrap">
           <b-list-group-item
-            class="w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card"
+            class="tv-list w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card"
             v-for="{
               name,
               backdrop_path,

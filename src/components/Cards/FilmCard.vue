@@ -122,13 +122,10 @@ export default {
   height: 550px;
   border: 0;
   border-radius: 15px !important;
-  /*background-color: #6bbd99;*/
   color: #fff;
   transition: all 0.5s ease;
 }
-/*.b-card:focus {
-  background-color: #6bbd99;
-}*/
+
 .b-card:hover {
   -webkit-transform: scale(1.02);
   -ms-transform: scale(1.02);
