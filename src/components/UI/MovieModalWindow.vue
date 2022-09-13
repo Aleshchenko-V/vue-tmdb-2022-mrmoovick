@@ -57,7 +57,6 @@
               </div>
             </div>
             <div class="description">
-              <h3>Description:</h3>
               <p>{{ movieDetails.overview }}</p>
             </div>
           </div>
@@ -100,7 +99,10 @@ export default {
 <style lang="scss">
 .movie-details,
 .modal-header {
-  font-family: "Lobster";
+  font-family: "Oswald";
+}
+.modal-title {
+  font-family: "Lobster" !important;
 }
 .movie-details__poster {
   border-radius: 10px;
@@ -116,7 +118,7 @@ export default {
   align-items: flex-start;
   flex-wrap: wrap;
   justify-content: flex-start;
-  padding-left: 15px;
+  padding-left: 5px;
   margin-top: 15px;
   width: 100%;
 }
@@ -124,8 +126,8 @@ export default {
 .details-item {
   display: flex;
   justify-content: space-between;
-  width: 360px;
-  margin: 0 10px;
+  width: 100%;
+  margin-left: 10px;
 }
 
 .details-subitem {
@@ -150,12 +152,13 @@ export default {
 .description {
   padding-left: 15px;
   margin-top: 25px;
+  text-align: justify;
   p {
     color: #ffffffd4;
   }
 }
 
 .movie-details__actor-cast {
-  margin-top: 10px;
+  margin-top: 15px;
 }
 </style>

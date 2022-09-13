@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="film-list">
     <div
       class="d-flex flex-column justify-content-center align-items-center container mt-3"
       v-if="!isLoading"

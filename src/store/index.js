@@ -29,6 +29,7 @@ export default new Vuex.Store({
     actorDetails: {},
     tvDetails: {},
     seasonDetails: {},
+    isDiscovery: false,
   },
   getters: {
     uniqueMovies: ({ uniqueMovies, movies }) => {
@@ -183,6 +184,9 @@ export default new Vuex.Store({
     },
     changeSelectValue(state, payload) {
       state.selectedValue = payload;
+    },
+    changeIsDiscovery(state, payload) {
+      state.isDiscovery = payload;
     },
     SET_IS_LOADING(state, payload) {
       state.isLoading = payload;

@@ -15,7 +15,7 @@
           @keyup.escape="clearSelectedQuery()"
           @click.stop="changeVisible(true)"
           @input="SET_SEARCH_QUERY($event.target.value.trim())"
-          :disabled="isLoading"
+          :disabled="isLoading || isDiscovery"
           placeholder="Type some query"
         />
       </b-overlay>
@@ -24,11 +24,20 @@
       <b-button
         class="search-btn"
         @click="getFilm(), clearFilters()"
-        :disabled="isLoading"
+        :disabled="isLoading || isDiscovery"
         variant="outline-light"
         >Search
       </b-button>
     </b-col>
+    <b-col cols="4" class="mt-2" v-if="!selectedSearchQuery">
+      <label for="discovery-mode" class="discovery-label mr-2">Discovery mode</label>
+      <input
+        id="discovery-mode"
+        type="checkbox"
+        style="scale: 1.5"
+        @change="changeIsDiscovery(!isDiscovery)"
+        :value="isDiscovery"
+    /></b-col>
   </b-container>
 </template>
 
@@ -65,10 +74,17 @@ export default {
       "changeVisible",
       "clearFilters",
       "clearSelectedQuery",
+      "changeIsDiscovery",
     ]),
   },
   computed: {
-    ...mapState(["isLoading", "searchQuery", "isShown", "selectedSearchQuery"]),
+    ...mapState([
+      "isLoading",
+      "searchQuery",
+      "isShown",
+      "selectedSearchQuery",
+      "isDiscovery",
+    ]),
     ...mapGetters(["sortedTypes"]),
     throttledSearch() {
       let DELAY = 750;
@@ -80,9 +96,14 @@ export default {
 
 <style scoped lang="scss">
 .form-control {
-  font-family: "Oswald";
+  font-family: "Arial";
 }
-
+.form-control::placeholder {
+  color: #908e8e;
+}
+//.form-control:disabled {
+//  outline: 2px solid red;
+//}
 .form-control:focus {
   box-shadow: none;
   border: none;

@@ -89,6 +89,7 @@ export default {
 .card-text {
   font-size: 14px;
   color: #fff;
+  text-align: justify;
 }
 
 .form-control {
@@ -97,7 +98,6 @@ export default {
 }
 
 .form-control:focus {
-  background-color: #1e1b26;
   box-shadow: none;
 }
 
@@ -113,7 +113,7 @@ export default {
 
 .card-body {
   overflow: hidden;
-  text-align: justify;
+  text-align: center;
   font-family: "Oswald";
 }
 
@@ -122,13 +122,13 @@ export default {
   height: 550px;
   border: 0;
   border-radius: 15px !important;
-  background-color: #6bbd99;
+  /*background-color: #6bbd99;*/
   color: #fff;
   transition: all 0.5s ease;
 }
-.b-card:focus {
+/*.b-card:focus {
   background-color: #6bbd99;
-}
+}*/
 .b-card:hover {
   -webkit-transform: scale(1.02);
   -ms-transform: scale(1.02);

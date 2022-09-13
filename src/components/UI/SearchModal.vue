@@ -19,6 +19,7 @@
             backdrop_path,
             title,
             release_date,
+            runtime,
           } in sortedTypes.movies ? decreaseData(sortedTypes.movies) : []"
           :key="id"
         >
@@ -29,6 +30,7 @@
             :title="title"
             :release-date="release_date ? getYear(release_date) : ''"
             :movie-id="id"
+            :runtime="runtime"
             @get-movie-id="getMovieDetails($event)"
           />
         </div>

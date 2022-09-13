@@ -1,7 +1,9 @@
 <template>
   <div class="container-lg">
     <div v-if="searchResults.results.length !== 0">
-      <h2 style="color: #fff">You are most likely looking for:</h2>
+      <h2 style="color: #fff; margin-top: 10px; margin-bottom: 15px">
+        You are most likely looking for:
+      </h2>
       <div v-show="sortedTypes ? sortedTypes.movies.length !== 0 : false">
         <h2 class="mb-2 ml-5">Movies</h2>
         <div
@@ -84,7 +86,7 @@
           />
         </div>
         <div
-          class="d-flex justify-content-end mt-2 seeMore"
+          class="d-flex justify-content-end mt-2 mb-3 seeMore"
           @click="makeOptionalResponseAndRedirect('actors')"
         >
           see more...

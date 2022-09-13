@@ -69,28 +69,30 @@ export default {
   },
   created() {},
   mounted() {
-    setTimeout(() => {
-      const observer = new IntersectionObserver(async (entries) => {
-        if (
-          entries[0].intersectionRatio > 0 &&
-          this.currentPage !== this.actors.total_pages
-        ) {
-          if (this.actors.total_pages === 1) {
-            return;
+    if (this.big) {
+      setTimeout(() => {
+        const observer = new IntersectionObserver(async (entries) => {
+          if (
+            entries[0].intersectionRatio > 0 &&
+            this.currentPage !== this.actors.total_pages
+          ) {
+            if (this.actors.total_pages === 1) {
+              return;
+            }
+            if (this.searchQuery && this.currentPage !== this.actors.page) {
+              this.currentPage = 1;
+            }
+            this.currentPage += 1;
+            await this.getNextActorPage({
+              page: this.currentPage,
+              query: this.searchQuery,
+            });
+            this.compareTotalResults();
           }
-          if (this.searchQuery && this.currentPage !== this.actors.page) {
-            this.currentPage = 1;
-          }
-          this.currentPage += 1;
-          await this.getNextActorPage({
-            page: this.currentPage,
-            query: this.searchQuery,
-          });
-          this.compareTotalResults();
-        }
-      }, {});
-      observer.observe(this.$refs.observer);
-    }, 1000);
+        }, {});
+        observer.observe(this.$refs.observer);
+      }, 1000);
+    }
   },
 };
 </script>

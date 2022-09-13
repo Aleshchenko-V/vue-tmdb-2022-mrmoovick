@@ -1,22 +1,17 @@
 <template>
   <router-link :to="`/actor/${actorId}`">
     <div
-      :style="
-        searchCard
-          ? 'height: 150px; width: 650px'
-          : 'height: 75px; width: 445px'
+      :style="searchCard ? ' width: 650px' : ' width: 445px'"
+      style="
+        border: 1px solid #fff;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        font-family: 'Oswald';
       "
-      style="border: 1px solid #fff; margin-bottom: 10px; border-radius: 5px"
-      class="d-flex"
+      class="actor-card d-flex"
       @click="$emit('get-actor-id', actorId)"
     >
-      <div
-        :style="
-          searchCard
-            ? 'height: 150px; width: 200px'
-            : 'height: 75px; width: 100px'
-        "
-      >
+      <div :style="searchCard ? 'height: 150px;' : 'height: 75px;'">
         <img
           style="
             height: 100%;
@@ -97,12 +92,17 @@ a {
   .big-img img {
     width: 400px;
   }
-  .release-date {
-    color: orange !important;
-  }
 }
 .decrease-font-size {
   font-size: 18px;
   width: 250px;
+}
+.actor-card {
+  box-shadow: inset 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+  transition: 0.5s all ease;
+}
+.actor-card:hover {
+  scale: 1.05;
+  box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
 }
 </style>

@@ -1,60 +1,71 @@
 <template>
-  <div class="sticky-top" style="min-width: 600px; max-width: 2000px">
-    <b-navbar
-      variant="secondary"
-      class="site-navbar d-flex justify-content-between rounded-bottom"
+  <div>
+    <div class="collage"></div>
+    <div
+      class="header sticky-top"
+      sticky-header
+      style="min-width: 600px; max-width: 2000px"
     >
-      <router-link to="/" class="site-logo">
-        <h2
-          class="site-logo"
-          @click="getMovies(), $refs.filter.clearHighlights(), clearFilters()"
-        >
-          MrMoovick
-        </h2>
-      </router-link>
-      <div style="width: 750px; position: relative">
-        <search-movie />
-        <search-modal />
-      </div>
-      <div class="logos d-flex">
-        <a
-          class="brand-icon"
-          href="https://www.themoviedb.org/?language=en"
-          target="_blank"
-          ><img src="@/assets/tmdb-logo.svg" alt="tmdb-logo" width="40px;"
-        /></a>
-        <h2 class="separator">&nbsp;|&nbsp;</h2>
-        <a
-          class="brand-icon"
-          href="https://github.com/TheSecondCore/vue-internship-2022-tmdb"
-          target="_blank"
-        >
-          <img src="@/assets/github-logo.svg" alt="github-logo" width="40px;" />
-        </a>
-      </div>
-    </b-navbar>
-    <button
-      v-b-toggle.sidebar-1
-      style="
-        position: absolute;
-        left: 0;
-        top: 450px;
-        border: 0;
-        background-color: inherit;
-      "
-      v-if="$route.path === '/' && selectedSearchQuery === ''"
-    >
-      <img width="60px" height="60px" src="../../assets/filter.svg" />
-    </button>
-    <b-sidebar
-      id="sidebar-1"
-      title="Filters"
-      backdrop
-      v-show="$route.path === '/' && selectedSearchQuery === ''"
-      shadow
-    >
-      <my-filter ref="filter" />
-    </b-sidebar>
+      <b-navbar
+        variant="secondary"
+        class="site-navbar d-flex justify-content-between rounded-bottom"
+      >
+        <router-link to="/" class="site-logo">
+          <h2
+            class="site-logo"
+            @click="getMovies(), $refs.filter.clearHighlights(), clearFilters()"
+          >
+            MrMoovick
+          </h2>
+        </router-link>
+        <div style="width: 750px; position: relative">
+          <search-movie />
+          <search-modal />
+        </div>
+        <div class="logos d-flex">
+          <a
+            class="brand-icon"
+            href="https://www.themoviedb.org/?language=en"
+            target="_blank"
+            ><img src="@/assets/tmdb-logo.svg" alt="tmdb-logo" width="40px;"
+          /></a>
+          <h2 class="separator">&nbsp;|&nbsp;</h2>
+          <a
+            class="brand-icon"
+            href="https://github.com/TheSecondCore/vue-internship-2022-tmdb"
+            target="_blank"
+          >
+            <img
+              src="@/assets/github-logo.svg"
+              alt="github-logo"
+              width="40px;"
+            />
+          </a>
+        </div>
+      </b-navbar>
+      <button
+        v-b-toggle.sidebar-1
+        style="
+          position: absolute;
+          left: 0;
+          top: 450px;
+          border: 0;
+          background-color: inherit;
+        "
+        v-if="$route.path === '/' && isDiscovery"
+      >
+        <img width="60px" height="60px" src="../../assets/filter.svg" />
+      </button>
+      <b-sidebar
+        id="sidebar-1"
+        title="Filters"
+        backdrop
+        v-show="$route.path === '/' && isDiscovery"
+        shadow
+      >
+        <my-filter ref="filter" />
+      </b-sidebar>
+    </div>
   </div>
 </template>
 
@@ -76,15 +87,19 @@ export default {
     ...mapMutations(["clearFilters"]),
   },
   computed: {
-    ...mapState(["selectedSearchQuery", "selectedGenres", "selectedValue"]),
+    ...mapState([
+      "selectedSearchQuery",
+      "selectedGenres",
+      "selectedValue",
+      "isDiscovery",
+    ]),
   },
 };
 </script>
 
 <style scoped lang="scss">
-.container-lg {
+.header {
   padding: 0px !important;
-  margin: auto !important;
 }
 
 .site-navbar {
@@ -105,5 +120,11 @@ export default {
 
 .separator {
   color: #fff;
+}
+.collage {
+  height: 300px;
+  background-image: url("https://gray-kwqc-prod.cdn.arcpublishing.com/resizer/hLWfCiWcPdLXLBUKIwk7ojnE_zk=/1200x675/smart/filters:quality(85)/cloudfront-us-east-1.images.arcpublishing.com/gray/B6L4RX347ZDWDMFLGUTSKGLNM4.png");
+  background-size: cover;
+  background-position: center;
 }
 </style>
