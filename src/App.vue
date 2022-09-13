@@ -82,6 +82,12 @@ export default {
 [theme="dark"] .actor-list .b-card {
   background-color: beige !important;
 }
+[theme="light"] .season-list .b-card {
+  background-color: beige !important;
+}
+[theme="dark"] .season-list .b-card {
+  background-color: beige !important;
+}
 [theme="light"] .b-card.big:focus {
   background-color: #6bbd99;
 }
@@ -164,8 +170,7 @@ export default {
 }
 .collage {
   height: 300px;
-  background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(0, 0, 0, 0.5)),
-    url("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftecake.com%2Fwp-content%2Fuploads%2F2020%2F12%2F1_eqpRo4-2-CbTDd-ZbNagVA.jpeg&f=1&nofb=1");
+  background: url("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftecake.com%2Fwp-content%2Fuploads%2F2020%2F12%2F1_eqpRo4-2-CbTDd-ZbNagVA.jpeg&f=1&nofb=1");
   background-size: cover;
   background-position: top;
 }
