@@ -32,7 +32,7 @@
             </film-card>
           </b-list-group-item>
         </b-list-group>
-        <modal-window :genres="genres"/>
+        <modal-window :genres="filteredGenres"/>
       </div>
       <div v-else style="color: #fff">
         Unfortunately, your search returned no results...
@@ -47,9 +47,10 @@
 
 <script>
 import FilmCard from "@/components/Cards/FilmCard";
-import ModalWindow from "@/components/UI/MovieModalWindow";
+import ModalWindow from "@/components/Interactive/MovieModalWindow";
 
 import {mapActions, mapGetters, mapState} from "vuex";
+import {observerMixin} from "@/mixins/observerMixin";
 
 export default {
   name: "FilmsList",
@@ -57,8 +58,8 @@ export default {
   data: () => ({
     totalResults: 0,
     currentPage: 1,
-    genres: "",
   }),
+  mixins: [observerMixin('movies')],
   methods: {
     compareTotalResults() {
       if (this.movies.total_results > 10000) {
@@ -73,11 +74,6 @@ export default {
     },
     async getChosenMovieDetails(card) {
       await this.getMovieDetails(card);
-      const unFilteredGenres = this.movieDetails.genres.map((el) => el.name);
-      this.genres =
-          unFilteredGenres.length > 3
-              ? unFilteredGenres.slice(0, 3).join(", ") + "..."
-              : unFilteredGenres.join(", ");
     },
     ...mapActions(["getMovies", "getMovieDetails", "getNextMoviesPage"]),
   },
@@ -86,37 +82,13 @@ export default {
       this.fetchFilms();
     }
   },
-  mounted() {
-    setTimeout(() => {
-      const observer = new IntersectionObserver(async (entries) => {
-        if (
-            entries[0].intersectionRatio > 0 &&
-            this.currentPage !== this.movies.total_pages
-        ) {
-          if (this.movies.total_pages === 1) {
-            return;
-          }
-          if (this.currentPage !== this.movies.page) {
-            this.currentPage = 1;
-          }
-          this.currentPage += 1;
-          await this.getNextMoviesPage({
-            page: this.currentPage,
-            query: this.selectedSearchQuery,
-            genres: this.selectedGenres,
-            chosenLeftRatingVote: this.leftRatingRangeValue,
-            chosenRightRatingVote: this.rightRatingRangeValue,
-            chosenLeftReleaseDateVote: this.leftYearRangeValue,
-            chosenRightReleaseDateVote: this.rightYearRangeValue,
-            selectedValue: this.selectedValue,
-          });
-          this.compareTotalResults();
-        }
-      }, {});
-      observer.observe(this.$refs.observer);
-    }, 1000);
-  },
   computed: {
+    filteredGenres() {
+      const unFilteredGenres = this.movieDetails.genres ? this.movieDetails.genres.map((el) => el.name) : [];
+      return unFilteredGenres.length > 3
+          ? unFilteredGenres.slice(0, 3).join(", ") + "..."
+          : unFilteredGenres.join(", ");
+    },
     ...mapGetters(["uniqueMovies"]),
     ...mapState([
       "movieDetails",

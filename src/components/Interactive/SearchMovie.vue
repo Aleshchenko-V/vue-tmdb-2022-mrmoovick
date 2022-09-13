@@ -7,16 +7,16 @@
             type="text"
             class="form-control"
             @keyup="throttledSearch"
-            @keyup.enter="getFilm(), clearFilters(), changeVisible(false)"
+            @keyup.enter="getFilm"
             @keyup.escape="clearSelectedQuery()"
-            @click.stop="changeVisible(true)"
+            @click.stop="changeSearchModalVisible(true)"
             @input="SET_SEARCH_QUERY($event.target.value.trim())"
             :disabled="isLoading"
         />
       </b-overlay>
     </b-col>
     <b-col cols="2">
-      <b-button @click="getFilm(), clearFilters(), changeVisible(false)" :disabled="isLoading" variant="outline-light"
+      <b-button @click="getFilm()" :disabled="isLoading" variant="outline-light"
       >Search
       </b-button>
     </b-col>
@@ -28,33 +28,30 @@ import {mapActions, mapGetters, mapMutations, mapState} from "vuex";
 import debounce from "lodash.debounce";
 
 export default {
+  name: 'searchMovie',
   methods: {
     getMultiSearchResults() {
-      if (this.searchQuery !== this.selectedSearchQuery) {
-        this.multiSearch(this.searchQuery);
-      } else {
-        return
-      }
+      this.multiSearch(this.searchQuery);
     },
     getFilm() {
+      this.clearFilters();
+      this.changeSearchModalVisible(false);
       if (this.searchQuery) {
         this.multiSearch(this.searchQuery);
         if (this.$route.path !== "/results") {
           this.$router.replace("/results");
         }
-      } else {
-        return;
       }
       this.clearSelectedQuery();
     },
     ...mapActions(["multiSearch"]),
-    ...mapMutations(["SET_SEARCH_QUERY", "changeVisible", "clearFilters", "clearSelectedQuery"]),
+    ...mapMutations(["SET_SEARCH_QUERY", "changeSearchModalVisible", "clearFilters", "clearSelectedQuery"]),
   },
   computed: {
     ...mapState(["isLoading", "searchQuery", "isShown", "selectedSearchQuery"]),
     ...mapGetters(["sortedTypes"]),
     throttledSearch() {
-      let DELAY = 750;
+      const DELAY = 750;
       return debounce(this.getMultiSearchResults, DELAY);
     },
   },

@@ -22,7 +22,7 @@
                 :profilePath="profile_path || ''"
                 :character="character"
                 :actorId="id"
-                @get-actor-id="getActorDetails($event), clearFilters()"
+                @get-actor-id="getActorId($event)"
                 :big="big"
             >
             </actor-card>
@@ -37,6 +37,7 @@
 <script>
 import ActorCard from "@/components/Cards/ActorCard";
 import {mapActions, mapGetters, mapMutations, mapState} from "vuex";
+import {observerMixin} from "@/mixins/observerMixin";
 
 export default {
   name: "ActorsList",
@@ -45,7 +46,12 @@ export default {
     totalResults: 0,
     currentPage: 1,
   }),
+  mixins: [observerMixin('actors')],
   methods: {
+    getActorId(id) {
+      this.getActorDetails(id);
+      this.clearFilters()
+    },
     compareTotalResults() {
       if (this.actors.total_results > 10000) {
         this.totalResults = 10000;
@@ -64,32 +70,8 @@ export default {
     big: {
       type: Boolean,
       required: false,
-      default: false,
+      default: true,
     },
-  },
-  mounted() {
-    setTimeout(() => {
-      const observer = new IntersectionObserver(async (entries) => {
-        if (
-            entries[0].intersectionRatio > 0 &&
-            this.currentPage !== this.actors.total_pages
-        ) {
-          if (this.actors.total_pages === 1) {
-            return;
-          }
-          if (this.searchQuery && this.currentPage !== this.actors.page) {
-            this.currentPage = 1;
-          }
-          this.currentPage += 1;
-          await this.getNextActorPage({
-            page: this.currentPage,
-            query: this.searchQuery,
-          });
-          this.compareTotalResults();
-        }
-      }, {});
-      observer.observe(this.$refs.observer);
-    }, 1000);
   },
 };
 </script>

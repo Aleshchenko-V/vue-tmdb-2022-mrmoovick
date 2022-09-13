@@ -18,7 +18,7 @@
       img-top
       tag="article"
       class="text-muted card-text form-control card-img-top b-card"
-      @click="$emit('get-movie-card-id', cardId), getMovieActors(cardId)"
+      @click="getMovieCard(cardId)"
   >
     <b-card-text class="b-card__text">
       {{ overview }}
@@ -37,13 +37,13 @@
 
 <script>
 import {mapActions} from "vuex";
+import constants from "@/constants";
 
 export default {
   name: "FilmCard",
   data: () => ({
     show: false,
-    NO_IMG_URL:
-        "https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg",
+    NO_IMG_URL: constants.NO_IMG_URL,
   }),
   props: {
     title: {
@@ -76,6 +76,10 @@ export default {
     },
   },
   methods: {
+    getMovieCard(cardId) {
+      this.$emit('get-movie-card-id', cardId);
+      this.getMovieActors(cardId)
+    },
     ...mapActions(["getMovieActors"]),
   },
 };
@@ -128,8 +132,6 @@ export default {
 }
 
 .b-card:hover {
-  -webkit-transform: scale(1.05);
-  -ms-transform: scale(1.05);
   transform: scale(1.05);
   z-index: 1;
 }

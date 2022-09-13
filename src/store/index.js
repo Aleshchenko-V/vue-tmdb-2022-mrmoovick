@@ -15,7 +15,7 @@ export default new Vuex.Store({
         rightYearRangeValue: "2022",
         selectedValue: null,
         isLoading: false,
-        isVisible: false,
+        isSearchModalVisible: false,
         isShown: false,
         movies: [],
         actors: [],
@@ -51,11 +51,11 @@ export default new Vuex.Store({
             };
             state.searchResults.results
                 ? state.searchResults.results.forEach((el) => {
-                    if (el.media_type === "person") {
+                    if (el.media_type === "person" && obj.actors.length !== 5) {
                         obj.actors.push(el);
-                    } else if (el.media_type === "tv") {
+                    } else if (el.media_type === "tv" && obj.tvs.length !== 5) {
                         obj.tvs.push(el);
-                    } else {
+                    } else if (el.media_type === "movie" && obj.movies.length !== 5) {
                         obj.movies.push(el);
                     }
                 })
@@ -65,10 +65,10 @@ export default new Vuex.Store({
     },
     mutations: {
         GET_MOVIES(state, movies) {
-            state.movies = {};
             state.selectedGenres = [];
             state.actorDetails = {};
             state.movieDetails = {};
+            state.movies = {};
             state.searchQuery = "";
             state.selectedSearchQuery = "";
             state.movies = movies;
@@ -157,8 +157,8 @@ export default new Vuex.Store({
         clearMovieDetails(state) {
             state.movieDetails = {};
         },
-        changeVisible(state, payload) {
-            state.isVisible = payload;
+        changeSearchModalVisible(state, payload) {
+            state.isSearchModalVisible = payload;
         },
         changeLeftVoteRating(state, payload) {
             state.leftRatingRangeValue = payload;
@@ -205,7 +205,7 @@ export default new Vuex.Store({
             try {
                 commit("SET_IS_LOADING", true);
                 const {data} = await axios.get(
-                    "https://api.themoviedb.org/3/movie/popular",
+                    "https://api.themoviedb.org/3/discover/movie",
                     options
                 );
                 commit("GET_MOVIES", data);

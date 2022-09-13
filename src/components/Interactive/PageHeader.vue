@@ -9,7 +9,7 @@
             src="@/assets/site-logo.png"
             alt="logo"
             width="60px"
-            @click="getMovies(), $refs.filter.clearHighlights(), clearFilters()"
+            @click="homeRedirection()"
         />
       </router-link>
       <div style="width: 750px">
@@ -32,7 +32,7 @@
     <button v-b-toggle.sidebar-1
             style="position: absolute; left: -380px; top: 450px; border: 0; background-color: inherit;"
             v-if="$route.path === '/' && selectedSearchQuery === ''">
-      <img width="96px" height="96px" src="../../assets/ftline-double-line-arrow-end.svg"/>
+      <img width="96px" height="96px" src="https://img.freepik.com/free-icon/right-arrow_318-9141.jpg?w=2000"/>
     </button>
     <b-sidebar id="sidebar-1" title="Filters"
                backdrop
@@ -46,8 +46,8 @@
 <script>
 import SearchMovie from "./SearchMovie";
 import {mapActions, mapMutations, mapState} from "vuex";
-import SearchModal from "@/components/UI/SearchModal";
-import MyFilter from "@/components/UI/MyFilter";
+import SearchModal from "@/components/Interactive/SearchModal";
+import MyFilter from "@/components/Interactive/MyFilter";
 
 export default {
   name: "PageHeader",
@@ -57,6 +57,11 @@ export default {
     SearchMovie,
   },
   methods: {
+    homeRedirection() {
+      this.getMovies();
+      this.$refs.filter.clearHighlights();
+      this.clearFilters()
+    },
     ...mapActions(["getMovies"]),
     ...mapMutations(["clearFilters"])
   },
@@ -79,5 +84,4 @@ export default {
 .site-logo {
   margin-left: 10px;
 }
-
 </style>

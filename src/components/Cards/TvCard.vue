@@ -37,13 +37,13 @@
 
 <script>
 import {mapActions} from "vuex";
+import constants from "@/constants";
 
 export default {
   name: "TvCard",
   data: () => ({
     show: false,
-    NO_IMG_URL:
-        "https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg",
+    NO_IMG_URL: constants.NO_IMG_URL,
   }),
   props: {
     name: {
@@ -128,8 +128,6 @@ export default {
 }
 
 .b-card:hover {
-  -webkit-transform: scale(1.05);
-  -ms-transform: scale(1.05);
   transform: scale(1.05);
   z-index: 1;
 }

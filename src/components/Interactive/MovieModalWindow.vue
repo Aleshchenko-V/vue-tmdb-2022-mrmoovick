@@ -4,7 +4,7 @@
         id="modal-scrollable"
         size="lg"
         scrollable
-        title="Tv Details"
+        title="Movie Details"
         :hide-footer="true"
         body-class="modal-window"
         @hidden="clearMovieDetails"
@@ -16,81 +16,53 @@
                 width="300"
                 class="movie-details__poster"
                 :src="
-                !tvDetails.backdrop_path
+                !movieDetails.poster_path
                   ?  NO_IMG_URL
                   : 'https://image.tmdb.org/t/p/w500' +
-                    tvDetails.backdrop_path
+                    movieDetails.poster_path
               "
                 alt="poster"
             />
           </div>
           <div class="wrapper-details">
             <div class="details-info">
-              <h2>{{ tvDetails.name }}</h2>
-              <div class="details-item">
-                <div class="details-subtitle">Original Name:</div>
-                <div class="details-subitem">
-                  {{ tvDetails.original_name }}
-                </div>
-              </div>
-              <div class="details-item">
-                <div class="details-subtitle">Status:</div>
-                <div class="details-subitem">
-                  {{ tvDetails.status }}
-                </div>
-              </div>
-              <div class="details-item">
-                <div class="details-subtitle">Type:</div>
-                <div class="details-subitem">
-                  {{ tvDetails.type }}
-                </div>
-              </div>
+              <h2>{{ movieDetails.title }}</h2>
               <div class="details-item">
                 <div class="details-subtitle">Genres:</div>
                 <div class="details-subitem">{{ genres }}</div>
               </div>
               <div class="details-item">
                 <div class="details-subtitle">Release Date:</div>
-                <div class="details-subitem">{{ tvDetails.first_air_date }}</div>
-              </div>
-              <div class="details-item">
-                <div class="details-subtitle">Last Release Date:</div>
-                <div class="details-subitem">
-                  {{ tvDetails.last_air_date }}
-                </div>
-              </div>
-              <div class="details-item">
-                <div class="details-subtitle">Number of episodes:</div>
-                <div class="details-subitem">
-                  {{ tvDetails.number_of_episodes }}
-                </div>
-              </div>
-              <div class="details-item">
-                <div class="details-subtitle">Number of seasons:</div>
-                <div class="details-subitem">
-                  {{ tvDetails.number_of_seasons }}
-                </div>
+                <div class="details-subitem">{{ movieDetails.release_date }}</div>
               </div>
               <div class="details-item">
                 <div class="details-subtitle">Rating:</div>
                 <div class="details-subitem">
-                  {{ tvDetails.vote_average }} / {{ tvDetails.vote_count }}
+                  {{ movieDetails.vote_average }} / {{ movieDetails.vote_count }}
+                </div>
+              </div>
+              <div class="details-item">
+                <div class="details-subtitle">Budget:</div>
+                <div class="details-subitem">
+                  {{ movieDetails.budget || "unknown" }}
+                </div>
+              </div>
+              <div class="details-item mb-3">
+                <div class="details-subtitle">Revenue:</div>
+                <div class="details-subitem">
+                  {{ movieDetails.revenue || "unknown" }}
                 </div>
               </div>
             </div>
+            <div class="description">
+              <h3>Description:</h3>
+              <p>{{ movieDetails.overview }}</p>
+            </div>
           </div>
-        </div>
-        <div class="tvDescription">
-          <h3>Description:</h3>
-          <p>{{ tvDetails.overview }}</p>
-        </div>
-        <div class="movie-details__actor-cast">
-          <h3>Seasons:</h3>
-          <seasons-list/>
         </div>
         <div class="movie-details__actor-cast">
           <h3>Actors:</h3>
-          <actor-list/>
+          <actor-list :big="false"/>
         </div>
       </div>
     </b-modal>
@@ -100,13 +72,13 @@
 <script>
 import {mapMutations, mapState} from "vuex";
 import ActorList from "@/components/Lists/ActorsList";
-import SeasonsList from "@/components/Lists/SeasonsList";
+import constants from "@/constants";
 
 export default {
-  name: 'TvModalWindow',
-  components: {SeasonsList, ActorList},
+  name: 'MovieModalWindow',
+  components: {ActorList},
   data: () => ({
-    NO_IMG_URL: 'https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg'
+    NO_IMG_URL: constants.NO_IMG_URL,
   }),
   props: {
     genres: {
@@ -118,7 +90,7 @@ export default {
     ...mapMutations(["clearMovieDetails"]),
   },
   computed: {
-    ...mapState(["tvDetails"]),
+    ...mapState(["movieDetails"]),
   },
 };
 </script>
@@ -146,14 +118,13 @@ export default {
 .details-item {
   display: flex;
   justify-content: space-between;
-  width: 400px;
+  width: 360px;
   margin: 0 10px;
 }
 
 .details-subitem {
   display: flex;
   justify-content: center;
-  font-size: 12px;
 }
 
 .wrapper-details {
@@ -165,8 +136,9 @@ export default {
   font-size: 14px;
 }
 
-.tvDescription {
-  margin-top: 40px;
+.description {
+  padding-left: 15px;
+  margin-top: 25px;
 }
 
 .movie-details__actor-cast {

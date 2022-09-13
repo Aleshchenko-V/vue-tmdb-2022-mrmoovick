@@ -1,36 +1,36 @@
 <template>
   <router-link :to="`/actor/${actorId}`">
     <div
-      :style="
+        :class="
         searchCard
-          ? 'height: 150px; width: 600px'
-          : 'height: 75px; width: 460px'
+          ? 'big-search-card'
+          : 'small-search-card'
       "
-      style="border: 1px solid #fff; margin-bottom: 10px; border-radius: 5px"
-      class="d-flex"
-      @click="$emit('get-actor-id', actorId)"
+        style="border: 1px solid #fff; margin-bottom: 10px; border-radius: 5px"
+        class="d-flex"
+        @click="$emit('get-actor-id', actorId)"
     >
       <div
-        :style="
+          :style="
           searchCard
-            ? 'height: 150px; width: 100px'
-            : 'height: 75px; width: 75px'
+            ? 'big-search-card-img'
+            : 'small-search-card-img'
         "
       >
         <img
-          style="
+            style="
             height: 100%;
             width: 100%;
             padding: 0;
             border-radius: 5px;
             display: inline-block;
           "
-          :src="
+            :src="
             profileImage === ''
               ? NO_IMG_URL
               : 'https://image.tmdb.org/t/p/original' + profileImage
           "
-          alt="Poster"
+            alt="Poster"
         />
       </div>
 
@@ -42,13 +42,13 @@
 </template>
 
 <script>
+import constants from "@/constants";
+
 export default {
   name: "SearchActorCard",
-  data() {
-    this.NO_IMG_URL =
-      "https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg";
-    return {};
-  },
+  data: () => ({
+    NO_IMG_URL: constants.NO_IMG_URL,
+  }),
   props: {
     name: {
       type: String,
@@ -76,27 +76,23 @@ a {
   color: #fff;
 }
 
-.card {
-  height: 60px;
-  font-size: 12px;
-  margin-top: 5px;
+.big-search-card {
+  height: 150px;
+  width: 600px;
+}
 
-  h4 {
-    font-size: 14px;
-    margin: 0;
-  }
+.big-search-card-img {
+  height: 150px;
+  width: 100px;
+}
 
-  img {
-    width: 55px;
-    height: 100%;
-    margin-left: 20px;
-    border-radius: 10px;
-  }
-  .big-img img {
-    width: 400px;
-  }
-  .release-date {
-    color: orange !important;
-  }
+.small-search-card {
+  height: 75px;
+  width: 460px;
+}
+
+.small-search-card-img {
+  height: 75px;
+  width: 75px;
 }
 </style>

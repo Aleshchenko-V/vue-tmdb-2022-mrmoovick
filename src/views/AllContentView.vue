@@ -1,8 +1,8 @@
 <template>
   <div class="container-lg">
-    <div v-if="searchResults.results.length !== 0">
+    <div v-if="searchResults.results ? searchResults.results.length !== 0 : false">
       <h2 style="color: #fff">You are most likely looking for:</h2>
-      <div v-show="sortedTypes ? sortedTypes.movies.length !== 0 : false">
+      <div v-show="sortedTypes.movies ? sortedTypes.movies.length !== 0 : false">
         <h2 class="mb-2">Movies</h2>
         <div
             class="d-flex justify-content-center"
@@ -13,7 +13,7 @@
             backdrop_path,
             title,
             release_date,
-          } in sortedTypes.movies ? decreaseData(sortedTypes.movies) : []"
+          } in sortedTypes.movies ? sortedTypes.movies : []"
             :key="id"
         >
           <search-movie-card
@@ -34,7 +34,7 @@
           see more...
         </div>
       </div>
-      <div v-show="sortedTypes ? sortedTypes.tvs.length !== 0 : false">
+      <div v-show="sortedTypes.tvs ? sortedTypes.tvs.length !== 0 : false">
         <h2 class="mt-2">Tvs</h2>
         <div
             class="d-flex justify-content-center"
@@ -45,7 +45,7 @@
             first_air_date,
             vote_average,
             poster_path,
-          } in sortedTypes.tvs ? decreaseData(sortedTypes.tvs) : []"
+          } in sortedTypes.tvs ? sortedTypes.tvs : []"
             :key="id"
         >
           <search-tv-card
@@ -66,12 +66,12 @@
           see more...
         </div>
       </div>
-      <div v-show="sortedTypes ? sortedTypes.actors.length !== 0 : false">
+      <div v-show="sortedTypes.actors ? sortedTypes.actors.length !== 0 : false">
         <h2 class="mt-2">Actors</h2>
         <div
             class="d-flex justify-content-center"
             v-for="{ id, name, profile_path } in sortedTypes.actors
-            ? decreaseData(sortedTypes.actors)
+            ? sortedTypes.actors
             : []"
             :key="id"
         >
@@ -104,29 +104,14 @@ import SearchActorCard from "@/components/Cards/SearchActorCard";
 import SearchTvCard from "@/components/Cards/SearchTvCard";
 
 export default {
-  name: "SearchModal",
+  name: "AllContentView",
   components: {
     SearchTvCard,
     SearchActorCard,
     SearchMovieCard,
   },
   methods: {
-    decreaseData(data) {
-      let arr = [];
-      if (data.length > 5) {
-        arr = data.splice(0, 5);
-      } else {
-        arr = data;
-      }
-      return arr;
-    },
-    getYear(data) {
-      if (data) {
-        return data.slice(0, 4);
-      } else {
-        return "";
-      }
-    },
+    getYear: (data) => data ? data.slice(0, 4) : "",
     makeOptionalResponseAndRedirect(type) {
       this.clearSelectedQuery();
       switch (type) {
@@ -156,7 +141,7 @@ export default {
   },
   computed: {
     ...mapGetters(["sortedTypes"]),
-    ...mapState(["searchQuery", "isVisible", "searchResults"]),
+    ...mapState(["searchQuery", "isSearchModalVisible", "searchResults"]),
   },
 };
 </script>
