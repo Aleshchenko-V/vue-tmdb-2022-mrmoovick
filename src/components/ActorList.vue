@@ -22,7 +22,7 @@
                 :profilePath="profile_path || ''"
                 :character="character"
                 :actorId="id"
-                @get-actor-id="getActorDetails($event), getActorKnownFor(name), closeModal()"
+                @get-actor-id="getActor($event, name)"
             >
             </actor-card>
           </b-list-group-item>
@@ -42,7 +42,12 @@ export default {
   methods: {
     ...mapActions(["getActorDetails", "getActorKnownFor"]),
     closeModal() {
-      this.$parent.$parent.$parent.$refs['my-modal'].hide()
+      this.$emit('close-modal');
+    },
+    getActor(id, name) {
+      this.getActorDetails(id);
+      this.getActorKnownFor(name);
+      this.closeModal();
     }
   },
   computed: {

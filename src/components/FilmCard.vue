@@ -1,7 +1,7 @@
 <template>
   <b-card
       v-b-modal.modal-scrollable
-      v-if="KnownFor === false"
+      v-if="knownFor === false"
       :aria-hidden="show ? 'true' : null"
       :title="title"
       :sub-title="
@@ -101,7 +101,7 @@ export default {
       type: Number,
       required: true,
     },
-    KnownFor: {
+    knownFor: {
       type: Boolean,
       required: false,
       default: false,

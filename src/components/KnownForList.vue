@@ -6,7 +6,7 @@
       <div class="d-flex flex-row">
         <b-list-group horizontal class="flex-sm-wrap">
           <b-list-group-item
-              class="w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card"
+              class="w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle rounded"
               v-for="{
               title,
               backdrop_path,
@@ -30,13 +30,13 @@
                 :releaseDate="release_date || ''"
                 :overallRating="vote_average"
                 :cardId="id"
-                @get-card-id="getChosenMovieDetails"
-                :known-for="true"
+                @get-card-id="showKnownForList"
+                :knownFor="true"
             >
             </film-card>
           </b-list-group-item>
         </b-list-group>
-        <modal-window :genres="genres"/>
+        <modal-window :genres="filteredGenres"/>
       </div>
     </div>
   </div>
@@ -51,30 +51,25 @@ import {mapActions, mapState} from "vuex";
 export default {
   name: "KnownForList",
   components: {FilmCard, ModalWindow},
-  data: () => ({
-    genres: "",
-  }),
   methods: {
-    async getChosenMovieDetails(card) {
+    async showKnownForList(card) {
       await this.getMovieDetails(card);
-      const unFilteredGenres = this.movieDetails.genres.map((el) => el.name);
-      this.genres =
-          unFilteredGenres.length > 3
-              ? unFilteredGenres.slice(0, 3).join(", ") + "..."
-              : unFilteredGenres.join(", ");
     },
     ...mapActions(["getMovieDetails"]),
   },
   computed: {
+    filteredGenres() {
+      const unFilteredGenres = this.movieDetails.genres ? this.movieDetails.genres.map((el) => el.name) : [];
+      return unFilteredGenres.length > 3
+          ? unFilteredGenres.slice(0, 3).join(", ") + "..."
+          : unFilteredGenres.join(", ");
+    },
     ...mapState(["movieDetails", "actorKnownFor"]),
   },
 };
 </script>
 
 <style scoped>
-.card {
-  border-radius: 20px;
-}
 
 .container {
   max-width: 1160px;
