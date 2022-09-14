@@ -1,8 +1,8 @@
 <template>
   <div id="app" @click.stop="changeSearchModalVisible(false)">
-    <div class="collage"/>
-    <page-header/>
-    <router-view/>
+    <div class="collage" />
+    <page-header />
+    <router-view />
     <scroll-up :scroll-duration="1000" :scroll-y="1000"></scroll-up>
   </div>
 </template>
@@ -10,11 +10,11 @@
 import PageHeader from "@/components/Interactive/PageHeader";
 import ScrollUp from "vue-scroll-up";
 import "vue-scroll-up/dist/style.css";
-import {mapMutations} from "vuex";
+import { mapMutations } from "vuex";
 
 export default {
   name: "App",
-  components: {PageHeader, ScrollUp},
+  components: { PageHeader, ScrollUp },
   methods: {
     ...mapMutations(["changeSearchModalVisible"]),
   },
@@ -36,7 +36,7 @@ export default {
   display: flex;
   position: relative;
   font-family: "Lobster", "Creepster", "Oswald", Avenir, Helvetica, Arial,
-  sans-serif, cursive;
+    sans-serif, cursive;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -235,6 +235,18 @@ export default {
   color: rgb(34 34 34) !important;
 }
 
+[theme="dark"] .switch__input:checked + .switch__slider {
+  background: #ff4754;
+}
+[theme="light"] .switch__input:checked + .switch__slider {
+  background: #f9f9f9;
+}
+[theme="dark"] .switch__slider {
+  background: #ff4754;
+}
+[theme="light"] .switch__slider {
+  background: #f9f9f9;
+}
 .collage {
   height: 300px;
   background: url("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftecake.com%2Fwp-content%2Fuploads%2F2020%2F12%2F1_eqpRo4-2-CbTDd-ZbNagVA.jpeg&f=1&nofb=1");
