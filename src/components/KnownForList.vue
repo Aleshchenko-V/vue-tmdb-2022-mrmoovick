@@ -43,8 +43,8 @@
 </template>
 
 <script>
-import FilmCard from "@/components/FilmCard";
-import ModalWindow from "@/components/ModalWindow";
+import FilmCard from "@/components/Cards/FilmCard";
+import ModalWindow from "@/components/Interactive/MovieModalWindow";
 
 import {mapActions, mapState} from "vuex";
 

@@ -22,7 +22,7 @@
                 :profilePath="profile_path || ''"
                 :character="character"
                 :actorId="id"
-                @get-actor-id="getActorDetails($event)"
+                @get-actor-id="getActor($event, name)"
                 :big="big"
             >
             </actor-card>
@@ -55,10 +55,15 @@ export default {
         this.totalResults = this.actors.total_results;
       }
     },
-    ...mapActions(["getActorDetails", "getNextActorPage"]),
+    getActor(event, name) {
+      this.$emit('close-modal', this.closeModal)
+      this.getActorDetails(event)
+      this.getActorKnownFor(name)
+    },
+    ...mapActions(["getActorDetails", "getNextActorPage", "getActorKnownFor"]),
   },
   computed: {
-    ...mapState(["actors", "searchQuery"]),
+    ...mapState(["actors", "searchQuery", "selectedSearchQuery"]),
     ...mapGetters(["uniqueActors"]),
   },
   props: {
