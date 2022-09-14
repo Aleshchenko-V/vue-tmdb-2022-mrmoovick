@@ -176,6 +176,8 @@ export default new Vuex.Store({
             state.rightYearRangeValue = payload;
         },
         clearFilters(state) {
+            state.selectedGenres = [];
+            state.selectedValue = null;
             state.leftYearRangeValue = "1895";
             state.rightYearRangeValue = "2022";
             state.leftRatingRangeValue = "0";
