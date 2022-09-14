@@ -8,6 +8,7 @@
         >
           <b-list-group-item
               class="actor-list w-auto mt-2 mb-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card slide"
+              style="background: inherit"
               v-for="{
               id,
               name,

@@ -84,7 +84,7 @@
               :actor-id="id"
               :name="name"
               :profile-image="profile_path || ''"
-              @get-actor-id="getActorDetails($event)"
+              @get-actor-id="getActor($event, name)"
           />
         </div>
         <div
@@ -108,9 +108,12 @@ export default {
   name: "SearchModal",
   components: {SearchTvCard, SearchActorCard, SearchMovieCard},
   methods: {
+    getActor(id, name) {
+      this.getActorDetails(id);
+      this.getActorKnownFor(name);
+    },
     getYear: (data) => (data ? data.slice(0, 4) : ""),
     makeOptionalResponseAndRedirect(type) {
-      this.clearSelectedQuery();
       switch (type) {
         case "movies":
           if (this.$route.path !== "/") this.$router.replace("/");
@@ -133,6 +136,7 @@ export default {
       "movieSearch",
       "actorSearch",
       "tvSearch",
+      "getActorKnownFor"
     ]),
     ...mapMutations(["clearSelectedQuery"]),
   },
