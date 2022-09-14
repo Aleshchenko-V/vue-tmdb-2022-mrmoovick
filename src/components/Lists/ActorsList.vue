@@ -25,7 +25,7 @@
               :profilePath="profile_path || ''"
               :character="character"
               :actorId="id"
-              @get-actor-id="getActorDetails($event), clearFilters()"
+              @get-actor-id="getActor($event, name)"
               :big="big"
             >
             </actor-card>
@@ -40,6 +40,7 @@
 <script>
 import ActorCard from "@/components/Cards/ActorCard";
 import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
+import { observerMixin } from "@/mixins/observerMixin";
 
 export default {
   name: "ActorsList",
@@ -48,7 +49,14 @@ export default {
     totalResults: 0,
     currentPage: 1,
   }),
+  mixins: [observerMixin("actors")],
   methods: {
+    getActor(event, name) {
+      this.$emit("close-modal", this.closeModal);
+      this.getActorDetails(event);
+      this.getActorKnownFor(name);
+      this.clearFilters();
+    },
     compareTotalResults() {
       if (this.actors.total_results > 10000) {
         this.totalResults = 10000;
@@ -56,18 +64,18 @@ export default {
         this.totalResults = this.actors.total_results;
       }
     },
-    ...mapActions(["getActorDetails", "getNextActorPage"]),
+    ...mapActions(["getActorDetails", "getNextActorPage", "getActorKnownFor"]),
     ...mapMutations(["clearFilters"]),
   },
   computed: {
-    ...mapState(["actors", "searchQuery"]),
+    ...mapState(["actors", "searchQuery", "selectedSearchQuery"]),
     ...mapGetters(["uniqueActors"]),
   },
   props: {
     big: {
       type: Boolean,
       required: false,
-      default: false,
+      default: true,
     },
   },
   created() {},

@@ -1,17 +1,19 @@
 <template>
   <router-link :to="`/actor/${actorId}`">
     <div
-      :style="searchCard ? ' width: 650px' : ' width: 445px'"
+      :class="searchCard ? 'big-search-card' : 'small-search-card'"
       style="
         border: 1px solid #fff;
         margin-bottom: 10px;
         border-radius: 5px;
         font-family: 'Oswald';
       "
-      class="actor-card d-flex"
+      class="d-flex"
       @click="$emit('get-actor-id', actorId)"
     >
-      <div :style="searchCard ? 'height: 150px;' : 'height: 75px;'">
+      <div
+        :style="searchCard ? 'big-search-card-img' : 'small-search-card-img'"
+      >
         <img
           style="
             height: 100%;
@@ -39,13 +41,13 @@
 </template>
 
 <script>
+import constants from "@/constants";
+
 export default {
   name: "SearchActorCard",
-  data() {
-    this.NO_IMG_URL =
-      "https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg";
-    return {};
-  },
+  data: () => ({
+    NO_IMG_URL: constants.NO_IMG_URL,
+  }),
   props: {
     name: {
       type: String,
@@ -68,11 +70,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-a {
-  text-decoration: none;
-  color: #fff;
-}
-
 .card {
   height: 60px;
   font-size: 12px;
@@ -104,5 +101,24 @@ a {
 .actor-card:hover {
   scale: 1.05;
   box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
+}
+.big-search-card {
+  height: 150px;
+  width: 650px;
+}
+
+.big-search-card-img {
+  height: 150px;
+  width: 100px;
+}
+
+.small-search-card {
+  height: 75px;
+  width: 445px;
+}
+
+.small-search-card-img {
+  height: 75px;
+  width: 75px;
 }
 </style>

@@ -15,10 +15,11 @@ export default new Vuex.Store({
     rightYearRangeValue: "2022",
     selectedValue: null,
     isLoading: false,
-    isVisible: false,
+    isSearchModalVisible: false,
     isShown: false,
     movies: [],
     actors: [],
+    actorKnownFor: [],
     tvs: [],
     uniqueMovies: [],
     uniqueActors: [],
@@ -29,7 +30,6 @@ export default new Vuex.Store({
     actorDetails: {},
     tvDetails: {},
     seasonDetails: {},
-    isDiscovery: false,
   },
   getters: {
     uniqueMovies: ({ uniqueMovies, movies }) => {
@@ -52,11 +52,11 @@ export default new Vuex.Store({
       };
       state.searchResults.results
         ? state.searchResults.results.forEach((el) => {
-            if (el.media_type === "person") {
+            if (el.media_type === "person" && obj.actors.length !== 5) {
               obj.actors.push(el);
-            } else if (el.media_type === "tv") {
+            } else if (el.media_type === "tv" && obj.tvs.length !== 5) {
               obj.tvs.push(el);
-            } else {
+            } else if (el.media_type === "movie" && obj.movies.length !== 5) {
               obj.movies.push(el);
             }
           })
@@ -66,10 +66,10 @@ export default new Vuex.Store({
   },
   mutations: {
     GET_MOVIES(state, movies) {
-      state.movies = {};
       state.selectedGenres = [];
       state.actorDetails = {};
       state.movieDetails = {};
+      state.movies = {};
       state.searchQuery = "";
       state.selectedSearchQuery = "";
       state.movies = movies;
@@ -96,7 +96,6 @@ export default new Vuex.Store({
     SET_SEARCH_MOVIES(state, { response }) {
       state.movies = [];
       state.searchResults = [];
-      state.selectedSearchQuery = state.searchQuery;
       state.searchQuery = "";
       state.movies = response;
     },
@@ -113,7 +112,6 @@ export default new Vuex.Store({
       state.tvs = response;
     },
     SET_MOVIE_DETAILS(state, movie) {
-      state.actorDetails = {};
       state.tvDetails = {};
       state.movieDetails = {};
       state.movieDetails = movie;
@@ -123,6 +121,10 @@ export default new Vuex.Store({
       state.tvDetails = {};
       state.movieDetails = {};
       state.actorDetails = actor;
+    },
+    SET_ACTOR_KNOWN_FOR(state, array) {
+      state.actorKnownFor = [];
+      state.actorKnownFor = array;
     },
     SET_TV_DETAILS(state, tv) {
       state.actorDetails = {};
@@ -158,8 +160,8 @@ export default new Vuex.Store({
     clearMovieDetails(state) {
       state.movieDetails = {};
     },
-    changeVisible(state, payload) {
-      state.isVisible = payload;
+    changeSearchModalVisible(state, payload) {
+      state.isSearchModalVisible = payload;
     },
     changeLeftVoteRating(state, payload) {
       state.leftRatingRangeValue = payload;
@@ -174,6 +176,8 @@ export default new Vuex.Store({
       state.rightYearRangeValue = payload;
     },
     clearFilters(state) {
+      state.selectedGenres = [];
+      state.selectedValue = null;
       state.leftYearRangeValue = "1895";
       state.rightYearRangeValue = "2022";
       state.leftRatingRangeValue = "0";
@@ -184,9 +188,6 @@ export default new Vuex.Store({
     },
     changeSelectValue(state, payload) {
       state.selectedValue = payload;
-    },
-    changeIsDiscovery(state, payload) {
-      state.isDiscovery = payload;
     },
     SET_IS_LOADING(state, payload) {
       state.isLoading = payload;
@@ -209,7 +210,7 @@ export default new Vuex.Store({
       try {
         commit("SET_IS_LOADING", true);
         const { data } = await axios.get(
-          "https://api.themoviedb.org/3/movie/popular",
+          "https://api.themoviedb.org/3/discover/movie",
           options
         );
         commit("GET_MOVIES", data);
@@ -217,6 +218,20 @@ export default new Vuex.Store({
         alert(e);
       } finally {
         commit("SET_IS_LOADING", false);
+      }
+    },
+    async getActorKnownFor({ commit }, query) {
+      const options = {
+        params: { api_key: process.env.VUE_APP_API_KEY, query, language: "en" },
+      };
+      try {
+        const { data } = await axios.get(
+          `https://api.themoviedb.org/3/search/person`,
+          options
+        );
+        commit("SET_ACTOR_KNOWN_FOR", data.results[0].known_for);
+      } catch (e) {
+        alert(e);
       }
     },
     async getMovieActors({ commit }, movieId) {
@@ -484,7 +499,7 @@ export default new Vuex.Store({
         );
         commit("NEXT_ACTOR_PAGE", data);
       } catch (e) {
-        alert(e);
+        return;
       }
     },
     async getNextTvPage({ commit }, { page, query }) {

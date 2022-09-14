@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div v-show="sortedTypes && searchQuery && isVisible" id="window">
+    <div
+      v-show="sortedTypes && searchQuery && isSearchModalVisible"
+      id="searchModalWindow"
+    >
       <div
         v-show="
           sortedTypes
@@ -19,8 +22,7 @@
             backdrop_path,
             title,
             release_date,
-            runtime,
-          } in sortedTypes.movies ? decreaseData(sortedTypes.movies) : []"
+          } in sortedTypes.movies ? sortedTypes.movies : []"
           :key="id"
         >
           <search-movie-card
@@ -35,7 +37,7 @@
           />
         </div>
         <div
-          class="d-flex justify-content-end mt-2 seeMore"
+          class="d-flex justify-content-end mt-2 see-more"
           @click="makeOptionalResponseAndRedirect('movies')"
         >
           see more...
@@ -51,7 +53,7 @@
             first_air_date,
             vote_average,
             poster_path,
-          } in sortedTypes.tvs ? decreaseData(sortedTypes.tvs) : []"
+          } in sortedTypes.tvs ? sortedTypes.tvs : []"
           :key="id"
         >
           <search-tv-card
@@ -65,7 +67,7 @@
           />
         </div>
         <div
-          class="d-flex justify-content-end mt-2 seeMore"
+          class="d-flex justify-content-end mt-2 see-more"
           @click="makeOptionalResponseAndRedirect('tvs')"
         >
           see more...
@@ -75,7 +77,7 @@
         <h2 class="mt-2">Actors</h2>
         <div
           v-for="{ id, name, profile_path } in sortedTypes.actors
-            ? decreaseData(sortedTypes.actors)
+            ? sortedTypes.actors
             : []"
           :key="id"
         >
@@ -87,7 +89,7 @@
           />
         </div>
         <div
-          class="d-flex justify-content-end mt-2 seeMore"
+          class="d-flex justify-content-end mt-2 see-more"
           @click="makeOptionalResponseAndRedirect('actors')"
         >
           see more...
@@ -98,7 +100,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from "vuex";
+import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
 import SearchMovieCard from "@/components/Cards/SearchMovieCard";
 import SearchActorCard from "@/components/Cards/SearchActorCard";
 import SearchTvCard from "@/components/Cards/SearchTvCard";
@@ -107,24 +109,9 @@ export default {
   name: "SearchModal",
   components: { SearchTvCard, SearchActorCard, SearchMovieCard },
   methods: {
-    decreaseData(data) {
-      let arr = [];
-      let flag = data ? data.length > 5 : 0;
-      if (flag) {
-        arr = data.splice(0, 5);
-      } else {
-        arr = data;
-      }
-      return arr;
-    },
-    getYear(data) {
-      if (data) {
-        return data.slice(0, 4);
-      } else {
-        return "";
-      }
-    },
+    getYear: (data) => (data ? data.slice(0, 4) : ""),
     makeOptionalResponseAndRedirect(type) {
+      this.clearSelectedQuery();
       switch (type) {
         case "movies":
           if (this.$route.path !== "/") this.$router.replace("/");
@@ -148,16 +135,17 @@ export default {
       "actorSearch",
       "tvSearch",
     ]),
+    ...mapMutations(["clearSelectedQuery"]),
   },
   computed: {
     ...mapGetters(["sortedTypes"]),
-    ...mapState(["searchQuery", "isVisible"]),
+    ...mapState(["searchQuery", "isSearchModalVisible"]),
   },
 };
 </script>
 
 <style scoped lang="scss">
-#window {
+#searchModalWindow {
   display: flex;
   flex-direction: column;
   width: 500px;
@@ -183,7 +171,7 @@ export default {
   }
 }
 
-.seeMore {
+.see-more {
   color: #fff;
 
   &:hover {

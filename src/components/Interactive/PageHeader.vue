@@ -5,12 +5,7 @@
       class="site-navbar d-flex justify-content-between rounded-bottom"
     >
       <router-link to="/" class="site-logo">
-        <h2
-          class="site-logo"
-          @click="getMovies(), $refs.filter.clearHighlights(), clearFilters()"
-        >
-          MrMoovick
-        </h2>
+        <h2 class="site-logo" @click="homeRedirection()">MrMoovick</h2>
       </router-link>
       <div style="width: 750px; position: relative">
         <search-movie />
@@ -64,6 +59,11 @@ export default {
     DarkMode,
   },
   methods: {
+    homeRedirection() {
+      this.getMovies();
+      this.$refs.filter.clearHighlights();
+      this.clearFilters();
+    },
     ...mapActions(["getMovies"]),
     ...mapMutations(["clearFilters", "changeIsDiscovery"]),
   },

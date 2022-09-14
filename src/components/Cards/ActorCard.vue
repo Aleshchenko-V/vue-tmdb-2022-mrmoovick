@@ -25,12 +25,13 @@
 </template>
 
 <script>
+import constants from "@/constants";
+
 export default {
   name: "ActorCard",
   data: () => ({
     show: false,
-    NO_IMG_URL:
-      "https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg",
+    NO_IMG_URL: constants.NO_IMG_URL,
   }),
   props: {
     name: {
@@ -70,23 +71,18 @@ export default {
 a {
   text-decoration: none;
 }
-
 .text-muted {
   color: #000 !important;
 }
-
 .card-body {
   padding: 0.5rem;
 }
-
 .card-subtitle {
   font-size: 13px;
 }
-
 .card-title {
   font-size: 18px;
 }
-
 .card-text {
   font-size: 14px;
   color: #fff;
@@ -96,7 +92,6 @@ a {
   background-color: #1e1b26;
   box-shadow: none;
 }
-
 .card-img-top {
   min-width: 138px;
   width: 138px;
@@ -104,13 +99,11 @@ a {
   display: block;
   border-radius: 10px;
 }
-
 .b-card__footer {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
-
 .b-card__text {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -118,7 +111,6 @@ a {
   -webkit-line-clamp: 8;
   -webkit-box-orient: vertical;
 }
-
 .b-card {
   width: 135px;
   height: 250px;
@@ -129,9 +121,7 @@ a {
   overflow: hidden;
 
   &:hover {
-    -webkit-transform: scale(1.03);
-    -ms-transform: scale(1.03);
-    transform: scale(1.03);
+    transform: scale(1.05);
     z-index: 1;
     box-shadow: -7px 7px 6px rgb(255 255 255 / 60%);
   }
@@ -158,9 +148,7 @@ a {
   }
 
   &:hover {
-    -webkit-transform: scale(1.03);
-    -ms-transform: scale(1.03);
-    transform: scale(1.03);
+    transform: scale(1.05);
     z-index: 1;
     box-shadow: 7px 7px 6px rgb(255 255 255 / 60%);
   }

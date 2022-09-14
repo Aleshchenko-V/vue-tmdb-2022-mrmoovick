@@ -1,6 +1,7 @@
 <template>
   <b-card
     v-b-modal.modal-scrollable
+    v-if="knownFor === false"
     :aria-hidden="show ? 'true' : null"
     :title="title"
     :sub-title="
@@ -18,7 +19,7 @@
     img-top
     tag="article"
     class="text-muted card-text form-control card-img-top b-card"
-    @click="$emit('get-movie-card-id', cardId), getMovieActors(cardId)"
+    @click="getMovieCard(cardId)"
   >
     <b-card-text class="b-card__text">
       {{ overview }}
@@ -33,17 +34,42 @@
       </div>
     </template>
   </b-card>
+  <b-card
+    v-else
+    v-b-modal.modal-scrollable
+    style="
+      height: 300px;
+      width: 225px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    "
+    :aria-hidden="show ? 'true' : null"
+    :title="title"
+    :sub-title="releaseDate !== '' ? releaseDate.slice(0, 4) : 'unknown'"
+    :img-src="
+      backdropPath === ''
+        ? NO_IMG_URL
+        : 'https://image.tmdb.org/t/p/original' + backdropPath
+    "
+    footer-tag="footer"
+    img-alt="Image"
+    img-top
+    tag="article"
+    class="text-muted form-control card-img-top b-card"
+    @click="$emit('get-card-id', cardId), getMovieCard(cardId)"
+  >
+  </b-card>
 </template>
 
 <script>
 import { mapActions } from "vuex";
+import constants from "@/constants";
 
 export default {
   name: "FilmCard",
   data: () => ({
     show: false,
-    NO_IMG_URL:
-      "https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg",
+    NO_IMG_URL: constants.NO_IMG_URL,
   }),
   props: {
     title: {
@@ -74,8 +100,17 @@ export default {
       type: Number,
       required: true,
     },
+    knownFor: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   methods: {
+    getMovieCard(cardId) {
+      this.$emit("get-movie-card-id", cardId);
+      this.getMovieActors(cardId);
+    },
     ...mapActions(["getMovieActors"]),
   },
 };
@@ -127,9 +162,7 @@ export default {
 }
 
 .b-card:hover {
-  -webkit-transform: scale(1.02);
-  -ms-transform: scale(1.02);
-  transform: scale(1.02);
+  transform: scale(1.05);
   z-index: 1;
   box-shadow: 7px 7px 6px rgb(255 255 255 / 60%);
 }

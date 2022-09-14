@@ -14,7 +14,7 @@
               season_number,
             } in tvDetails.seasons"
             :key="id"
-            @click="getSeason(season_number), clearFilters()"
+            @click="getSeason(season_number)"
           >
             <season-card
               :name="name"
@@ -40,6 +40,7 @@ export default {
   components: { SeasonCard },
   methods: {
     getSeason(seasonNumber) {
+      this.clearFilters();
       this.getSeasonDetails({
         tvId: this.tvDetails.id,
         seasonNumber,

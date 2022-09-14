@@ -1,11 +1,7 @@
 <template>
   <router-link :to="`/tv/${tvId}`">
     <div
-      :style="
-        searchCard
-          ? 'height: 150px; width: 650px'
-          : 'height: 75px; width: 445px;'
-      "
+      :class="searchCard ? 'big-search-tv-card' : 'small-search-tv-card'"
       style="
         border: 1px solid #fff;
         margin-bottom: 10px;
@@ -16,7 +12,11 @@
       class="tv-card d-flex"
       @click="$emit('get-tv-id', tvId)"
     >
-      <div :style="searchCard ? ' width: 200px' : ' width: 100px'">
+      <div
+        :class="
+          searchCard ? 'big-search-tv-card-img' : 'small-search-tv-img-img'
+        "
+      >
         <img
           style="
             height: 100%;
@@ -69,13 +69,13 @@
 </template>
 
 <script>
+import constants from "@/constants";
+
 export default {
-  name: "SearchMovieCard",
-  data() {
-    this.NO_IMG_URL =
-      "https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg";
-    return {};
-  },
+  name: "SearchTvCard",
+  data: () => ({
+    NO_IMG_URL: constants.NO_IMG_URL,
+  }),
   props: {
     name: {
       type: String,
@@ -115,6 +115,25 @@ a {
   color: #fff;
 }
 
+.big-search-tv-card {
+  height: 150px;
+  width: 600px;
+}
+
+.big-search-tv-card-img {
+  height: 150px;
+  width: 200px;
+}
+
+.small-search-tv-card {
+  height: 75px;
+  width: 460px;
+}
+
+.small-search-tv-card-img {
+  height: 75px;
+  width: 100px;
+}
 .card {
   height: 60px;
   font-size: 12px;

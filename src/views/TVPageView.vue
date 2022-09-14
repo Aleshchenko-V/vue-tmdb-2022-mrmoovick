@@ -3,15 +3,15 @@
     <div class="d-flex flex-row">
       <div class="d-flex justify-content-center">
         <img
-          width="300"
-          height="450"
-          class="movie-details__poster"
-          :src="
+            width="300"
+            height="450"
+            class="movie-details__poster"
+            :src="
             !tvDetails.poster_path
               ? NO_IMG_URL
               : 'https://image.tmdb.org/t/p/w500' + tvDetails.poster_path
           "
-          alt="poster"
+            alt="poster"
         />
       </div>
       <div class="wrapper-details">
@@ -60,7 +60,7 @@
         </div>
         <div class="description">
           <h3>Seasons:</h3>
-          <seasons-list />
+          <seasons-list/>
         </div>
       </div>
     </div>
@@ -69,26 +69,26 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import {mapState, mapActions} from "vuex";
 import SeasonsList from "../components/Lists/SeasonsList.vue";
+import constants from "@/constants";
 
 export default {
-  components: { SeasonsList },
-  name: "MoviesPageView",
+  components: {SeasonsList},
+  name: "TVPageView",
   data: () => ({
-    NO_IMG_URL:
-      "https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg",
+    NO_IMG_URL: constants.NO_IMG_URL,
   }),
   mounted() {
     this.getTvDetails(this.$route.params.id);
   },
   methods: {
-    getGenresNames(arrayOfGenres) {
-      return arrayOfGenres.map((el) => el.name).join(", ");
-    },
     ...mapActions(["getTvDetails"]),
   },
   computed: {
+    getGenresNames(arrayOfGenres) {
+      return arrayOfGenres.map((el) => el.name).join(", ");
+    },
     ...mapState(["tvDetails"]),
   },
 };

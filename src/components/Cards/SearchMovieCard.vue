@@ -1,22 +1,23 @@
 <template>
   <router-link :to="`/movie/${movieId}`">
     <div
-      :style="
-        searchCard
-          ? 'height: 150px; width: 650px'
-          : 'height: 75px; width: 445px'
-      "
+      :class="searchCard ? 'big-search-movie-card' : 'small-search-movie-card'"
       style="
         border: 1px solid #fff;
         margin-bottom: 10px;
         border-radius: 5px;
-        position: relative;
         font-family: 'Oswald';
       "
-      class="movie-card d-flex"
+      class="d-flex"
       @click="$emit('get-movie-id', movieId)"
     >
-      <div :style="searchCard ? 'width: 200px' : 'width: 100px'">
+      <div
+        :class="
+          searchCard
+            ? 'big-search-movie-card-img'
+            : 'small-search-movie-img-img'
+        "
+      >
         <img
           style="
             height: 100%;
@@ -71,13 +72,13 @@
 </template>
 
 <script>
+import constants from "@/constants";
+
 export default {
   name: "SearchMovieCard",
-  data() {
-    this.NO_IMG_URL =
-      "https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg";
-    return {};
-  },
+  data: () => ({
+    NO_IMG_URL: constants.NO_IMG_URL,
+  }),
   props: {
     title: {
       type: String,
@@ -115,6 +116,16 @@ export default {
 a {
   text-decoration: none;
   color: #fff;
+}
+
+.big-search-movie-card {
+  height: 150px;
+  width: 600px;
+}
+
+.big-search-movie-card-img {
+  height: 150px;
+  width: 200px;
 }
 
 .card {

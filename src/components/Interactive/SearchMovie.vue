@@ -11,11 +11,11 @@
           type="text"
           class="form-control"
           @keyup="throttledSearch"
-          @keyup.enter="getFilm(), clearFilters()"
+          @keyup.enter="getFilm"
           @keyup.escape="clearSelectedQuery()"
-          @click.stop="changeVisible(true)"
+          @click.stop="changeSearchModalVisible(true)"
           @input="SET_SEARCH_QUERY($event.target.value.trim())"
-          :disabled="isLoading || isDiscovery"
+          :disabled="isLoading"
           placeholder="Type some query"
         />
       </b-overlay>
@@ -49,6 +49,7 @@ import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
 import debounce from "lodash.debounce";
 
 export default {
+  name: "searchMovie",
   methods: {
     getMultiSearchResults() {
       if (!this.searchQuery) {
@@ -61,13 +62,13 @@ export default {
       }
     },
     getFilm() {
+      this.clearFilters();
+      this.changeSearchModalVisible(false);
       if (this.searchQuery) {
         this.multiSearch(this.searchQuery);
         if (this.$route.path !== "/results") {
           this.$router.replace("/results");
         }
-      } else {
-        return;
       }
       this.clearSelectedQuery();
     },
@@ -90,7 +91,7 @@ export default {
     ]),
     ...mapGetters(["sortedTypes"]),
     throttledSearch() {
-      let DELAY = 750;
+      const DELAY = 750;
       return debounce(this.getMultiSearchResults, DELAY);
     },
   },
