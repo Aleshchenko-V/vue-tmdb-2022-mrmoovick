@@ -14,7 +14,7 @@
     >
       <div
           :class="
-          searchCard ? 'big-search-tv-card-img' : 'small-search-tv-img-img'
+          searchCard ? 'big-search-tv-card-img' : ''
         "
       >
         <img
@@ -34,7 +34,7 @@
         />
       </div>
 
-      <div :style="searchCard ? 'width: 200px' : 'width: 100px'">
+      <div :style="searchCard ? 'd-flex align-items-center' : 'd-flex'">
         <div class="d-flex flex-start flex-column m-2 text-left">
           <div class="d-flex">
             <h4

@@ -38,9 +38,9 @@
           id="discovery-mode"
           type="checkbox"
           style="scale: 1.5"
-          @change="changeIsDiscovery(!isDiscovery)"
-          v-modal="isDiscovery"
-      /></b-col>
+          v-model="isDiscoveryOn"
+      />
+    </b-col>
   </b-container>
 </template>
 
@@ -82,6 +82,15 @@ export default {
     ]),
   },
   computed: {
+    isDiscoveryOn: {
+      get() {
+        return this.isDiscovery;
+      },
+      // setter
+      set() {
+        this.changeIsDiscovery(!this.isDiscovery)
+      }
+    },
     ...mapState([
       "isLoading",
       "searchQuery",

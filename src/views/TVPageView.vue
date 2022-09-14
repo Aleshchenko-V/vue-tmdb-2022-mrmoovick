@@ -20,7 +20,7 @@
           <div class="details-item">
             <div class="details-subtitle">Genres:</div>
             <div class="details-subitem">
-              {{ tvDetails.genres ? getGenresNames(tvDetails.genres) : "" }}
+              {{ filteredGenres }}
             </div>
           </div>
           <div class="details-item">
@@ -86,8 +86,13 @@ export default {
     ...mapActions(["getTvDetails"]),
   },
   computed: {
-    getGenresNames(arrayOfGenres) {
-      return arrayOfGenres.map((el) => el.name).join(", ");
+    filteredGenres() {
+      const unFilteredGenres = this.tvDetails.genres
+          ? this.tvDetails.genres.map((el) => el.name)
+          : [];
+      return unFilteredGenres.length > 3
+          ? unFilteredGenres.slice(0, 3).join(", ") + "..."
+          : unFilteredGenres.join(", ");
     },
     ...mapState(["tvDetails"]),
   },

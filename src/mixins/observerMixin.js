@@ -35,20 +35,49 @@ export function observerMixin(type) {
     } else if (type === 'actors') {
         return {
             mounted() {
+                if (this.big) {
+                    setTimeout(() => {
+                        const observer = new IntersectionObserver(async (entries) => {
+                            if (
+                                entries[0].isIntersecting &&
+                                this.currentPage !== this.actors.total_pages
+                            ) {
+                                if (this.actors.total_pages === 1) {
+                                    return;
+                                }
+                                if (this.searchQuery && this.currentPage !== this.actors.page) {
+                                    this.currentPage = 1;
+                                }
+                                this.currentPage += 1;
+                                await this.getNextActorPage({
+                                    page: this.currentPage,
+                                    query: this.searchQuery,
+                                });
+                                this.compareTotalResults();
+                            }
+                        }, {});
+                        observer.observe(this.$refs.observer);
+                    }, 1000);
+                }
+            },
+        }
+    } else if (type === 'tvs') {
+        return {
+            mounted() {
                 setTimeout(() => {
                     const observer = new IntersectionObserver(async (entries) => {
                         if (
                             entries[0].isIntersecting &&
-                            this.currentPage !== this.actors.total_pages
+                            this.currentPage !== this.tvs.total_pages
                         ) {
-                            if (this.actors.total_pages === 1) {
+                            if (this.tvs.total_pages === 1) {
                                 return;
                             }
-                            if (this.selectedSearchQuery && this.currentPage !== this.actors.page) {
+                            if (this.selectedSearchQuery && this.currentPage !== this.tvs.page) {
                                 this.currentPage = 1;
                             }
                             this.currentPage += 1;
-                            await this.getNextActorPage({
+                            await this.getNextTvPage({
                                 page: this.currentPage,
                                 query: this.selectedSearchQuery,
                             });

@@ -1,5 +1,5 @@
 <template>
-  <div class="header sticky-top" sticky-header style="min-width: 600px">
+  <div class="header sticky-top sticky-header" style="min-width: 600px">
     <b-navbar
         variant="secondary"
         class="site-navbar d-flex justify-content-between rounded-bottom"

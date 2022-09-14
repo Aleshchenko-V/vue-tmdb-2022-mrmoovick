@@ -94,10 +94,11 @@ export default new Vuex.Store({
             state.searchQuery = query;
             state.selectedSearchQuery = query;
         },
-        SET_SEARCH_MOVIES(state, {response}) {
+        SET_SEARCH_MOVIES(state, {response, query}) {
             state.movies = [];
             state.searchResults = [];
             state.searchQuery = "";
+            state.selectedSearchQuery = query;
             state.movies = response;
         },
         SET_SEARCH_ACTORS(state, {response}) {
@@ -321,7 +322,7 @@ export default new Vuex.Store({
                         `https://api.themoviedb.org/3/search/movie`,
                         options
                     );
-                    commit("SET_SEARCH_MOVIES", {response: data});
+                    commit("SET_SEARCH_MOVIES", {response: data, query});
                 } else {
                     return;
                 }
