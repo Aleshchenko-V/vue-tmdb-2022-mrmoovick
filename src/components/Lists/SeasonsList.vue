@@ -33,13 +33,14 @@
 
 <script>
 import SeasonCard from "@/components/Cards/SeasonCard";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapMutations, mapState} from "vuex";
 
 export default {
   name: "SeasonsList",
   components: {SeasonCard},
   methods: {
     getSeason(seasonNumber) {
+      this.clearFilters()
       this.getSeasonDetails({
         tvId: this.tvDetails.id,
         seasonNumber
@@ -47,6 +48,7 @@ export default {
       this.$router.replace(`/tv/${this.tvDetails.id}/season/${seasonNumber}`)
     },
     ...mapActions(['getSeasonDetails']),
+    ...mapMutations(['clearFilters']),
   },
   computed: {
     ...mapState(['tvDetails']),

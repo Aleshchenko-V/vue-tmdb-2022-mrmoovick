@@ -8,6 +8,7 @@
             class="form-control"
             @keyup="throttledSearch"
             @keyup.enter="getFilm"
+            @keyup.escape="clearSelectedQuery()"
             @click.stop="changeSearchModalVisible(true)"
             @input="SET_SEARCH_QUERY($event.target.value.trim())"
             :disabled="isLoading"
@@ -33,18 +34,21 @@ export default {
       this.multiSearch(this.searchQuery);
     },
     getFilm() {
-      if (this.$route.path !== "/results") {
-        this.$router.replace("/results");
-      }
+      this.clearFilters();
+      this.changeSearchModalVisible(false);
       if (this.searchQuery) {
         this.multiSearch(this.searchQuery);
+        if (this.$route.path !== "/results") {
+          this.$router.replace("/results");
+        }
       }
+      this.clearSelectedQuery();
     },
     ...mapActions(["multiSearch"]),
-    ...mapMutations(["SET_SEARCH_QUERY", "changeSearchModalVisible"]),
+    ...mapMutations(["SET_SEARCH_QUERY", "changeSearchModalVisible", "clearFilters", "clearSelectedQuery"]),
   },
   computed: {
-    ...mapState(["isLoading", "searchQuery", "isShown"]),
+    ...mapState(["isLoading", "searchQuery", "isShown", "selectedSearchQuery"]),
     ...mapGetters(["sortedTypes"]),
     throttledSearch() {
       const DELAY = 750;

@@ -18,6 +18,12 @@ export function observerMixin(type) {
                             await this.getNextMoviesPage({
                                 page: this.currentPage,
                                 query: this.selectedSearchQuery,
+                                genres: this.selectedGenres,
+                                chosenLeftRatingVote: this.leftRatingRangeValue,
+                                chosenRightRatingVote: this.rightRatingRangeValue,
+                                chosenLeftReleaseDateVote: this.leftYearRangeValue,
+                                chosenRightReleaseDateVote: this.rightYearRangeValue,
+                                selectedValue: this.selectedValue,
                             });
                             this.compareTotalResults();
                         }

@@ -90,7 +90,7 @@
         </div>
         <div class="movie-details__actor-cast">
           <h3>Actors:</h3>
-          <actor-list/>
+          <actor-list :big="false"/>
         </div>
       </div>
     </b-modal>

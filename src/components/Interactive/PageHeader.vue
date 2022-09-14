@@ -9,7 +9,8 @@
             src="@/assets/site-logo.png"
             alt="logo"
             width="60px"
-            @click="getMovies"
+            @click="homeRedirection()"
+
         />
       </router-link>
       <div style="width: 750px">
@@ -29,27 +30,50 @@
         </a>
       </div>
     </b-navbar>
+    <button v-b-toggle.sidebar-1
+            style="position: absolute; left: -380px; top: 450px; border: 0; background-color: inherit;"
+            v-if="$route.path === '/' && selectedSearchQuery === ''">
+      <img width="96px" height="96px" src="https://img.freepik.com/free-icon/right-arrow_318-9141.jpg?w=2000"/>
+    </button>
+    <b-sidebar id="sidebar-1" title="Filters"
+               backdrop
+               v-show="$route.path === '/' && selectedSearchQuery === '' "
+               shadow>
+      <my-filter ref="filter"/>
+    </b-sidebar>
   </div>
 </template>
 
 <script>
 import SearchMovie from "./SearchMovie";
-import {mapActions} from "vuex";
+import {mapActions, mapMutations, mapState} from "vuex";
 import SearchModal from "@/components/Interactive/SearchModal";
+import MyFilter from "@/components/Interactive/MyFilter";
 
 export default {
   name: "PageHeader",
   components: {
+    MyFilter,
     SearchModal,
     SearchMovie,
   },
   methods: {
+    homeRedirection() {
+      this.getMovies();
+      this.$refs.filter.clearHighlights();
+      this.clearFilters()
+    },
     ...mapActions(["getMovies"]),
+    ...mapMutations(["clearFilters"])
+  },
+  computed: {
+    ...mapState(['selectedSearchQuery', 'selectedGenres', 'selectedValue']),
   },
 };
 </script>
 
-<style scoped>
+
+<style scoped lang="scss">
 .container-lg {
   padding: 0px !important;
   margin: auto !important;

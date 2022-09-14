@@ -7,6 +7,16 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
+        searchQuery: "",
+        selectedSearchQuery: "",
+        leftRatingRangeValue: "0",
+        rightRatingRangeValue: "10",
+        leftYearRangeValue: "1895",
+        rightYearRangeValue: "2022",
+        selectedValue: null,
+        isLoading: false,
+        isSearchModalVisible: false,
+        isShown: false,
         movies: [],
         actors: [],
         actorKnownFor: [],
@@ -14,16 +24,12 @@ export default new Vuex.Store({
         uniqueMovies: [],
         uniqueActors: [],
         uniqueTvs: [],
-        searchQuery: "",
-        selectedSearchQuery: "",
+        selectedGenres: [],
+        searchResults: [],
         movieDetails: {},
         actorDetails: {},
         tvDetails: {},
         seasonDetails: {},
-        searchResults: [],
-        isLoading: false,
-        isSearchModalVisible: false,
-        isShown: false,
     },
     getters: {
         uniqueMovies: ({uniqueMovies, movies}) => {
@@ -60,9 +66,10 @@ export default new Vuex.Store({
     },
     mutations: {
         GET_MOVIES(state, movies) {
-            state.movies = {};
+            state.selectedGenres = [];
             state.actorDetails = {};
             state.movieDetails = {};
+            state.movies = {};
             state.searchQuery = "";
             state.selectedSearchQuery = "";
             state.movies = movies;
@@ -83,8 +90,8 @@ export default new Vuex.Store({
         SET_MULTI_SEARCH_MOVIES(state, {response, query}) {
             state.searchResults = [];
             state.searchResults = {...response};
-            state.selectedSearchQuery = state.searchQuery;
             state.searchQuery = query;
+            state.selectedSearchQuery = query;
         },
         SET_SEARCH_MOVIES(state, {response}) {
             state.movies = [];
@@ -144,17 +151,55 @@ export default new Vuex.Store({
             state.tvs.results = [...state.tvs.results, ...response.results];
             state.tvs.page = response.page;
         },
+        FILTER_MOVIE_PAGE(state, movies) {
+            state.movies = {};
+            state.actorDetails = {};
+            state.movieDetails = {};
+            state.movies = movies;
+        },
         clearMovieDetails(state) {
             state.movieDetails = {};
         },
         changeSearchModalVisible(state, payload) {
             state.isSearchModalVisible = payload;
         },
+        changeLeftVoteRating(state, payload) {
+            state.leftRatingRangeValue = payload;
+        },
+        changeRightVoteRating(state, payload) {
+            state.rightRatingRangeValue = payload;
+        },
+        changeLeftYearRating(state, payload) {
+            state.leftYearRangeValue = payload;
+        },
+        changeRightYearRating(state, payload) {
+            state.rightYearRangeValue = payload;
+        },
+        clearFilters(state) {
+            state.selectedGenres = [];
+            state.selectedValue = null;
+            state.leftYearRangeValue = "1895";
+            state.rightYearRangeValue = "2022";
+            state.leftRatingRangeValue = "0";
+            state.rightRatingRangeValue = "10";
+        },
+        clearSelectedQuery(state) {
+            state.selectedSearchQuery = '';
+        },
+        changeSelectValue(state, payload) {
+            state.selectedValue = payload;
+        },
         SET_IS_LOADING(state, payload) {
             state.isLoading = payload;
         },
         SET_SHOW(state, payload) {
             state.isShown = payload;
+        },
+        PUSH_GENRE(state, payload) {
+            state.selectedGenres.push(payload);
+        },
+        REMOVE_GENRE(state, payload) {
+            state.selectedGenres.splice(payload, 1);
         },
     },
     actions: {
@@ -165,7 +210,7 @@ export default new Vuex.Store({
             try {
                 commit("SET_IS_LOADING", true);
                 const {data} = await axios.get(
-                    "https://api.themoviedb.org/3/movie/popular",
+                    "https://api.themoviedb.org/3/discover/movie",
                     options
                 );
                 commit("GET_MOVIES", data);
@@ -389,13 +434,28 @@ export default new Vuex.Store({
                 alert(e);
             }
         },
-        async getNextMoviesPage({commit}, {page, query}) {
+        async getNextMoviesPage({commit}, {
+            page,
+            query,
+            genres,
+            chosenLeftRatingVote,
+            chosenRightRatingVote,
+            chosenLeftReleaseDateVote,
+            chosenRightReleaseDateVote,
+            selectedValue,
+        }) {
             const options = {
                 params: {
                     api_key: process.env.VUE_APP_API_KEY,
-                    query,
                     language: "en",
                     page,
+                    query,
+                    with_genres: encodeURI(genres.join(',')),
+                    sort_by: selectedValue,
+                    ['vote_average.gte']: chosenLeftRatingVote,
+                    ['vote_average.lte']: chosenRightRatingVote,
+                    ['release_date.gte']: chosenLeftReleaseDateVote,
+                    ['release_date.lte']: chosenRightReleaseDateVote,
                 },
             };
             if (query) {
@@ -411,7 +471,7 @@ export default new Vuex.Store({
             } else {
                 try {
                     const {data} = await axios.get(
-                        "https://api.themoviedb.org/3/movie/popular",
+                        "https://api.themoviedb.org/3/discover/movie",
                         options
                     );
                     commit("NEXT_MOVIES_PAGE", data);
@@ -436,7 +496,7 @@ export default new Vuex.Store({
                 );
                 commit("NEXT_ACTOR_PAGE", data);
             } catch (e) {
-                alert(e);
+                return;
             }
         },
         async getNextTvPage({commit}, {page, query}) {
@@ -454,6 +514,36 @@ export default new Vuex.Store({
                     options
                 );
                 commit("NEXT_TV_PAGE", data);
+            } catch (e) {
+                alert(e);
+            }
+        },
+        async getFilter({commit}, {
+            withGenres,
+            chosenLeftRatingVote,
+            chosenRightRatingVote,
+            chosenLeftReleaseDateVote,
+            chosenRightReleaseDateVote,
+            selectedValue,
+        }) {
+            const options = {
+                params: {
+                    api_key: process.env.VUE_APP_API_KEY,
+                    with_genres: withGenres ? encodeURI(withGenres.join(',')) : '',
+                    language: "en",
+                    sort_by: selectedValue,
+                    ['vote_average.gte']: chosenLeftRatingVote,
+                    ['vote_average.lte']: chosenRightRatingVote,
+                    ['release_date.gte']: chosenLeftReleaseDateVote,
+                    ['release_date.lte']: chosenRightReleaseDateVote,
+                },
+            };
+            try {
+                const {data} = await axios.get(
+                    "https://api.themoviedb.org/3/discover/movie",
+                    options
+                );
+                commit("FILTER_MOVIE_PAGE", data);
             } catch (e) {
                 alert(e);
             }

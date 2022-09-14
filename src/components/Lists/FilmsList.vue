@@ -32,7 +32,7 @@
             </film-card>
           </b-list-group-item>
         </b-list-group>
-        <modal-window :genres="genres"/>
+        <modal-window :genres="filteredGenres"/>
       </div>
       <div v-else style="color: #fff">
         Unfortunately, your search returned no results...
@@ -58,7 +58,6 @@ export default {
   data: () => ({
     totalResults: 0,
     currentPage: 1,
-    genres: "",
   }),
   mixins: [observerMixin('movies')],
   methods: {
@@ -75,11 +74,6 @@ export default {
     },
     async getChosenMovieDetails(card) {
       await this.getMovieDetails(card);
-      const unFilteredGenres = this.movieDetails.genres.map((el) => el.name);
-      this.genres =
-          unFilteredGenres.length > 3
-              ? unFilteredGenres.slice(0, 3).join(", ") + "..."
-              : unFilteredGenres.join(", ");
     },
     ...mapActions(["getMovies", "getMovieDetails", "getNextMoviesPage"]),
   },
@@ -89,6 +83,12 @@ export default {
     }
   },
   computed: {
+    filteredGenres() {
+      const unFilteredGenres = this.movieDetails.genres ? this.movieDetails.genres.map((el) => el.name) : [];
+      return unFilteredGenres.length > 3
+          ? unFilteredGenres.slice(0, 3).join(", ") + "..."
+          : unFilteredGenres.join(", ");
+    },
     ...mapGetters(["uniqueMovies"]),
     ...mapState([
       "movieDetails",
@@ -96,6 +96,12 @@ export default {
       "searchQuery",
       "isLoading",
       "selectedSearchQuery",
+      "selectedGenres",
+      "leftRatingRangeValue",
+      "rightRatingRangeValue",
+      "leftYearRangeValue",
+      "rightYearRangeValue",
+      "selectedValue",
     ]),
   },
 };

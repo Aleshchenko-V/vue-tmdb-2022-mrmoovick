@@ -32,7 +32,7 @@
             </tv-card>
           </b-list-group-item>
         </b-list-group>
-        <modal-window :genres="genres"/>
+        <modal-window :genres="filteredGenres"/>
       </div>
     </div>
     <div class="spinner" v-else>
@@ -47,14 +47,15 @@ import ModalWindow from "@/components/Interactive/TvModalWindow";
 
 import {mapActions, mapGetters, mapState} from "vuex";
 import TvCard from "@/components/Cards/TvCard";
+import {observerMixin} from "@/mixins/observerMixin";
 
 export default {
   name: "TvsList",
   components: {TvCard, ModalWindow},
+  mixins: [observerMixin('tvs')],
   data: () => ({
     totalResults: 0,
     currentPage: 1,
-    genres: "",
   }),
   methods: {
     compareTotalResults() {
@@ -66,39 +67,16 @@ export default {
     },
     async getChosenTvDetails(tv) {
       await this.getTvDetails(tv);
-      const unFilteredGenres = this.tvDetails.genres.map((el) => el.name);
-      this.genres =
-          unFilteredGenres.length > 3
-              ? unFilteredGenres.slice(0, 3).join(", ") + "..."
-              : unFilteredGenres.join(", ");
     },
     ...mapActions(["getTvDetails", "getNextTvPage"]),
   },
-  mounted() {
-    setTimeout(() => {
-      const observer = new IntersectionObserver(async (entries) => {
-        if (
-            entries[0].intersectionRatio > 0 &&
-            this.currentPage !== this.tvs.total_pages
-        ) {
-          if (this.tvs.total_pages === 1) {
-            return;
-          }
-          if (this.currentPage !== this.tvs.page) {
-            this.currentPage = 1;
-          }
-          this.currentPage += 1;
-          await this.getNextTvPage({
-            page: this.currentPage,
-            query: this.selectedSearchQuery,
-          });
-          this.compareTotalResults();
-        }
-      }, {});
-      observer.observe(this.$refs.observer);
-    }, 1000);
-  },
   computed: {
+    filteredGenres() {
+      const unFilteredGenres = this.tvDetails.genres ? this.tvDetails.genres.map((el) => el.name) : [];
+      return unFilteredGenres.length > 3
+          ? unFilteredGenres.slice(0, 3).join(", ") + "..."
+          : unFilteredGenres.join(", ");
+    },
     ...mapGetters(["uniqueTvs"]),
     ...mapState(["tvDetails", "tvs", "searchQuery", "isLoading", "selectedSearchQuery"]),
   },

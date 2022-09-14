@@ -36,7 +36,7 @@
 
 <script>
 import ActorCard from "@/components/Cards/ActorCard";
-import {mapActions, mapGetters, mapState} from "vuex";
+import {mapActions, mapGetters, mapMutations, mapState} from "vuex";
 import {observerMixin} from "@/mixins/observerMixin";
 
 export default {
@@ -48,6 +48,12 @@ export default {
   }),
   mixins: [observerMixin('actors')],
   methods: {
+    getActor(event, name) {
+      this.$emit('close-modal', this.closeModal)
+      this.getActorDetails(event)
+      this.getActorKnownFor(name)
+      this.clearFilters()
+    },
     compareTotalResults() {
       if (this.actors.total_results > 10000) {
         this.totalResults = 10000;
@@ -61,6 +67,7 @@ export default {
       this.getActorKnownFor(name)
     },
     ...mapActions(["getActorDetails", "getNextActorPage", "getActorKnownFor"]),
+    ...mapMutations(["clearFilters"]),
   },
   computed: {
     ...mapState(["actors", "searchQuery", "selectedSearchQuery"]),

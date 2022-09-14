@@ -96,7 +96,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters, mapState} from "vuex";
+import {mapActions, mapGetters, mapMutations, mapState} from "vuex";
 import SearchMovieCard from "@/components/Cards/SearchMovieCard";
 import SearchActorCard from "@/components/Cards/SearchActorCard";
 import SearchTvCard from "@/components/Cards/SearchTvCard";
@@ -107,6 +107,7 @@ export default {
   methods: {
     getYear: (data) => data ? data.slice(0, 4) : "",
     makeOptionalResponseAndRedirect(type) {
+      this.clearSelectedQuery();
       switch (type) {
         case "movies":
           if (this.$route.path !== "/") this.$router.replace("/");
@@ -130,6 +131,7 @@ export default {
       "actorSearch",
       "tvSearch",
     ]),
+    ...mapMutations(["clearSelectedQuery"])
   },
   computed: {
     ...mapGetters(["sortedTypes"]),
