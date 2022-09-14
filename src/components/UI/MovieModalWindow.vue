@@ -147,6 +147,7 @@ export default {
 .details-subtitle {
   font-size: 14px;
   color: #ffffffd4;
+  line-height: 2em !important;
 }
 
 .description {

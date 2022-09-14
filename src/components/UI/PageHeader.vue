@@ -35,25 +35,13 @@
         </a>
       </div>
     </b-navbar>
-    <button
-      v-b-toggle.sidebar-1
-      style="
-        position: absolute;
-        left: 0;
-        top: 450px;
-        border: 0;
-        background-color: inherit;
-      "
-      v-if="$route.path === '/' && isDiscovery"
-    >
-      <img width="60px" height="60px" src="../../assets/filter.svg" />
-    </button>
     <b-sidebar
       id="sidebar-1"
       title="Filters"
       backdrop
       v-show="$route.path === '/' && isDiscovery"
       shadow
+      @hidden="changeIsDiscovery(!isDiscovery)"
     >
       <my-filter ref="filter" />
     </b-sidebar>
@@ -77,7 +65,7 @@ export default {
   },
   methods: {
     ...mapActions(["getMovies"]),
-    ...mapMutations(["clearFilters"]),
+    ...mapMutations(["clearFilters", "changeIsDiscovery"]),
   },
   computed: {
     ...mapState([
@@ -115,6 +103,7 @@ export default {
   color: #fff;
 }
 .theme-wrapper {
-  position: relative;
+  display: flex;
+  margin: auto;
 }
 </style>

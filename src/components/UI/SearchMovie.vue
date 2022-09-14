@@ -34,11 +34,12 @@
         >Discovery mode</label
       >
       <input
+        v-b-toggle.sidebar-1
         id="discovery-mode"
         type="checkbox"
         style="scale: 1.5"
         @change="changeIsDiscovery(!isDiscovery)"
-        :value="isDiscovery"
+        v-modal="isDiscovery"
     /></b-col>
   </b-container>
 </template>

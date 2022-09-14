@@ -133,4 +133,7 @@ export default {
   z-index: 1;
   box-shadow: 7px 7px 6px rgb(255 255 255 / 60%);
 }
+.card-footer {
+  background: none;
+}
 </style>

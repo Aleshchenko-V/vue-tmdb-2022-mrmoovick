@@ -81,7 +81,7 @@ export default {
 
 <style scoped lang="scss">
 .actor-details {
-  color: #ffffff99;
+  color: #ffffff;
 }
 
 .actor-details-left-side__img {

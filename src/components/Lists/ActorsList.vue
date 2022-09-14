@@ -1,10 +1,13 @@
 <template>
   <div>
     <div class="d-flex flex-row container">
-      <div class="d-flex flex-row">
-        <b-list-group horizontal class="flex-sm-wrap">
+      <div class="d-flex flex-row justify-content-between">
+        <b-list-group
+          horizontal
+          class="flex-sm-wrap d-flex flex-row justify-content-between"
+        >
           <b-list-group-item
-            class="actor-list w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card slide"
+            class="actor-list w-auto mt-2 mb-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card slide"
             v-for="{
               id,
               name,
@@ -104,6 +107,8 @@ export default {
 
 .container {
   max-width: 1160px;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 
 .spinner {
