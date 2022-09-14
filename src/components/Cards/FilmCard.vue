@@ -1,6 +1,7 @@
 <template>
   <b-card
       v-b-modal.modal-scrollable
+      v-if="knownFor === false"
       :aria-hidden="show ? 'true' : null"
       :title="title"
       :sub-title="
@@ -8,7 +9,7 @@
       ', ' +
       (releaseDate !== '' ? releaseDate.slice(0, 4) : 'unknown')
     "
-      :img-src="
+    :img-src="
       backdropPath === ''
         ? NO_IMG_URL
         : 'https://image.tmdb.org/t/p/original' + backdropPath
@@ -26,12 +27,34 @@
     <template #footer>
       <div class="b-card__footer">
         <b-form-rating
-            readonly
-            :value="overallRating"
-            stars="10"
+          readonly
+          :value="overallRating"
+          stars="10"
         ></b-form-rating>
       </div>
     </template>
+  </b-card>
+  <b-card
+      v-else
+      v-b-modal.modal-scrollable
+      style="height: 300px; width: 225px; overflow: hidden; text-overflow: ellipsis;"
+      :aria-hidden="show ? 'true' : null"
+      :title="title"
+      :sub-title="
+      (releaseDate !== '' ? releaseDate.slice(0, 4) : 'unknown')
+    "
+      :img-src="
+      backdropPath === ''
+        ? NO_IMG_URL
+        : 'https://image.tmdb.org/t/p/original' + backdropPath
+    "
+      footer-tag="footer"
+      img-alt="Image"
+      img-top
+      tag="article"
+      class="text-muted form-control card-img-top b-card"
+      @click="$emit('get-card-id', cardId), getActors(cardId)"
+  >
   </b-card>
 </template>
 
@@ -74,6 +97,11 @@ export default {
       type: Number,
       required: true,
     },
+    knownFor: {
+      type: Boolean,
+      required: false,
+      default: false,
+    }
   },
   methods: {
     getMovieCard(cardId) {
@@ -90,30 +118,21 @@ export default {
   color: #fff !important;
 }
 
-.card-text {
-  font-size: 14px;
-  color: #fff;
-}
-
 .form-control {
   color: orange;
 }
-
 .form-control:focus {
   background-color: #1e1b26;
   box-shadow: none;
 }
-
 .card-img-top {
   border-radius: 10px;
 }
-
 .b-card__footer {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
-
 .b-card__text {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -121,7 +140,6 @@ export default {
   -webkit-line-clamp: 8;
   -webkit-box-orient: vertical;
 }
-
 .b-card {
   width: 360px;
   height: 550px;
@@ -130,7 +148,6 @@ export default {
   color: #fff;
   transition: all 0.5s ease;
 }
-
 .b-card:hover {
   transform: scale(1.05);
   z-index: 1;

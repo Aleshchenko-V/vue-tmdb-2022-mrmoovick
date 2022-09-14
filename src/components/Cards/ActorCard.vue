@@ -65,23 +65,18 @@ export default {
 a {
   text-decoration: none;
 }
-
 .text-muted {
   color: #fff !important;
 }
-
 .card-body {
   padding: 0.5rem;
 }
-
 .card-subtitle {
   font-size: 13px;
 }
-
 .card-title {
   font-size: 18px;
 }
-
 .card-text {
   font-size: 14px;
   color: #fff;
@@ -91,7 +86,6 @@ a {
   background-color: #1e1b26;
   box-shadow: none;
 }
-
 .card-img-top {
   min-width: 138px;
   width: 138px;
@@ -99,13 +93,11 @@ a {
   display: block;
   border-radius: 10px;
 }
-
 .b-card__footer {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
-
 .b-card__text {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -113,7 +105,6 @@ a {
   -webkit-line-clamp: 8;
   -webkit-box-orient: vertical;
 }
-
 .b-card {
   width: 135px;
   height: 250px;
