@@ -37,7 +37,7 @@
 <script>
 import {mapActions, mapState} from "vuex";
 import get from "lodash/get";
-import KnownForList from "@/components/KnownForList";
+import KnownForList from "@/components/Lists/KnownForList";
 
 export default {
   name: "ActorPageView",
@@ -66,9 +66,11 @@ export default {
 .actor-details {
   color: #ffffff99;
 }
+
 .actor-details-left-side__img {
   width: 300px;
   height: 450px;
+
   img {
     display: block;
     width: 100%;
@@ -78,6 +80,7 @@ export default {
     border-radius: 8px;
   }
 }
+
 .actor-details-left-side__personal-info {
   margin-top: 10px;
   display: flex;
@@ -85,18 +88,21 @@ export default {
   align-items: flex-start;
   justify-content: flex-start;
 }
+
 .personal-info__details {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
 }
+
 .details__item {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
   margin-top: 10px;
+
   p {
     text-align: left;
   };
@@ -106,6 +112,7 @@ export default {
   width: 100%;
   flex-direction: column;
   margin-left: 30px;
+
   p {
     margin-top: 20px;
     text-align: justify;
