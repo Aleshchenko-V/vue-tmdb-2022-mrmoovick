@@ -1,37 +1,38 @@
 <template>
   <router-link :to="`/movie/${movieId}`">
     <div
-      :class="searchCard ? 'big-search-movie-card' : 'small-search-movie-card'"
-      style="
+        :class="searchCard ? 'big-search-movie-card' : 'small-search-movie-card'"
+        style="
         border: 1px solid #fff;
         margin-bottom: 10px;
         border-radius: 5px;
+        position: relative;
         font-family: 'Oswald';
       "
-      class="d-flex"
-      @click="$emit('get-movie-id', movieId)"
+        class="movie-card d-flex"
+        @click="$emit('get-movie-id', movieId)"
     >
       <div
-        :class="
+          :class="
           searchCard
             ? 'big-search-movie-card-img'
             : 'small-search-movie-img-img'
         "
       >
         <img
-          style="
+            style="
             height: 100%;
             width: 100%;
             padding: 0;
             border-radius: 5px;
             display: inline-block;
           "
-          :src="
+            :src="
             movieImage === ''
               ? NO_IMG_URL
               : 'https://image.tmdb.org/t/p/original' + movieImage
           "
-          alt="Poster"
+            alt="Poster"
         />
       </div>
 
@@ -39,28 +40,28 @@
         <div class="d-flex flex-start flex-column m-2 text-left">
           <div class="d-flex">
             <h4
-              :class="!searchCard ? 'decrease-font-size' : ''"
-              :style="!searchCard ? '' : 'width: 400px'"
+                :class="!searchCard ? 'decrease-font-size' : ''"
+                :style="!searchCard ? '' : 'width: 400px'"
             >
               {{ title }}
             </h4>
             <span
-              class="release-date align-self-end"
-              style="position: absolute; right: 10px; top: 10px"
-              >{{ releaseDate ? releaseDate : "" }}</span
+                class="release-date align-self-end"
+                style="position: absolute; right: 10px; top: 10px"
+            >{{ releaseDate ? releaseDate : "" }}</span
             >
           </div>
           <p v-if="searchCard">
             {{ originalTitle }}
           </p>
           <b-form-rating
-            v-if="searchCard"
-            style="position: absolute; right: 125px; bottom: 5px; width: 100px"
-            readonly
-            :value="rating"
-            stars="10"
-            size="sm"
-            variant="warning"
+              v-if="searchCard"
+              style="position: absolute; right: 125px; bottom: 5px; width: 100px"
+              readonly
+              :value="rating"
+              stars="10"
+              size="sm"
+              variant="warning"
           ></b-form-rating>
           <p v-else style="position: absolute; right: 10px; bottom: -5px">
             {{ rating }}
@@ -128,6 +129,16 @@ a {
   width: 200px;
 }
 
+.small-search-movie-card {
+  height: 75px;
+  width: 460px;
+}
+
+.small-search-movie-card-img {
+  height: 75px;
+  width: 100px;
+}
+
 .card {
   height: 60px;
   font-size: 12px;
@@ -145,22 +156,27 @@ a {
     margin-left: 20px;
     border-radius: 10px;
   }
+
   .big-img img {
     width: 400px;
   }
 }
+
 .decrease-font-size {
   font-size: 18px;
   width: 250px;
 }
+
 .b-rating {
   background-color: inherit;
   border: none;
 }
+
 .movie-card:hover {
-  scale: 1.05;
+  scale: 1.02;
   box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
 }
+
 .movie-card {
   box-shadow: inset 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
   transition: 0.5s all ease;
