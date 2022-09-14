@@ -10,6 +10,7 @@
             alt="logo"
             width="60px"
             @click="homeRedirection()"
+
         />
       </router-link>
       <div style="width: 750px">
@@ -70,6 +71,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped lang="scss">
 .container-lg {

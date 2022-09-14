@@ -1,6 +1,7 @@
 <template>
   <b-card
       v-b-modal.modal-scrollable
+      v-if="knownFor === false"
       :aria-hidden="show ? 'true' : null"
       :title="title"
       :sub-title="
@@ -32,6 +33,28 @@
         ></b-form-rating>
       </div>
     </template>
+  </b-card>
+  <b-card
+      v-else
+      v-b-modal.modal-scrollable
+      style="height: 300px; width: 225px; overflow: hidden; text-overflow: ellipsis;"
+      :aria-hidden="show ? 'true' : null"
+      :title="title"
+      :sub-title="
+      (releaseDate !== '' ? releaseDate.slice(0, 4) : 'unknown')
+    "
+      :img-src="
+      backdropPath === ''
+        ? NO_IMG_URL
+        : 'https://image.tmdb.org/t/p/original' + backdropPath
+    "
+      footer-tag="footer"
+      img-alt="Image"
+      img-top
+      tag="article"
+      class="text-muted form-control card-img-top b-card"
+      @click="$emit('get-card-id', cardId), getMovieCard(cardId)"
+  >
   </b-card>
 </template>
 
@@ -74,6 +97,11 @@ export default {
       type: Number,
       required: true,
     },
+    knownFor: {
+      type: Boolean,
+      required: false,
+      default: false,
+    }
   },
   methods: {
     getMovieCard(cardId) {
@@ -88,11 +116,6 @@ export default {
 <style scoped>
 .text-muted {
   color: #fff !important;
-}
-
-.card-text {
-  font-size: 14px;
-  color: #fff;
 }
 
 .form-control {

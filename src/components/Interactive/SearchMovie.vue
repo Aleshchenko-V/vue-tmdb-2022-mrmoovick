@@ -16,7 +16,7 @@
       </b-overlay>
     </b-col>
     <b-col cols="2">
-      <b-button @click="getFilm()" :disabled="isLoading" variant="outline-light"
+      <b-button @click="getFilm" :disabled="isLoading" variant="outline-light"
       >Search
       </b-button>
     </b-col>

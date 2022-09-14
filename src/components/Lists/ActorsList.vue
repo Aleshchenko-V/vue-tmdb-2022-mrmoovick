@@ -61,6 +61,11 @@ export default {
         this.totalResults = this.actors.total_results;
       }
     },
+    getActor(event, name) {
+      this.$emit('close-modal', this.closeModal)
+      this.getActorDetails(event)
+      this.getActorKnownFor(name)
+    },
     ...mapActions(["getActorDetails", "getNextActorPage", "getActorKnownFor"]),
     ...mapMutations(["clearFilters"]),
   },
