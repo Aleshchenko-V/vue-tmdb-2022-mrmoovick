@@ -16,7 +16,7 @@
           :class="
           searchCard
             ? 'big-search-movie-card-img'
-            : 'small-search-movie-img-img'
+            : ''
         "
       >
         <img
@@ -143,7 +143,6 @@ a {
   height: 60px;
   font-size: 12px;
   margin-top: 5px;
-  object-fit: contain;
 
   h4 {
     font-size: 14px;

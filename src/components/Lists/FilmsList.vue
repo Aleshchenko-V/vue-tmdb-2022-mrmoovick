@@ -1,14 +1,14 @@
 <template>
   <div class="film-list">
     <div
-      class="d-flex flex-column justify-content-center align-items-center container mt-3"
-      v-if="!isLoading"
+        class="d-flex flex-column justify-content-center align-items-center container mt-3"
+        v-if="!isLoading"
     >
       <div class="d-flex flex-row" v-if="uniqueMovies.length !== 0">
         <b-list-group horizontal class="flex-sm-wrap">
           <b-list-group-item
-            class="w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card"
-            v-for="{
+              class="w-auto m-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card"
+              v-for="{
               title,
               backdrop_path,
               overview,
@@ -17,31 +17,31 @@
               vote_average,
               id,
             } in uniqueMovies"
-            :key="id"
+              :key="id"
           >
             <film-card
-              :title="title"
-              :backdropPath="backdrop_path || ''"
-              :overview="overview"
-              :originalTitle="original_title"
-              :releaseDate="release_date || ''"
-              :overallRating="vote_average"
-              :cardId="id"
-              @get-movie-card-id="getChosenMovieDetails"
+                :title="title"
+                :backdropPath="backdrop_path || ''"
+                :overview="overview"
+                :originalTitle="original_title"
+                :releaseDate="release_date || ''"
+                :overallRating="vote_average"
+                :cardId="id"
+                @get-movie-card-id="getChosenMovieDetails"
             >
             </film-card>
           </b-list-group-item>
         </b-list-group>
-        <modal-window :genres="filteredGenres" />
+        <modal-window :genres="filteredGenres"/>
       </div>
       <div v-else style="color: #fff">
         Unfortunately, your search returned no results...
       </div>
     </div>
     <div class="spinner" v-else>
-      <b-spinner />
+      <b-spinner/>
     </div>
-    <div ref="observer" style="border: 1px solid #46a094"></div>
+    <div ref="observer" style="border: 1px solid #9ad4d6"></div>
   </div>
 </template>
 
@@ -49,12 +49,12 @@
 import FilmCard from "@/components/Cards/FilmCard";
 import ModalWindow from "@/components/Interactive/MovieModalWindow";
 
-import { mapActions, mapGetters, mapState } from "vuex";
-import { observerMixin } from "@/mixins/observerMixin";
+import {mapActions, mapGetters, mapState} from "vuex";
+import {observerMixin} from "@/mixins/observerMixin";
 
 export default {
   name: "FilmsList",
-  components: { FilmCard, ModalWindow },
+  components: {FilmCard, ModalWindow},
   data: () => ({
     totalResults: 0,
     currentPage: 1,
@@ -85,11 +85,11 @@ export default {
   computed: {
     filteredGenres() {
       const unFilteredGenres = this.movieDetails.genres
-        ? this.movieDetails.genres.map((el) => el.name)
-        : [];
+          ? this.movieDetails.genres.map((el) => el.name)
+          : [];
       return unFilteredGenres.length > 3
-        ? unFilteredGenres.slice(0, 3).join(", ") + "..."
-        : unFilteredGenres.join(", ");
+          ? unFilteredGenres.slice(0, 3).join(", ") + "..."
+          : unFilteredGenres.join(", ");
     },
     ...mapGetters(["uniqueMovies"]),
     ...mapState([

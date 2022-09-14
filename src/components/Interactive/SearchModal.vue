@@ -51,7 +51,7 @@
             original_name,
             first_air_date,
             vote_average,
-            poster_path,
+            backdrop_path,
           } in sortedTypes.tvs ? sortedTypes.tvs : []"
             :key="id"
         >
@@ -60,7 +60,7 @@
               :original-name="original_name"
               :release-date="first_air_date ? getYear(first_air_date) : ''"
               :rating="vote_average"
-              :movieImage="poster_path || ''"
+              :movieImage="backdrop_path || ''"
               :tv-id="id"
               @get-tv-id="getTvDetails($event)"
           />

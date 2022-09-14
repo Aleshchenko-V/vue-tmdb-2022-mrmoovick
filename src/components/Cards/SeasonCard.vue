@@ -1,24 +1,24 @@
 <template>
   <b-card
-    :aria-hidden="isShow ? 'true' : null"
-    :title="name"
-    :sub-title="airDate"
-    :img-src="
+      :aria-hidden="isShow ? 'true' : null"
+      :title="name"
+      :sub-title="airDate"
+      :img-src="
       posterPath === ''
         ? NO_IMG_URL
         : 'https://image.tmdb.org/t/p/original' + posterPath
     "
-    footer-tag="footer"
-    img-alt="Image"
-    img-top
-    tag="article"
-    class="text-muted card-text form-control card-img-top b-card"
+      footer-tag="footer"
+      img-alt="Image"
+      img-top
+      tag="article"
+      class="text-muted card-text form-control card-img-top season-b-card"
   >
   </b-card>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import {mapActions} from "vuex";
 import constants from "@/constants";
 
 export default {
@@ -70,12 +70,12 @@ a {
 
 .card-subtitle {
   font-size: 13px;
-  color: #000 !important;
+  color: #fff !important;
 }
 
 .card-title {
   font-size: 18px;
-  color: #000;
+  color: #fff;
 }
 
 .card-text {
@@ -110,7 +110,7 @@ a {
   -webkit-box-orient: vertical;
 }
 
-.b-card {
+.season-b-card {
   width: 135px;
   height: 250px;
   border: 0;

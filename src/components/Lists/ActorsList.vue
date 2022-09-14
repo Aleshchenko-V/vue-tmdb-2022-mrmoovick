@@ -3,12 +3,12 @@
     <div class="d-flex flex-row container">
       <div class="d-flex flex-row justify-content-between">
         <b-list-group
-          horizontal
-          class="flex-sm-wrap d-flex flex-row justify-content-between"
+            horizontal
+            class="flex-sm-wrap d-flex justify-content-start"
         >
           <b-list-group-item
-            class="actor-list w-auto mt-2 mb-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card slide"
-            v-for="{
+              class="actor-list w-auto mt-2 mb-2 p-0 border-0 d-flex justify-content-center align-items-start rounded-circle card slide"
+              v-for="{
               id,
               name,
               known_for_department,
@@ -16,35 +16,35 @@
               profile_path,
               character,
             } in uniqueActors"
-            :key="id"
+              :key="id"
           >
             <actor-card
-              :name="name"
-              :knownForDepartment="known_for_department || ''"
-              :popularity="popularity"
-              :profilePath="profile_path || ''"
-              :character="character"
-              :actorId="id"
-              @get-actor-id="getActor($event, name)"
-              :big="big"
+                :name="name"
+                :knownForDepartment="known_for_department || ''"
+                :popularity="popularity"
+                :profilePath="profile_path || ''"
+                :character="character"
+                :actorId="id"
+                @get-actor-id="getActor($event, name)"
+                :big="big"
             >
             </actor-card>
           </b-list-group-item>
         </b-list-group>
       </div>
     </div>
-    <div v-show="big" ref="observer" style="border: 1px solid #46a094"></div>
+    <div v-show="big" ref="observer" style="border: 1px solid #9ad4d6"></div>
   </div>
 </template>
 
 <script>
 import ActorCard from "@/components/Cards/ActorCard";
-import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
-import { observerMixin } from "@/mixins/observerMixin";
+import {mapActions, mapGetters, mapMutations, mapState} from "vuex";
+import {observerMixin} from "@/mixins/observerMixin";
 
 export default {
   name: "ActorsList",
-  components: { ActorCard },
+  components: {ActorCard},
   data: () => ({
     totalResults: 0,
     currentPage: 1,
@@ -77,33 +77,6 @@ export default {
       required: false,
       default: true,
     },
-  },
-  created() {},
-  mounted() {
-    if (this.big) {
-      setTimeout(() => {
-        const observer = new IntersectionObserver(async (entries) => {
-          if (
-            entries[0].intersectionRatio > 0 &&
-            this.currentPage !== this.actors.total_pages
-          ) {
-            if (this.actors.total_pages === 1) {
-              return;
-            }
-            if (this.searchQuery && this.currentPage !== this.actors.page) {
-              this.currentPage = 1;
-            }
-            this.currentPage += 1;
-            await this.getNextActorPage({
-              page: this.currentPage,
-              query: this.searchQuery,
-            });
-            this.compareTotalResults();
-          }
-        }, {});
-        observer.observe(this.$refs.observer);
-      }, 1000);
-    }
   },
 };
 </script>

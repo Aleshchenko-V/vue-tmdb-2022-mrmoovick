@@ -1,25 +1,25 @@
 <template>
   <b-card
-    v-b-modal.modal-scrollable
-    v-if="knownFor === false"
-    :aria-hidden="show ? 'true' : null"
-    :title="title"
-    :sub-title="
+      v-b-modal.modal-scrollable
+      v-if="knownFor === false"
+      :aria-hidden="show ? 'true' : null"
+      :title="title"
+      :sub-title="
       originalTitle +
       ', ' +
       (releaseDate !== '' ? releaseDate.slice(0, 4) : 'unknown')
     "
-    :img-src="
+      :img-src="
       backdropPath === ''
         ? NO_IMG_URL
         : 'https://image.tmdb.org/t/p/original' + backdropPath
     "
-    footer-tag="footer"
-    img-alt="Image"
-    img-top
-    tag="article"
-    class="text-muted card-text form-control card-img-top b-card"
-    @click="getMovieCard(cardId)"
+      footer-tag="footer"
+      img-alt="Image"
+      img-top
+      tag="article"
+      class="text-muted card-text form-control card-img-top b-card"
+      @click="getMovieCard(cardId)"
   >
     <b-card-text class="b-card__text">
       {{ overview }}
@@ -27,42 +27,42 @@
     <template #footer>
       <div class="b-card__footer">
         <b-form-rating
-          readonly
-          :value="overallRating"
-          stars="10"
+            readonly
+            :value="overallRating"
+            stars="10"
         ></b-form-rating>
       </div>
     </template>
   </b-card>
   <b-card
-    v-else
-    v-b-modal.modal-scrollable
-    style="
+      v-else
+      v-b-modal.modal-scrollable
+      style="
       height: 300px;
       width: 225px;
       overflow: hidden;
       text-overflow: ellipsis;
     "
-    :aria-hidden="show ? 'true' : null"
-    :title="title"
-    :sub-title="releaseDate !== '' ? releaseDate.slice(0, 4) : 'unknown'"
-    :img-src="
+      :aria-hidden="show ? 'true' : null"
+      :title="title"
+      :sub-title="releaseDate !== '' ? releaseDate.slice(0, 4) : 'unknown'"
+      :img-src="
       backdropPath === ''
         ? NO_IMG_URL
         : 'https://image.tmdb.org/t/p/original' + backdropPath
     "
-    footer-tag="footer"
-    img-alt="Image"
-    img-top
-    tag="article"
-    class="text-muted form-control card-img-top b-card"
-    @click="$emit('get-card-id', cardId), getMovieCard(cardId)"
+      footer-tag="footer"
+      img-alt="Image"
+      img-top
+      tag="article"
+      class="text-muted form-control card-img-top b-card"
+      @click="$emit('get-card-id', cardId), getMovieCard(cardId)"
   >
   </b-card>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import {mapActions} from "vuex";
 import constants from "@/constants";
 
 export default {
@@ -116,7 +116,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .text-muted {
   color: #fff !important;
 }
@@ -159,6 +159,10 @@ export default {
   border-radius: 15px !important;
   color: #fff;
   transition: all 0.5s ease;
+
+  h4 {
+    color: white;
+  }
 }
 
 .b-card:hover {
@@ -166,6 +170,7 @@ export default {
   z-index: 1;
   box-shadow: 7px 7px 6px rgb(255 255 255 / 60%);
 }
+
 .card-footer {
   background: none;
 }

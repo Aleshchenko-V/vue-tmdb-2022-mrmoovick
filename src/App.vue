@@ -22,6 +22,16 @@ export default {
 </script>
 
 <style lang="scss">
+*::-webkit-scrollbar {
+  background-color: white;
+  width: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: gray;
+}
+
 #app {
   display: flex;
   position: relative;
@@ -113,6 +123,22 @@ export default {
   background-color: rgb(34 34 34) !important;
 }
 
+[theme="light"] .season-b-card {
+  background-color: #6bbd99 !important;
+}
+
+[theme="dark"] .season-b-card {
+  background-color: rgb(34 34 34) !important;
+}
+
+[theme="dark"] .big-b-card {
+  background: rgb(34 34 34) !important;
+}
+
+[theme="light"] .big-b-card {
+  background: #6bbd99 !important;
+}
+
 [theme="dark"] .discovery-label {
   color: #fff;
 }
@@ -193,11 +219,11 @@ export default {
   background-color: rgb(34 34 34) !important;
 }
 
-[theme="light"] #window {
+[theme="light"] #searchModalWindow {
   background-color: rgb(70 160 148);
 }
 
-[theme="dark"] #window {
+[theme="dark"] #searchModalWindow {
   background-color: rgb(34 34 34);
 }
 

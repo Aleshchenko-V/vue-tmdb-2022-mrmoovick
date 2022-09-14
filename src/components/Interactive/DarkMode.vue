@@ -1,10 +1,10 @@
 <template>
-  <div class="theme-togler">
+  <div class="theme-toggler">
     <label class="switch">
       <input
-        @click="colorMode = colorMode === 'dark' ? 'light' : 'dark'"
-        class="switch__input"
-        type="checkbox"
+          @click="colorMode = colorMode === 'dark' ? 'light' : 'dark'"
+          class="switch__input"
+          type="checkbox"
       />
       <span class="switch__slider"></span>
     </label>
@@ -12,12 +12,12 @@
 </template>
 
 <script>
-import { useDark, useToggle, useColorMode } from "@vueuse/core";
+import {useDark, useToggle, useColorMode} from "@vueuse/core";
 
 export default {
   name: "DarkMode",
   setup() {
-    const isDark = useDark({ selector: "html" });
+    const isDark = useDark({selector: "html"});
     const colorMode = useColorMode({
       modes: {
         dark: "dark",
@@ -28,15 +28,16 @@ export default {
 
     const toggleDark = useToggle(isDark);
 
-    return { colorMode, toggleDark };
+    return {colorMode, toggleDark};
   },
 };
 </script>
 
 <style scoped>
-.theme-togler {
+.theme-toggler {
   margin-right: 10px;
 }
+
 .switch {
   position: relative;
   display: inline-block;
@@ -58,7 +59,7 @@ export default {
   right: 0;
   bottom: 0;
 
-  background: #f9f9f9;
+  background: #ff4754;
   border-radius: 1rem;
 
   transition: background 0.2s;
@@ -82,7 +83,7 @@ export default {
 }
 
 .switch__input:checked + .switch__slider {
-  background: #ff4754;
+  background: #f9f9f9;
 }
 
 .switch__input:not(:checked):active + .switch__slider::before {

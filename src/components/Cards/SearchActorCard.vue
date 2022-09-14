@@ -5,6 +5,8 @@
         style="
         border: 1px solid #fff;
         margin-bottom: 10px;
+        margin-left: 10px;
+        margin-right: 0;
         border-radius: 5px;
         font-family: 'Oswald';
       "
@@ -17,7 +19,7 @@
         <img
             style="
             height: 100%;
-            width: 100px;
+            width: 100%;
             padding: 0;
             border-radius: 5px;
             display: inline-block;
