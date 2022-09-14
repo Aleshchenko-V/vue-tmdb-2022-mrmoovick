@@ -1,27 +1,28 @@
 <template>
   <div>
     <b-modal
-      id="modal-scrollable"
-      size="lg"
-      scrollable
-      title="Movie Details"
-      :hide-footer="true"
-      body-class="modal-window"
-      @hidden="clearMovieDetails"
+        id="modal-scrollable"
+        size="lg"
+        scrollable
+        title="Movie Details"
+        :hide-footer="true"
+        body-class="modal-window"
+        @hidden="clearMovieDetails"
+        @hide="closeModal"
     >
       <div class="movie-details d-flex flex-column">
         <div class="d-flex flex-row">
           <div class="d-flex justify-content-center">
             <img
-              width="300"
-              class="movie-details__poster"
-              :src="
+                width="300"
+                class="movie-details__poster"
+                :src="
                 !movieDetails.poster_path
                   ?  NO_IMG_URL
                   : 'https://image.tmdb.org/t/p/w500' +
                     movieDetails.poster_path
               "
-              alt="poster"
+                alt="poster"
             />
           </div>
           <div class="wrapper-details">
@@ -62,7 +63,7 @@
         </div>
         <div class="movie-details__actor-cast">
           <h3>Actors:</h3>
-            <actor-list />
+          <actor-list @close-modal="closeModal"/>
         </div>
       </div>
     </b-modal>
@@ -74,12 +75,10 @@ import {mapMutations, mapState} from "vuex";
 import ActorList from "@/components/ActorList";
 
 export default {
-  components: { ActorList },
+  components: {ActorList},
   data() {
     this.NO_IMG_URL = 'https://st4.depositphotos.com/17828278/24401/v/600/depositphotos_244011872-stock-illustration-image-vector-symbol-missing-available.jpg'
-    return {
-
-    }
+    return {}
   },
   props: {
     genres: {
@@ -90,6 +89,9 @@ export default {
   methods: {
     getGenres(movie) {
       return movie.map((el) => el.name).join(", ");
+    },
+    closeModal() {
+      this.$bvModal.hide('modal-scrollable');
     },
     ...mapMutations(["clearMovieDetails"]),
   },
@@ -103,33 +105,41 @@ export default {
 .movie-details__poster {
   border-radius: 10px;
 }
+
 .modal-window {
   background: #343a40;
   color: #fff;
 }
+
 .details-info {
   padding-left: 15px;
-  width: 350px;
+  width: 100%;
 }
+
 .details-item {
   margin: auto;
   display: flex;
   justify-content: space-between;
 }
+
 .details-subitem {
   display: flex;
   justify-content: center;
 }
+
 .wrapper-details {
   display: flex;
   flex-direction: column;
 }
+
 .details-subtitle {
   font-size: 14px;
 }
+
 .description {
   padding-left: 15px;
 }
+
 .movie-details__actor-cast {
   margin-top: 10px;
 }
