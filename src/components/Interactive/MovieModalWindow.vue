@@ -8,6 +8,7 @@
         :hide-footer="true"
         body-class="modal-window"
         @hidden="clearMovieDetails"
+        @hide="closeModal"
     >
       <div class="movie-details d-flex flex-column">
         <div class="d-flex flex-row">
@@ -62,7 +63,7 @@
         </div>
         <div class="movie-details__actor-cast">
           <h3>Actors:</h3>
-          <actor-list :big="false"/>
+          <actor-list @close-modal="closeModal" :big="false"/>
         </div>
       </div>
     </b-modal>
@@ -87,6 +88,12 @@ export default {
     },
   },
   methods: {
+    getGenres(movie) {
+      return movie.map((el) => el.name).join(", ");
+    },
+    closeModal() {
+      this.$bvModal.hide('modal-scrollable');
+    },
     ...mapMutations(["clearMovieDetails"]),
   },
   computed: {
@@ -116,10 +123,9 @@ export default {
 }
 
 .details-item {
+  margin: auto;
   display: flex;
   justify-content: space-between;
-  width: 360px;
-  margin: 0 10px;
 }
 
 .details-subitem {

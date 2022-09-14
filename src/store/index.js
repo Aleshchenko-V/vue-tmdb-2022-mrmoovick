@@ -19,6 +19,7 @@ export default new Vuex.Store({
         isShown: false,
         movies: [],
         actors: [],
+        actorKnownFor: [],
         tvs: [],
         uniqueMovies: [],
         uniqueActors: [],
@@ -95,7 +96,6 @@ export default new Vuex.Store({
         SET_SEARCH_MOVIES(state, {response}) {
             state.movies = [];
             state.searchResults = [];
-            state.selectedSearchQuery = state.searchQuery;
             state.searchQuery = "";
             state.movies = response;
         },
@@ -112,7 +112,6 @@ export default new Vuex.Store({
             state.tvs = response;
         },
         SET_MOVIE_DETAILS(state, movie) {
-            state.actorDetails = {};
             state.tvDetails = {};
             state.movieDetails = {};
             state.movieDetails = movie;
@@ -122,6 +121,10 @@ export default new Vuex.Store({
             state.tvDetails = {};
             state.movieDetails = {};
             state.actorDetails = actor;
+        },
+        SET_ACTOR_KNOWN_FOR(state, array) {
+            state.actorKnownFor = [];
+            state.actorKnownFor = array;
         },
         SET_TV_DETAILS(state, tv) {
             state.actorDetails = {};
@@ -213,6 +216,20 @@ export default new Vuex.Store({
                 alert(e);
             } finally {
                 commit("SET_IS_LOADING", false);
+            }
+        },
+        async getActorKnownFor({commit}, query) {
+            const options = {
+                params: {api_key: process.env.VUE_APP_API_KEY, query, language: "en"},
+            };
+            try {
+                const {data} = await axios.get(
+                    `https://api.themoviedb.org/3/search/person`,
+                    options
+                );
+                commit("SET_ACTOR_KNOWN_FOR", data.results[0].known_for);
+            } catch (e) {
+                alert(e);
             }
         },
         async getMovieActors({commit}, movieId) {

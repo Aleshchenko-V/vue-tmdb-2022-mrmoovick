@@ -62,7 +62,6 @@ export default {
   data: () => ({
     NO_IMG_URL: constants.NO_IMG_URL,
   }),
-
   mounted() {
     this.getMovieDetails(this.$route.params.id);
   },
