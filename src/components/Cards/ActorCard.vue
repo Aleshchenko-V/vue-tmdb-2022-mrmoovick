@@ -1,18 +1,24 @@
 <template>
   <router-link :to="`/actor/${actorId}`">
     <b-card
-        :aria-hidden="show ? 'true' : null"
-        :title="name"
-        :sub-title="character"
-        :img-src="profilePath === ''
+      :aria-hidden="show ? 'true' : null"
+      :title="name"
+      :sub-title="character"
+      :img-src="
+        profilePath === ''
           ? NO_IMG_URL
-          :'https://image.tmdb.org/t/p/original' + profilePath"
-        img-alt="Image"
-        img-top
-        tag="article"
-        :class="big ? 'big-b-card big-card-img-top' :'text-muted card-text form-control card-img-top b-card'"
-        style="box-sizing: content-box;"
-        @click="$emit('get-actor-id', actorId)"
+          : 'https://image.tmdb.org/t/p/original' + profilePath
+      "
+      img-alt="Image"
+      img-top
+      tag="article"
+      :class="
+        big
+          ? 'big-b-card big-card-img-top'
+          : 'text-muted card-text form-control card-img-top b-card'
+      "
+      style="box-sizing: content-box"
+      @click="$emit('get-actor-id', actorId)"
     >
     </b-card>
   </router-link>
@@ -56,7 +62,7 @@ export default {
       type: Boolean,
       required: false,
       default: false,
-    }
+    },
   },
 };
 </script>
@@ -66,7 +72,7 @@ a {
   text-decoration: none;
 }
 .text-muted {
-  color: #fff !important;
+  color: #000 !important;
 }
 .card-body {
   padding: 0.5rem;
@@ -109,7 +115,7 @@ a {
   width: 135px;
   height: 250px;
   border: 0;
-  background-color: #1e1b26;
+  background-color: beige;
   color: #fff;
   transition: all 0.5s ease;
   overflow: hidden;
@@ -117,6 +123,7 @@ a {
   &:hover {
     transform: scale(1.05);
     z-index: 1;
+    box-shadow: -7px 7px 6px rgb(255 255 255 / 60%);
   }
 }
 
@@ -127,7 +134,7 @@ a {
   width: 360px;
   height: 400px;
   border: 0;
-  background-color: #1e1b26;
+  background-color: #aecfa4;
   color: #fff;
   transition: all 0.5s ease;
   overflow: hidden;
@@ -143,6 +150,7 @@ a {
   &:hover {
     transform: scale(1.05);
     z-index: 1;
+    box-shadow: 7px 7px 6px rgb(255 255 255 / 60%);
   }
 
   h4 {
@@ -151,4 +159,3 @@ a {
   }
 }
 </style>
-

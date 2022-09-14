@@ -1,27 +1,26 @@
 <template>
   <div>
     <b-modal
-        id="modal-scrollable"
-        size="lg"
-        scrollable
-        title="Tv Details"
-        :hide-footer="true"
-        body-class="modal-window"
-        @hidden="clearMovieDetails"
+      id="modal-scrollable"
+      size="lg"
+      scrollable
+      title="Tv Details"
+      :hide-footer="true"
+      body-class="modal-window"
+      @hidden="clearMovieDetails"
     >
       <div class="movie-details d-flex flex-column">
         <div class="d-flex flex-row">
           <div class="d-flex justify-content-center">
             <img
-                width="300"
-                class="movie-details__poster"
-                :src="
+              width="300"
+              class="movie-details__poster"
+              :src="
                 !tvDetails.backdrop_path
-                  ?  NO_IMG_URL
-                  : 'https://image.tmdb.org/t/p/w500' +
-                    tvDetails.backdrop_path
+                  ? NO_IMG_URL
+                  : 'https://image.tmdb.org/t/p/w500' + tvDetails.backdrop_path
               "
-                alt="poster"
+              alt="poster"
             />
           </div>
           <div class="wrapper-details">
@@ -51,7 +50,9 @@
               </div>
               <div class="details-item">
                 <div class="details-subtitle">Release Date:</div>
-                <div class="details-subitem">{{ tvDetails.first_air_date }}</div>
+                <div class="details-subitem">
+                  {{ tvDetails.first_air_date }}
+                </div>
               </div>
               <div class="details-item">
                 <div class="details-subtitle">Last Release Date:</div>
@@ -86,11 +87,11 @@
         </div>
         <div class="movie-details__actor-cast">
           <h3>Seasons:</h3>
-          <seasons-list/>
+          <seasons-list />
         </div>
         <div class="movie-details__actor-cast">
           <h3>Actors:</h3>
-          <actor-list :big="false"/>
+          <actor-list :big="false" />
         </div>
       </div>
     </b-modal>
@@ -98,14 +99,14 @@
 </template>
 
 <script>
-import {mapMutations, mapState} from "vuex";
+import { mapMutations, mapState } from "vuex";
 import ActorList from "@/components/Lists/ActorsList";
 import SeasonsList from "@/components/Lists/SeasonsList";
 import constants from "@/constants";
 
 export default {
-  name: 'TvModalWindow',
-  components: {SeasonsList, ActorList},
+  name: "TvModalWindow",
+  components: { SeasonsList, ActorList },
   data: () => ({
     NO_IMG_URL: constants.NO_IMG_URL,
   }),
@@ -147,7 +148,7 @@ export default {
 .details-item {
   display: flex;
   justify-content: space-between;
-  width: 400px;
+  width: 377px;
   margin: 0 10px;
 }
 

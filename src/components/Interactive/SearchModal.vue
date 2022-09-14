@@ -1,8 +1,11 @@
 <template>
   <div>
-    <div v-show="sortedTypes && searchQuery && isSearchModalVisible" id="searchModalWindow">
+    <div
+      v-show="sortedTypes && searchQuery && isSearchModalVisible"
+      id="searchModalWindow"
+    >
       <div
-          v-show="
+        v-show="
           sortedTypes
             ? sortedTypes
               ? sortedTypes.movies.length !== 0
@@ -12,7 +15,7 @@
       >
         <h2 class="mb-2">Movies</h2>
         <div
-            v-for="{
+          v-for="{
             id,
             original_title,
             vote_average,
@@ -20,21 +23,22 @@
             title,
             release_date,
           } in sortedTypes.movies ? sortedTypes.movies : []"
-            :key="id"
+          :key="id"
         >
           <search-movie-card
-              :original-title="original_title"
-              :rating="vote_average"
-              :movieImage="backdrop_path || ''"
-              :title="title"
-              :release-date="release_date ? getYear(release_date) : ''"
-              :movie-id="id"
-              @get-movie-id="getMovieDetails($event)"
+            :original-title="original_title"
+            :rating="vote_average"
+            :movieImage="backdrop_path || ''"
+            :title="title"
+            :release-date="release_date ? getYear(release_date) : ''"
+            :movie-id="id"
+            :runtime="runtime"
+            @get-movie-id="getMovieDetails($event)"
           />
         </div>
         <div
-            class="d-flex justify-content-end mt-2 see-more"
-            @click="makeOptionalResponseAndRedirect('movies')"
+          class="d-flex justify-content-end mt-2 see-more"
+          @click="makeOptionalResponseAndRedirect('movies')"
         >
           see more...
         </div>
@@ -42,7 +46,7 @@
       <div v-show="sortedTypes ? sortedTypes.tvs.length !== 0 : false">
         <h2 class="mt-2">Tvs</h2>
         <div
-            v-for="{
+          v-for="{
             id,
             name,
             original_name,
@@ -50,21 +54,21 @@
             vote_average,
             poster_path,
           } in sortedTypes.tvs ? sortedTypes.tvs : []"
-            :key="id"
+          :key="id"
         >
           <search-tv-card
-              :name="name"
-              :original-name="original_name"
-              :release-date="first_air_date ? getYear(first_air_date) : ''"
-              :rating="vote_average"
-              :movieImage="poster_path || ''"
-              :tv-id="id"
-              @get-tv-id="getTvDetails($event)"
+            :name="name"
+            :original-name="original_name"
+            :release-date="first_air_date ? getYear(first_air_date) : ''"
+            :rating="vote_average"
+            :movieImage="poster_path || ''"
+            :tv-id="id"
+            @get-tv-id="getTvDetails($event)"
           />
         </div>
         <div
-            class="d-flex justify-content-end mt-2 see-more"
-            @click="makeOptionalResponseAndRedirect('tvs')"
+          class="d-flex justify-content-end mt-2 see-more"
+          @click="makeOptionalResponseAndRedirect('tvs')"
         >
           see more...
         </div>
@@ -72,21 +76,21 @@
       <div v-show="sortedTypes ? sortedTypes.actors.length !== 0 : false">
         <h2 class="mt-2">Actors</h2>
         <div
-            v-for="{ id, name, profile_path } in sortedTypes.actors
+          v-for="{ id, name, profile_path } in sortedTypes.actors
             ? sortedTypes.actors
             : []"
-            :key="id"
+          :key="id"
         >
           <search-actor-card
-              :actor-id="id"
-              :name="name"
-              :profile-image="profile_path || ''"
-              @get-actor-id="getActorDetails($event)"
+            :actor-id="id"
+            :name="name"
+            :profile-image="profile_path || ''"
+            @get-actor-id="getActorDetails($event)"
           />
         </div>
         <div
-            class="d-flex justify-content-end mt-2 see-more"
-            @click="makeOptionalResponseAndRedirect('actors')"
+          class="d-flex justify-content-end mt-2 see-more"
+          @click="makeOptionalResponseAndRedirect('actors')"
         >
           see more...
         </div>
@@ -96,16 +100,16 @@
 </template>
 
 <script>
-import {mapActions, mapGetters, mapMutations, mapState} from "vuex";
+import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
 import SearchMovieCard from "@/components/Cards/SearchMovieCard";
 import SearchActorCard from "@/components/Cards/SearchActorCard";
 import SearchTvCard from "@/components/Cards/SearchTvCard";
 
 export default {
   name: "SearchModal",
-  components: {SearchTvCard, SearchActorCard, SearchMovieCard},
+  components: { SearchTvCard, SearchActorCard, SearchMovieCard },
   methods: {
-    getYear: (data) => data ? data.slice(0, 4) : "",
+    getYear: (data) => (data ? data.slice(0, 4) : ""),
     makeOptionalResponseAndRedirect(type) {
       this.clearSelectedQuery();
       switch (type) {
@@ -131,7 +135,7 @@ export default {
       "actorSearch",
       "tvSearch",
     ]),
-    ...mapMutations(["clearSelectedQuery"])
+    ...mapMutations(["clearSelectedQuery"]),
   },
   computed: {
     ...mapGetters(["sortedTypes"]),
@@ -144,25 +148,26 @@ export default {
 #searchModalWindow {
   display: flex;
   flex-direction: column;
-  width: 510px;
+  width: 500px;
+  margin-left: 3px;
   height: 675px;
-  background: #212529;
-  opacity: 0.95;
+  background: #46a094;
+  opacity: 0.9;
   text-align: center;
   padding: 15px;
   border: 3px solid white;
   border-radius: 10px;
   color: #0000cc;
   position: absolute;
-  left: 229px;
+  left: 47%;
   right: 0;
-  top: 57px;
+  top: 40px;
   bottom: 0;
   z-index: 2;
   overflow-y: auto;
-
+  transform: translate(-59%);
   h2 {
-    color: red;
+    color: #fff;
   }
 }
 
